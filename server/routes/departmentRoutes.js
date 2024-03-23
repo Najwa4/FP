@@ -1,19 +1,19 @@
 const express = require("express");
+const departmentController = require("../controllers/departmentController");
 const router = express.Router();
-const employeeController = require("../controllers/employeeController");
 const { protect } = require("../middlewares/authMiddleware");
 const {
   resetPasswordValidation,
   validate,
 } = require("../middlewares/validation");
 
-router.get("/", protect, employeeController.findEmployees);
-router.put(
-  "/updateDaysOfAbsence",
+// Add Department
+router.post(
+  "/",
   protect,
-  // resetPasswordValidation,
-  // validate,
-  employeeController.updateDaysOfAbsence
+//   resetPasswordValidation,
+//   validate,
+  departmentController.addDepartment
 );
 
 module.exports = router;

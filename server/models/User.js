@@ -48,12 +48,6 @@ const userSchema = new mongoose.Schema(
     contactPersonphoneNumber: {
       type: String,
     },
-    department: {
-      type: String,
-    },
-    college: {
-      type: String,
-    },
     position: {
       type: String,
     },
@@ -111,25 +105,30 @@ const userSchema = new mongoose.Schema(
     },
     role: {
       type: String,
-      enum: [
-        "admin",
-        "employee",
-        "hr_manager",
-        "hr_staff",
-        "college",
-        "department",
-      ],
+      enum: ["employee", "hr_manager", "hr_staff", "head", "dean"],
       default: "employee",
     },
     applicantState: {
       type: String,
-      enum: ['reject', 'accept', 'unfiltered'],
+      enum: ["reject", "accept", "unfiltered"],
     },
     account_status: {
       type: String,
       enum: ["active", "inactive"],
       default: "active",
     },
+    department: {
+      type: String,
+    },
+    college: {
+      type: String,
+    },
+    // numberOfDepartmentsInCol: {
+    //   type: Number,
+    //   default: function () {
+    //     return this.departments.length;
+    //   },
+    // },
   },
   {
     timestamps: true,

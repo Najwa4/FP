@@ -1,44 +1,39 @@
 const Employee = require("../models/User");
-const Department = require("../models/Department");
-
-// Controller to add an employee by HR staff
-const addEmployee = async (req, res) => {
-  try {
-    // Create a new employee using the request body
-    const employee = new Employee(req.body);
-
-    // Save the employee to the database
-    await employee.save();
-
-    res.status(201).json({ message: "Employee added successfully" });
-  } catch (error) {
-    res
-      .status(500)
-      .json({ error: "An error occurred while adding the employee" });
-  }
-};
-
-// Controller to update an employee by HR staff
-const updateEmployee = async (req, res) => {
-  try {
-    const { employeeId } = req.params;
-
-    // Find the employee by their ID and update the fields with the request body
-    await Employee.findByIdAndUpdate(employeeId, req.body);
-
-    res.status(200).json({ message: "Employee updated successfully" });
-  } catch (error) {
-    res
-      .status(500)
-      .json({ error: "An error occurred while updating the employee" });
-  }
-};
 
 // Controller to find employees by users with college department HR manager and HR staff roles
 const findEmployees = async (req, res) => {
   try {
-    const hrStaffId = req.params.hrStaffId;
-    const employees = await Employee.find({ hrStaffId: hrStaffId });
+    const requestingUserRole = req.user.role;
+    const requestingDepartment = req.user.department;
+    const requestingCollege = req.user.college;
+
+    console.log(req.params.department);
+
+    let employees = [];
+
+    if (
+      requestingUserRole === "hr_staff" ||
+      requestingUserRole === "hr_manager"
+    ) {
+      // For HR staff and HR managers, retrieve all users
+      employees = await Employee.find({}).select("-password");
+    } else if (requestingUserRole === "dean") {
+      // For deans, retrieve users from the same college
+      employees = await Employee.find({ college: requestingCollege }).select(
+        "-password"
+      );
+    } else if (requestingUserRole === "head") {
+      // For heads of the department, retrieve users from the same department
+      employees = await Employee.find({
+        department: requestingDepartment,
+      }).select("-password");
+    } else {
+      // Unauthorized access
+      return res
+        .status(403)
+        .json({ message: "Access denied. You are not authorized" });
+    }
+
     res.json(employees);
   } catch (error) {
     console.error(error);
@@ -46,61 +41,42 @@ const findEmployees = async (req, res) => {
   }
 };
 
-// Controller for an employee to view their own profile
-const viewProfile = async (req, res) => {
-  try {
-    const { employeeId } = req.params;
-
-    // Find the employee by their ID
-    const employee = await Employee.findById(employeeId);
-
-    if (!employee) {
-      return res.status(404).json({ error: "Employee not found" });
-    }
-
-    res.status(200).json({ employee });
-  } catch (error) {
-    res.status(500).json({
-      error: "An error occurred while retrieving the employee profile",
-    });
-  }
-};
-
 // Update the daysOfAbsence for an employee
 const updateDaysOfAbsence = async (req, res) => {
   try {
-    const { departmentId, employeeId, daysOfAbsence } = req.body;
+    const { _id, daysOfAbsence } = req.body;
+    const { role, department, college } = req.user;
 
-    // Check if the department exists
-    const department = await Department.findById(departmentId);
-    if (!department) {
-      return res.status(404).send("Department not found");
+    // Fetch the employee's information using the provided ID
+    const employee = await Employee.findById(_id);
+
+    // Check if the user is a department head
+    if (
+      role !== "head" ||
+      department !== employee.department ||
+      college !== employee.college
+    ) {
+      return res.status(403).json({ error: "Unauthorized access" });
     }
 
-    // Check if the employee exists in the department
-    const employee = await Employee.findOne({
-      _id: employeeId,
-      department: departmentId,
-    });
-    if (!employee) {
-      return res.status(404).send("Employee not found in the department");
+    // Find the user to be updated
+    const user = await Employee.findById(_id);
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
     }
 
-    // Update the daysOfAbsence for the employee
-    employee.daysOfAbsence = daysOfAbsence;
-    await employee.save();
+    // Update the daysOfAbsence field
+    user.daysOfAbsence = daysOfAbsence;
+    await user.save();
 
-    res.send("Days of absence updated successfully");
+    res.status(200).json({ message: "Days of absence updated successfully" });
   } catch (error) {
     console.error(error);
-    res.status(500).send("Internal server error");
+    res.status(500).json({ error: "Internal server error" });
   }
 };
 
 module.exports = {
-  addEmployee,
-  updateEmployee,
   findEmployees,
-  viewProfile,
   updateDaysOfAbsence,
 };

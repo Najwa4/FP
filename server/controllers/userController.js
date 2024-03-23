@@ -158,7 +158,7 @@ const findUser = async (req, res) => {
       res.json(user);
     } else {
       res.status(403).json({
-        error: "Access denied. You are not authorized to view this user.",
+        error: "Access denied. You are not authorized to find this user.",
       });
     }
   } catch (error) {
@@ -166,8 +166,29 @@ const findUser = async (req, res) => {
   }
 };
 
+// Controller for an user to view their own profile
+const viewProfile = async (req, res) => {
+  try {
+    // console.log("User ID:", req.user._id); // Print the user ID to the console
+
+    // Find the user by ID
+    const user = await User.findById(req.user._id);
+
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
+    }
+
+    // Return the user profile
+    res.status(200).json({ user });
+  } catch (error) {
+    // console.error(error);
+    res.status(500).json({ error: "Server error" });
+  }
+};
+
 module.exports = {
   addUser,
   updateUser,
   findUser,
+  viewProfile,
 };
