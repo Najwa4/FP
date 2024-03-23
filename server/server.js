@@ -12,9 +12,12 @@ const applicantRouter = require("./routes/applicantRouter");
 const employeeRoutes = require("./routes/employeeRoutes");
 const restRoutes = require("./routes/rest");
 const quitJobRoutes = require("./routes/QuitJobRoutes");
+const departmentRoutes = require("./routes/departmentRoutes");
+const collegeRoutes = require("./routes/collegeRoutes");
 
 connectDb();
 
+// Middleware to parse request bodies
 app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded());
@@ -29,6 +32,7 @@ app.use(
   })
 );
 
+// Routes
 app.use("/api/users", usersRoutes);
 app.use("/api/announcements", announceRoutes);
 app.use("/api/auth", authRoutes);
@@ -36,6 +40,8 @@ app.use("/api/applicants", applicantRouter);
 app.use("/api/employees", employeeRoutes);
 app.use("/api/requests", restRoutes);
 app.use("/api/quit-requests", quitJobRoutes);
+app.use("/api/departments", departmentRoutes);
+app.use("/api/colleges", collegeRoutes);
 
 // Error handling middleware
 app.use((err, req, res, next) => {
