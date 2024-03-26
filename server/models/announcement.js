@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
 const announcementSchema = new mongoose.Schema({
   department: {
@@ -15,15 +15,23 @@ const announcementSchema = new mongoose.Schema({
   },
   status: {
     type: String,
-    enum: ['stateless', 'accepted', 'rejected'],
-    default: 'stateless'
+    enum: ["stateless", "accepted", "rejected"],
+    default: "stateless",
   },
   creationDate: {
     type: Date,
     default: Date.now,
-  }
+  },
+  appliedJob: {
+    type: String,
+    ref: "Job", // Assuming the Job model is defined and has the name "Job"
+    unique: true,
+  },
+  testDay: {
+    type: Date,
+  },
 });
 
-const announcement = mongoose.model('announcement', announcementSchema);
+const Announcement = mongoose.model("announcement", announcementSchema);
 
-module.exports = announcement;
+module.exports = Announcement;

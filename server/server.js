@@ -10,7 +10,7 @@ const announceRoutes = require("./routes/announceRoutes");
 const authRoutes = require("./routes/authRoutes");
 const applicantRouter = require("./routes/applicantRouter");
 const employeeRoutes = require("./routes/employeeRoutes");
-const restRoutes = require("./routes/rest");
+const restRoutes = require("./routes/restRoutes");
 const quitJobRoutes = require("./routes/QuitJobRoutes");
 const departmentRoutes = require("./routes/departmentRoutes");
 const collegeRoutes = require("./routes/collegeRoutes");
@@ -23,7 +23,7 @@ app.use(express.json());
 app.use(express.urlencoded());
 app.use(
   session({
-    secret: "1a#Kq9!s5@p$8Hx3",
+    secret: "process.env.MONGO_URI",
     resave: false,
     saveUninitialized: false,
     cookie: {

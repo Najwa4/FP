@@ -16,11 +16,18 @@ exports.login = asyncHandler(async (req, res, next) => {
   if (user) {
     const isMatch = await user.matchPassword(password);
     if (isMatch) {
-      generateToken(res, user._id);
+      const token = generateToken(res, user._id);
 
       res.json({
-        _id: user._id,
-        username: user.username,
+        success: true,
+        data: {
+          _id: user._id,
+          fullName: user.fullName,
+          username: user.username,
+          phoneNumber: user.phoneNumber,
+          role: user.role,
+        },
+        token,
       });
     } else {
       res.status(401).json({ error: "Invalid username or password" });

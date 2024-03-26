@@ -7,7 +7,6 @@ const {
   validate,
 } = require("../middlewares/validation");
 
-// Add College
 router.post(
   "/",
   protect,

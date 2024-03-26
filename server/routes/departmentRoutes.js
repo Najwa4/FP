@@ -7,12 +7,11 @@ const {
   validate,
 } = require("../middlewares/validation");
 
-// Add Department
 router.post(
   "/",
   protect,
-//   resetPasswordValidation,
-//   validate,
+  //   resetPasswordValidation,
+  //   validate,
   departmentController.addDepartment
 );
 

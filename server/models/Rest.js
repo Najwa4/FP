@@ -1,9 +1,9 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
 const leaveSchema = new mongoose.Schema({
   employee: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'User',
+    ref: "User",
     required: true,
   },
   startDate: {
@@ -20,8 +20,8 @@ const leaveSchema = new mongoose.Schema({
   },
   status: {
     type: String,
-    enum: ['pending', 'approved', 'rejected'],
-    default: 'pending',
+    enum: ["pending", "approved", "rejected"],
+    default: "pending",
   },
   createdAt: {
     type: Date,
@@ -29,6 +29,6 @@ const leaveSchema = new mongoose.Schema({
   },
 });
 
-const Leave = mongoose.model('Leave', leaveSchema);
+const Leave = mongoose.model("Leave", leaveSchema);
 
 module.exports = Leave;

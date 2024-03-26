@@ -105,7 +105,7 @@ const userSchema = new mongoose.Schema(
     },
     role: {
       type: String,
-      enum: ["employee", "hr_manager", "hr_staff", "head", "dean"],
+      enum: ["employee", "hr_manager", "hr_staff", "head", "dean", "applicant"],
       default: "employee",
     },
     applicantState: {
@@ -123,12 +123,15 @@ const userSchema = new mongoose.Schema(
     college: {
       type: String,
     },
-    // numberOfDepartmentsInCol: {
-    //   type: Number,
-    //   default: function () {
-    //     return this.departments.length;
-    //   },
-    // },
+    Applicant_status: {
+      type: String,
+      enum: ["pending", "accepted", "rejected"],
+      default: "pending",
+    },
+    announcementId: {
+      type: String,
+      ref: "Announcement",
+    },
   },
   {
     timestamps: true,

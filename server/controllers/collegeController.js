@@ -28,6 +28,15 @@ async function addCollege(req, res) {
       });
     }
 
+    // Check if the dean is already assigned as a dean for another college
+    const existingDeanCollege = await College.findOne({ collegeDeanID });
+    if (existingDeanCollege) {
+      return res.status(400).json({
+        error:
+          "The provided dean is already assigned as a dean for another college",
+      });
+    }
+
     const college = new College({
       name,
       collegeDeanID,
