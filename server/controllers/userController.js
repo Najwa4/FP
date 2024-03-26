@@ -1,5 +1,6 @@
 const User = require("../models/User");
 const { pickBy } = require("lodash");
+const bcrypt = require("bcryptjs");
 
 // Add user
 async function addUser(req, res) {
@@ -127,6 +128,14 @@ const updateUser = async (req, res) => {
 
       if (!user) {
         return res.status(404).json({ error: "User not found." });
+      }
+
+      // Check if the updateFields contain the password field and encrypt the new password
+      if (updateFields.password) {
+        const salt = await bcrypt.genSalt(10);
+        const hashedPassword = await bcrypt.hash(updateFields.password, salt);
+
+        updateFields.password = hashedPassword;
       }
 
       await User.findByIdAndUpdate(userId, updateFields);

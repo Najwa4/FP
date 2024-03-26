@@ -1,9 +1,9 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
 const quitJobSchema = new mongoose.Schema({
   employee: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'User',
+    ref: "User",
     required: true,
   },
   resignationDate: {
@@ -23,6 +23,6 @@ const quitJobSchema = new mongoose.Schema({
   },
 });
 
-const QuitJob = mongoose.model('QuitJob', quitJobSchema);
+const QuitJob = mongoose.model("QuitJob", quitJobSchema);
 
 module.exports = QuitJob;

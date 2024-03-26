@@ -9,7 +9,7 @@ const {
 
 router.get("/", protect, employeeController.findEmployees);
 router.put(
-  "/updateDaysOfAbsence",
+  "/updateDaysOfAbsence/:employeeId",
   protect,
   // resetPasswordValidation,
   // validate,

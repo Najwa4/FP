@@ -44,11 +44,16 @@ const findEmployees = async (req, res) => {
 // Update the daysOfAbsence for an employee
 const updateDaysOfAbsence = async (req, res) => {
   try {
-    const { _id, daysOfAbsence } = req.body;
+    const { daysOfAbsence } = req.body;
     const { role, department, college } = req.user;
+    const _id = req.params.employeeId;
 
     // Fetch the employee's information using the provided ID
     const employee = await Employee.findById(_id);
+
+    if (!employee) {
+      return res.status(404).json({ error: "Employee not found" });
+    }
 
     // Check if the user is a department head
     if (
@@ -59,15 +64,9 @@ const updateDaysOfAbsence = async (req, res) => {
       return res.status(403).json({ error: "Unauthorized access" });
     }
 
-    // Find the user to be updated
-    const user = await Employee.findById(_id);
-    if (!user) {
-      return res.status(404).json({ error: "User not found" });
-    }
-
     // Update the daysOfAbsence field
-    user.daysOfAbsence = daysOfAbsence;
-    await user.save();
+    employee.daysOfAbsence = daysOfAbsence;
+    await employee.save();
 
     res.status(200).json({ message: "Days of absence updated successfully" });
   } catch (error) {

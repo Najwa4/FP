@@ -1,4 +1,4 @@
-const EmployeeRestRequest = require('../models/Rest');
+const EmployeeRestRequest = require("../models/Rest");
 
 // Controller for employee rest request operations
 const EmployeeRestRequestController = {
@@ -13,15 +13,15 @@ const EmployeeRestRequestController = {
         startDate,
         endDate,
         reason,
-        status: 'pending',
+        status: "pending",
       });
 
       await employeeRestRequest.save();
 
-      res.send('Employee rest request created successfully');
+      res.send("Employee rest request created successfully");
     } catch (error) {
       console.error(error);
-      res.status(500).send('Internal server error');
+      res.status(500).send("Internal server error");
     }
   },
 
@@ -33,16 +33,16 @@ const EmployeeRestRequestController = {
       const employeeRestRequest = await EmployeeRestRequest.findById(requestId);
 
       if (!employeeRestRequest) {
-        return res.status(404).send('Employee rest request not found');
+        return res.status(404).send("Employee rest request not found");
       }
 
-      employeeRestRequest.status = 'accepted_college';
+      employeeRestRequest.status = "accepted_college";
       await employeeRestRequest.save();
 
-      res.send('Employee rest request accepted by the college successfully');
+      res.send("Employee rest request accepted by the college successfully");
     } catch (error) {
       console.error(error);
-      res.status(500).send('Internal server error');
+      res.status(500).send("Internal server error");
     }
   },
 
@@ -54,16 +54,16 @@ const EmployeeRestRequestController = {
       const employeeRestRequest = await EmployeeRestRequest.findById(requestId);
 
       if (!employeeRestRequest) {
-        return res.status(404).send('Employee rest request not found');
+        return res.status(404).send("Employee rest request not found");
       }
 
-      employeeRestRequest.status = 'rejected_college';
+      employeeRestRequest.status = "rejected_college";
       await employeeRestRequest.save();
 
-      res.send('Employee rest request rejected by the college successfully');
+      res.send("Employee rest request rejected by the college successfully");
     } catch (error) {
       console.error(error);
-      res.status(500).send('Internal server error');
+      res.status(500).send("Internal server error");
     }
   },
 
@@ -75,20 +75,24 @@ const EmployeeRestRequestController = {
       const employeeRestRequest = await EmployeeRestRequest.findById(requestId);
 
       if (!employeeRestRequest) {
-        return res.status(404).send('Employee rest request not found');
+        return res.status(404).send("Employee rest request not found");
       }
 
-      if (employeeRestRequest.status !== 'accepted_college') {
-        return res.status(400).send('Employee rest request must be accepted by the college before passing to HR');
+      if (employeeRestRequest.status !== "accepted_college") {
+        return res
+          .status(400)
+          .send(
+            "Employee rest request must be accepted by the college before passing to HR"
+          );
       }
 
-      employeeRestRequest.status = 'hr_review';
+      employeeRestRequest.status = "hr_review";
       await employeeRestRequest.save();
 
-      res.send('Employee rest request passed to HR staff successfully');
+      res.send("Employee rest request passed to HR staff successfully");
     } catch (error) {
       console.error(error);
-      res.status(500).send('Internal server error');
+      res.status(500).send("Internal server error");
     }
   },
 
@@ -100,20 +104,22 @@ const EmployeeRestRequestController = {
       const employeeRestRequest = await EmployeeRestRequest.findById(requestId);
 
       if (!employeeRestRequest) {
-        return res.status(404).send('Employee rest request not found');
+        return res.status(404).send("Employee rest request not found");
       }
 
-      if (employeeRestRequest.status !== 'hr_review') {
-        return res.status(400).send('Employee rest request is not ready for HR review');
+      if (employeeRestRequest.status !== "hr_review") {
+        return res
+          .status(400)
+          .send("Employee rest request is not ready for HR review");
       }
 
-      employeeRestRequest.status = 'accepted_hr';
+      employeeRestRequest.status = "accepted_hr";
       await employeeRestRequest.save();
 
-      res.send('Employee rest request accepted by HR staff successfully');
+      res.send("Employee rest request accepted by HR staff successfully");
     } catch (error) {
       console.error(error);
-      res.status(500).send('Internal server error');
+      res.status(500).send("Internal server error");
     }
   },
 
@@ -125,20 +131,22 @@ const EmployeeRestRequestController = {
       const employeeRestRequest = await EmployeeRestRequest.findById(requestId);
 
       if (!employeeRestRequest) {
-        return res.status(404).send('Employee rest request not found');
+        return res.status(404).send("Employee rest request not found");
       }
 
-      if (employeeRestRequest.status !== 'hr_review') {
-        return res.status(400).send('Employee rest request is not ready for HR review');
+      if (employeeRestRequest.status !== "hr_review") {
+        return res
+          .status(400)
+          .send("Employee rest request is not ready for HR review");
       }
 
-      employeeRestRequest.status = 'rejected_hr';
+      employeeRestRequest.status = "rejected_hr";
       await employeeRestRequest.save();
 
-      res.send('Employee rest request rejected by HR staff successfully');
+      res.send("Employee rest request rejected by HR staff successfully");
     } catch (error) {
       console.error(error);
-      res.status(500).send('Internal server error');
+      res.status(500).send("Internal server error");
     }
   },
 };

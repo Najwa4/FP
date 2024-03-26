@@ -3,17 +3,27 @@ const Announcement = require("../models/announcement");
 // Create new employee request
 const createEmployeeRequest = async (req, res) => {
   try {
-    const { department, position, jobDescription, jobRequirements } = req.body;
+    const { position, jobDescription, jobRequirements } = req.body;
+    const { role, department } = req.user;
+
+    // Check if the user is a head or if the department matches the requester's department
+    if (role !== "head" && department !== department) {
+      return res.status(403).json({ error: "Unauthorized access" });
+    }
+
     const announcement = new Announcement({
       department,
       position,
       jobDescription,
       jobRequirements,
+      testDay: null,
     });
     await announcement.save();
     res.json({ message: "Employee request created successfully" });
   } catch (error) {
-    res.status(500).json({ error: "Internal Server Error" });
+    return res
+      .status(500)
+      .json({ error: error.message || "Internal Server Error" });
   }
 };
 
@@ -29,9 +39,18 @@ const getAllAnnouncements = async (req, res) => {
 
 // Accept or reject an announcement
 const acceptRejectAnnouncement = async (req, res) => {
-  const { announcementId, status } = req.body;
+  const { status } = req.body;
+  const announcementId = req.params.announcementId;
 
   try {
+    // Check if user role is "dean"
+    if (req.user.role !== "dean") {
+      return res.status(403).json({
+        error:
+          "Access denied. Only users with the 'dean' role can perform this action.",
+      });
+    }
+
     // Find the announcement by ID
     const announcement = await Announcement.findById(announcementId);
 
@@ -53,6 +72,13 @@ const acceptRejectAnnouncement = async (req, res) => {
 // Get accepted announcements
 const getAcceptedAnnouncements = async (req, res) => {
   try {
+    const { role } = req.user;
+
+    // Check if the user is HR staff or HR manager
+    if (role !== "hr_staff" && role !== "hr_manager") {
+      return res.status(403).json({ error: "Unauthorized access" });
+    }
+
     const acceptedAnnouncements = await Announcement.find({
       status: "accepted",
     });
@@ -65,6 +91,13 @@ const getAcceptedAnnouncements = async (req, res) => {
 // Get rejected announcements
 const getRejectedAnnouncements = async (req, res) => {
   try {
+    const { role } = req.user;
+
+    // Check if the user is HR staff or HR manager
+    if (role !== "hr_staff" && role !== "hr_manager") {
+      return res.status(403).json({ error: "Unauthorized access" });
+    }
+
     const rejectedAnnouncements = await Announcement.find({
       status: "rejected",
     });
@@ -77,68 +110,136 @@ const getRejectedAnnouncements = async (req, res) => {
 // Find announcement
 const findAnnouncement = async (req, res) => {
   try {
-    const { announcementId } = req.params;
-    const announcement = await Announcement.findById(announcementId);
+    const { department, position } = req.body;
+
+    if (!department && !position) {
+      return res.status(400).json({ error: "No search criteria provided" });
+    }
+
+    let query = {};
+
+    if (department) {
+      query.department = department;
+    }
+    if (position) {
+      query.position = position;
+    }
+
+    const announcement = await Announcement.findOne(query);
+
     if (!announcement) {
       return res.status(404).json({ error: "Announcement not found" });
     }
+
     res.json(announcement);
   } catch (error) {
     res.status(500).json({ error: "Internal Server Error" });
   }
 };
 
-/!_____________________________________________________________________________________!/;
 // Update an announcement
 const updateAnnouncement = async (req, res) => {
   try {
     const { announcementId } = req.params;
-    const { department, position, jobDescription, jobRequirements, status } =
-      req.body;
+    const { position, jobDescription, jobRequirements, status } = req.body;
 
     const updateFields = {};
-    if (department) updateFields.department = department;
-    if (position) updateFields.jobTitle = position;
+    if (position) updateFields.position = position;
     if (jobDescription) updateFields.jobDescription = jobDescription;
     if (jobRequirements) updateFields.jobRequirements = jobRequirements;
 
     let updatedAnnouncement;
 
-    // Update announcement for HR manager
-    if (req.user.role === "hr_manager") {
-      if (status) updateFields.status = status; // Only HR manager can update status
+    // Check if user role is HR manager, HR staff, or head
+    if (
+      req.user.role === "hr_manager" ||
+      req.user.role === "hr_staff" ||
+      req.user.role === "head"
+    ) {
+      // Only HR manager, HR staff, or head can update status
+      if (
+        (req.user.role === "hr_manager" || req.user.role === "head") &&
+        status
+      ) {
+        updateFields.status = status;
+      } else if (req.user.role === "hr_staff" && status) {
+        return res.status(403).json({
+          error:
+            "Access denied. Only HR manager or head can update the status.",
+        });
+      }
+
+      // Check if the announcement exists
       updatedAnnouncement = await Announcement.findByIdAndUpdate(
         announcementId,
         { $set: updateFields },
         { new: true }
       );
+
+      if (!updatedAnnouncement) {
+        return res.status(404).json({ error: "Announcement not found" });
+      }
+
+      res.json({
+        message: "Announcement updated successfully",
+        announcement: updatedAnnouncement,
+      });
     } else {
-      updatedAnnouncement = await Announcement.findByIdAndUpdate(
-        announcementId,
-        updateFields,
-        { new: true }
-      );
+      res.status(403).json({ error: "Access denied" });
     }
-
-    if (!updatedAnnouncement) {
-      return res.status(404).json({ error: "Announcement not found" });
-    }
-
-    res.json({
-      message: "Announcement updated successfully",
-      announcement: updatedAnnouncement,
-    });
   } catch (error) {
     res.status(500).json({ error: "Internal Server Error" });
   }
 };
-/!________________________________________________________________________________________________________!/;
+
+const updateTestDay = async (req, res) => {
+  try {
+    const { testDay } = req.body;
+    const _id = req.params.announcementId;
+
+    // Check if the user making the request is an HR staff
+    if (req.user.role !== "hr_staff") {
+      return res.status(403).json({
+        success: false,
+        message: "Access denied. Only HR staff can update the test day.",
+      });
+    }
+
+    // Find the announcement by ID
+    const announcement = await Announcement.findById(_id);
+
+    if (!announcement) {
+      return res.status(404).json({
+        success: false,
+        message: "Announcement not found",
+      });
+    }
+
+    // Update the testDay field of the announcement
+    announcement.testDay = testDay;
+    await announcement.save();
+
+    // Send a successful response
+    res.status(200).json({
+      success: true,
+      message: "Test day updated successfully",
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: "An error occurred while updating the test day",
+      error: error.message,
+    });
+  }
+};
 
 module.exports = {
   createEmployeeRequest,
   getAllAnnouncements,
+  acceptRejectAnnouncement,
   getAcceptedAnnouncements,
   getRejectedAnnouncements,
   findAnnouncement,
   updateAnnouncement,
+  updateTestDay,
 };

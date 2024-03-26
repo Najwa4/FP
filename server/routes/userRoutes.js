@@ -13,8 +13,8 @@ const {
 } = require("../middlewares/validation");
 
 router.post("/", protect, resetPasswordValidation, validate, addUser);
+router.get("/", protect, viewProfile);
 router.put("/:userId", protect, resetPasswordValidation, validate, updateUser);
 router.get("/:userId", protect, findUser);
-router.get("/", protect, viewProfile);
 
 module.exports = router;
