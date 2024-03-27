@@ -1,18 +1,29 @@
 const mongoose = require("mongoose");
 
 const quitJobSchema = new mongoose.Schema({
-  employee: {
-    type: mongoose.Schema.Types.ObjectId,
+  employeeId: {
+    type: String,
     ref: "User",
-    required: true,
   },
+  employee: [
+    {
+      fullName: {
+        type: String,
+      },
+      college: {
+        type: String,
+      },
+      department: {
+        type: String,
+      },
+    },
+  ],
+
   resignationDate: {
     type: Date,
-    required: true,
   },
   reason: {
     type: String,
-    required: true,
   },
   feedback: {
     type: String,
@@ -21,6 +32,29 @@ const quitJobSchema = new mongoose.Schema({
     type: Date,
     default: Date.now,
   },
+  status: {
+    type: String,
+    enum: ["accept", "reject", "pending"],
+    default: "pending",
+  },
+});
+
+quitJobSchema.pre("save", async function () {
+  const User = require("../models/User");
+
+  try {
+    const employees = await User.find({ _id: this.employeeId }).select(
+      "_id fullName department college"
+    );
+    this.employees = employees.map((employee) => ({
+      _id: employee._id,
+      fullName: employee.fullName,
+      department: employee.department,
+      college: employee.college,
+    }));
+  } catch (error) {
+    console.error(error);
+  }
 });
 
 const QuitJob = mongoose.model("QuitJob", quitJobSchema);
