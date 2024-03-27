@@ -1,26 +1,44 @@
 const mongoose = require("mongoose");
 
-const leaveSchema = new mongoose.Schema({
-  employee: {
-    type: mongoose.Schema.Types.ObjectId,
+const restSchema = new mongoose.Schema({
+  employeeId: {
+    type: String,
     ref: "User",
-    required: true,
   },
+  employee: [
+    {
+      fullName: {
+        type: String,
+      },
+      college: {
+        type: String,
+      },
+      department: {
+        type: String,
+      },
+      emailAddress: {
+        type: String,
+      },
+    },
+  ],
   startDate: {
     type: Date,
-    required: true,
   },
   endDate: {
     type: Date,
-    required: true,
   },
   reason: {
     type: String,
-    required: true,
   },
   status: {
     type: String,
-    enum: ["pending", "approved", "rejected"],
+    enum: [
+      "pending",
+      "approved",
+      "rejected_hr",
+      "accepted_college",
+      "rejected_college",
+    ],
     default: "pending",
   },
   createdAt: {
@@ -29,6 +47,25 @@ const leaveSchema = new mongoose.Schema({
   },
 });
 
-const Leave = mongoose.model("Leave", leaveSchema);
+restSchema.pre("save", async function () {
+  const User = require("../models/User");
 
-module.exports = Leave;
+  try {
+    const employees = await User.find({ _id: this.employeeId }).select(
+      "_id fullName department college"
+    );
+    this.employees = employees.map((employee) => ({
+      _id: employee._id,
+      fullName: employee.fullName,
+      department: employee.department,
+      college: employee.college,
+      emailAddress: employee.emailAddress,
+    }));
+  } catch (error) {
+    console.error(error);
+  }
+});
+
+const Rest = mongoose.model("Rest", restSchema);
+
+module.exports = Rest;

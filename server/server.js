@@ -38,8 +38,8 @@ app.use("/api/announcements", announceRoutes);
 app.use("/api/auth", authRoutes);
 app.use("/api/applicants", applicantRouter);
 app.use("/api/employees", employeeRoutes);
-app.use("/api/requests", restRoutes);
-app.use("/api/quit-requests", quitJobRoutes);
+app.use("/api/rest", restRoutes);
+app.use("/api/quit", quitJobRoutes);
 app.use("/api/departments", departmentRoutes);
 app.use("/api/colleges", collegeRoutes);
 
