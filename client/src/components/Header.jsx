@@ -18,7 +18,7 @@ function Header(props) {
               Announce
             </a>
 
-            <a href="/Login" className="navigation-link">
+            <a href="/login" className="navigation-link">
               Login
             </a>
           </ul>
