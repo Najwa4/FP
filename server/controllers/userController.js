@@ -1,6 +1,7 @@
 const User = require("../models/User");
 const { pickBy } = require("lodash");
 const bcrypt = require("bcryptjs");
+const sendEmail = require("../utils/sendEmail");
 
 // Add user
 async function addUser(req, res) {
@@ -195,9 +196,53 @@ const viewProfile = async (req, res) => {
   }
 };
 
+// Report profile mistake via email
+const reportProfileMistake = async (req, res) => {
+  try {
+    const { _id } = req.user;
+    const { mistake } = req.body;
+
+    // Find the user by ID
+    const user = await User.findById(_id);
+
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
+    }
+
+    // Send email notification
+    const emailContent = {
+      email: user.emailAddress,
+      subject: "Profile Mistake Report",
+      text: `User ID: ${_id}\nFull Name: ${user.fullName}\nMistake: ${mistake}`,
+    };
+
+    console.log(mistake);
+
+    sendEmail(emailContent, (error) => {
+      if (error) {
+        // If an error occurs while sending the email, return a 500 Internal Server Error response
+        return res.status(500).json({
+          success: false,
+          message: "Error reporting profile mistake:",
+          error: error.message,
+        });
+      }
+      // Send a successful response with the success message
+      res.status(200).json({
+        success: true,
+        message: "Profile mistake reported successfully",
+      });
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Internal server error");
+  }
+};
+
 module.exports = {
   addUser,
   updateUser,
   findUser,
   viewProfile,
+  reportProfileMistake,
 };
