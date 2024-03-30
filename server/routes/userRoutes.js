@@ -15,7 +15,13 @@ const {
 
 router.post("/", protect, resetPasswordValidation, validate, addUser);
 router.get("/", protect, viewProfile);
-router.put("/upda/:userId", protect, resetPasswordValidation, validate, updateUser);
+router.put(
+  "/upda/:userId",
+  protect,
+  resetPasswordValidation,
+  validate,
+  updateUser
+);
 router.get("/find/:userId", protect, findUser);
 router.post("/report", protect, reportProfileMistake);
 
