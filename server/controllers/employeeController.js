@@ -7,8 +7,6 @@ const findEmployees = async (req, res) => {
     const requestingDepartment = req.user.department;
     const requestingCollege = req.user.college;
 
-    console.log(req.params.department);
-
     let employees = [];
 
     if (
@@ -16,7 +14,9 @@ const findEmployees = async (req, res) => {
       requestingUserRole === "hr_manager"
     ) {
       // For HR staff and HR managers, retrieve all users
-      employees = await Employee.find({}).select("-password");
+      employees = await Employee.find({ role: { $ne: "applicant" } }).select(
+        "-password"
+      );
     } else if (requestingUserRole === "dean") {
       // For deans, retrieve users from the same college
       employees = await Employee.find({ college: requestingCollege }).select(
