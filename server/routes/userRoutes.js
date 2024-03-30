@@ -5,6 +5,7 @@ const {
   updateUser,
   findUser,
   viewProfile,
+  reportProfileMistake,
 } = require("../controllers/userController");
 const { protect } = require("../middlewares/authMiddleware");
 const {
@@ -14,7 +15,8 @@ const {
 
 router.post("/", protect, resetPasswordValidation, validate, addUser);
 router.get("/", protect, viewProfile);
-router.put("/:userId", protect, resetPasswordValidation, validate, updateUser);
-router.get("/:userId", protect, findUser);
+router.put("/upda/:userId", protect, resetPasswordValidation, validate, updateUser);
+router.get("/find/:userId", protect, findUser);
+router.post("/report", protect, reportProfileMistake);
 
 module.exports = router;
