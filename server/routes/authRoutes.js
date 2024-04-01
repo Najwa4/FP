@@ -22,8 +22,8 @@ router.put("/change-password", protect, updatePassword);
 router.put(
   "/reset-password",
   protect,
-  resetPasswordValidation,
-  validate,
+  // resetPasswordValidation,
+  // validate,
   resetPassword
 );
 
