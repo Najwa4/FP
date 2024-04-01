@@ -1,0 +1,30 @@
+
+.announcement-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 800px; /* Adjust the max-width to your desired value */
+  margin: 0 auto; /* Center the container horizontally */
+  padding: 20px;
+}
+
+.announcement-container1 {
+
+  background-color: #eafaf1;
+  
+}
+
+
+.announcement-title {
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin-bottom: 8px;
+}
+
+.announcement-message {
+  margin-bottom: 8px;
+}
+
+.announcement-button {
+  margin-top: 16px;
+}
