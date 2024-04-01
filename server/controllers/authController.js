@@ -13,27 +13,23 @@ exports.login = asyncHandler(async (req, res, next) => {
 
   const user = await User.findOne({ username });
 
-  if (user) {
-    const isMatch = await user.matchPassword(password);
-    if (isMatch) {
-      const token = generateToken(res, user._id);
+  if (user && (await user.matchPassword(password))) {
+    const token = generateToken(user._id);
 
-      res.json({
-        success: true,
-        data: {
-          _id: user._id,
-          fullName: user.fullName,
-          username: user.username,
-          phoneNumber: user.phoneNumber,
-          role: user.role,
-        },
-        token,
-      });
-    } else {
-      res.status(401).json({ error: "Invalid username or password" });
-    }
+    res.json({
+      success: true,
+      data: {
+        _id: user._id,
+        fullName: user.fullName,
+        username: user.username,
+        phoneNumber: user.phoneNumber,
+        role: user.role,
+      },
+      token,
+    });
   } else {
-    res.status(401).json({ error: "Invalid username or password" });
+    res.status(401);
+    throw new Error("Invalid username or password");
   }
 });
 
@@ -48,18 +44,16 @@ exports.logout = asyncHandler(async (req, res) => {
 
 // Initiate forgot password process
 exports.forgotPassword = asyncHandler(async (req, res) => {
-  const { username, emailAddress } = req.body;
-
-  // Validate username and email
-  if (!username || !emailAddress) {
-    return res.status(400).json({ message: "Username and email are required" });
-  }
-
-  // Check if the provided username and email match with the user in the database
-  const user = await User.findOne({ username, emailAddress });
+  const { email } = req.body;
+  
+  // Check if the provided email match with the user in the database
+  const user = await User.findOne({ emailAddress: email });
 
   if (!user) {
-    return res.status(404).json({ message: "Invalid username or email" });
+    return res.json({
+      success: false,
+      message: "Invalid email",
+    });
   }
 
   // Function to generate a random OTP
@@ -90,7 +84,7 @@ exports.verifyOTP = asyncHandler(async (req, res) => {
   // Check if OTP is expired
   const currentTime = new Date();
   if (otpExpiryTime && currentTime > otpExpiryTime) {
-    res.status(400).json({ error: "OTP has expired" });
+    res.json({ error: "OTP has expired" });
     return;
   }
 
@@ -100,9 +94,9 @@ exports.verifyOTP = asyncHandler(async (req, res) => {
     // Clear OTP and OTP expiry time from session
     delete req.session.otp;
     delete req.session.otpExpiryTime;
-    res.status(200).json({ message: "OTP verified successfully" });
+    res.status(200).json({ data: { message: "OTP verified successfully" } });
   } else {
-    res.status(400).json({ error: "Invalid OTP" });
+    res.json({ error: "Invalid OTP" });
   }
 });
 
@@ -130,7 +124,7 @@ exports.updatePassword = asyncHandler(async (req, res, next) => {
   // Find the user by ID
   const user = await User.findById(userId);
   if (!user) {
-    res.status(404).json({ error: "User not found" });
+    res.json({ error: "User not found" });
     return;
   }
 
@@ -139,7 +133,7 @@ exports.updatePassword = asyncHandler(async (req, res, next) => {
   // Compare the current password with the stored hashed password
   const isMatch = await user.matchPassword(currentPassword);
   if (!isMatch) {
-    res.status(400).json({ error: "Current password is incorrect" });
+    res.json({ error: "Current password is incorrect" });
     return;
   }
 

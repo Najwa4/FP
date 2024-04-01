@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Box,
   Avatar,
@@ -17,20 +17,35 @@ import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import EmailIcon from "@mui/icons-material/Email";
 import LockIcon from "@mui/icons-material/Lock";
 import avatarImage from "../../assets/user.png";
-import { Link } from "react-router-dom";
-// import {useAuth} from "../../context/auth/AuthContext";
+import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "../../context/AutContext";
+import { toast } from "react-toastify";
 
 const LoginScreen = () => {
   const [showPassword, setShowPassword] = useState(true);
-  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  // const {login, dispatch} = useAuth();
+  const [username, setUsername] = useState("");
+  const { login, isAuthenticated, error } = useAuth();
+  const navigate = useNavigate();
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
 
-  // const handleLogin = () => {
-  //   login(email, password);
-  // }
+  const handleLogin = () => {
+    login(username, password);
+  };
+
+  useEffect(() => {
+    if (error) {
+      toast.error(error || "Something went wrong");
+    }
+  }, [error]);
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      console.log("User is authenticated:", isAuthenticated);
+      navigate("/");
+    }
+  }, [isAuthenticated, navigate]);
 
   return (
     <>
@@ -58,13 +73,13 @@ const LoginScreen = () => {
         >
           <EmailIcon sx={{ mr: 1, my: 2 }} />
           <TextField
-            label="Enter your Email"
+            label="Enter your Username"
             variant="outlined"
             size="normal"
             margin="normal"
             sx={{ width: "34ch" }}
-            value={email}
-            onChange={(event) => setEmail(event.target.value.trim())}
+            value={username}
+            onChange={(event) => setUsername(event.target.value.trim())}
           />
         </Box>
 
@@ -98,15 +113,17 @@ const LoginScreen = () => {
         </Box>
         <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
           <Link
-            to="/verification"
+            to="/forgot-password"
             style={{ textDecoration: "none", color: "#19524e" }}
           >
+            {/* Add an onClick handler to trigger handleForgotPassword */}
             <Typography
               sx={{
                 textAlign: "right",
                 mb: 2,
                 mt: 0.5,
                 marginLeft: "auto",
+                cursor: "pointer", // Add cursor style to indicate it's clickable
               }}
               variant="body2"
             >
@@ -124,7 +141,7 @@ const LoginScreen = () => {
             fontSize: "16px",
             fontWeight: "bold",
           }}
-          // onClick={handleLogin}
+          onClick={handleLogin}
         >
           Login
         </Button>

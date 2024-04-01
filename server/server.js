@@ -1,10 +1,10 @@
 require("dotenv").config();
 const express = require("express");
-const cookieParser = require("cookie-parser");
 const session = require("express-session");
 const app = express();
 const path = require("path");
 const port = 5000;
+const { notFound, errorHandler } = require("./middlewares/errorMiddleware");
 const connectDb = require("./database/connect");
 const usersRoutes = require("./routes/userRoutes");
 const announceRoutes = require("./routes/announceRoutes");
@@ -22,7 +22,6 @@ connectDb();
 
 // Middleware to parse request bodies
 app.use(cors());
-app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded());
 app.use(express.static(path.join(__dirname, "public")));
@@ -32,7 +31,7 @@ app.use(
     resave: false,
     saveUninitialized: false,
     cookie: {
-      maxAge: 1 * 60 * 1000, // 5 minutes
+      maxAge: 5 * 60 * 1000, // 5 minutes
     },
   })
 );
@@ -67,11 +66,8 @@ app.use("/api/quit", quitJobRoutes);
 app.use("/api/departments", departmentRoutes);
 app.use("/api/colleges", collegeRoutes);
 
-// Error handling middleware
-app.use((err, req, res, next) => {
-  console.error(err.stack);
-  res.status(500).send("Internal Server Error");
-});
+app.use(notFound);
+app.use(errorHandler);
 
 // Start the server
 app.listen(port, () => {
