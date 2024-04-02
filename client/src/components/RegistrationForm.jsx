@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { TextField, Button, 
   // Select, 
   MenuItem } from '@mui/material';
+  
+  
 
 const RegistrationForm = () => {
   const [page, setPage] = useState(1);
@@ -10,7 +12,7 @@ const RegistrationForm = () => {
     middleName: '',
     lastName: '',
     email: '',
-    password: '',
+    phoneNumber: '',
     region: '',
     woreda: '',
     zone: '',
@@ -38,7 +40,7 @@ const RegistrationForm = () => {
     console.log(formData);
     // Handle form submission
   };
-
+  
   const renderPage1 = () => (
     <form onSubmit={nextPage}>
       <div style={{ marginBottom: '40px' }}>
@@ -49,23 +51,27 @@ const RegistrationForm = () => {
         onChange={handleChange}
         required
         fullWidth
-        margin="normal"
-        style={{ width: '300px', height: '40px', fontSize: '16px', padding: '8px' }}
+        margin="dense"
+        InputProps={{
+          style: { height: '40px' }, 
+        }}
+        style={{ width: '200px', height: '5px', fontSize: '14px', padding: '8px',marginLeft:"300px" }}
         
       />
      
-      
       <TextField
         label="Middle Name"
         name="middleName"
         value={formData.middleName}
         onChange={handleChange}
         fullWidth
-        margin="normal"
-        style={{ width: '300px', height: '40px', fontSize: '16px', padding: '8px', }}
+        margin="dense"
+        InputProps={{
+          style: { height: '40px' }, 
+        }}
+        style={{ width: '200px', height: '30px', fontSize: '16px', padding: '8px',marginLeft:'20px' }}
       />
     
-      
       <TextField
         label="Last Name"
         name="lastName"
@@ -73,8 +79,11 @@ const RegistrationForm = () => {
         onChange={handleChange}
         required
         fullWidth
-        margin="normal"
-        style={{ width: '300px', height: '40px', fontSize: '16px', padding: '8px', }}
+        margin="dense"
+        InputProps={{
+          style: { height: '40px' }, 
+        }}
+        style={{ width: '200px', height: '30px', fontSize: '16px', padding: '8px',marginLeft:'20px' }}
       />
       </div>
       <div style={{ display: 'flex', justifyContent: 'center' }}>
@@ -86,7 +95,10 @@ const RegistrationForm = () => {
         required
         fullWidth
         margin="normal"
-        style={{ width: '300px', height: '40px', fontSize: '16px', padding: '8px', }}
+        InputProps={{
+          style: { height: '40px' }, 
+        }}
+        style={{ width: '200px', height: '30px', fontSize: '16px', padding: '8px',marginLeft:'80px',marginRight:'20px' }}
         select
       >
         <MenuItem value="" disabled>
@@ -96,10 +108,10 @@ const RegistrationForm = () => {
         <MenuItem value="M">M</MenuItem>
        
       </TextField>
-      </div>
+     
       {/* Buttons */}
       
-      <div style={{ display: 'flex', justifyContent: 'center' }}>
+  
   <TextField
    label=" Dateofbirth"
    name="dateofbirth"
@@ -108,11 +120,14 @@ const RegistrationForm = () => {
    required
    fullWidth
    margin="normal"
+   InputProps={{
+    style: { height: '40px' }, 
+  }}
    style={{ width: '300px', height: '40px', fontSize: '16px', padding: '8px', }} 
   >
   </TextField>
   </div>
-  <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+  <div style={{ display: 'flex', justifyContent: 'flex-start' ,marginRight:'550px',padding: '20px',marginLeft:'900px' }}>
   <Button variant="contained" color="primary" type="submit" >
     Next
   </Button>
@@ -132,31 +147,40 @@ const RegistrationForm = () => {
         required
         fullWidth
         margin="normal"
+        InputProps={{
+          style: { height: '40px' }, 
+        }}
         style={{ width: '300px', height: '40px', fontSize: '16px', padding: '8px',  }}
       />
       </div>
       <div style={{ display: 'flex', justifyContent: 'center' }}>
       <TextField
-        label="Password"
-        name="password"
-        type="password"
+        label="Phone Number"
+        name="phonenumber"
+        type="formData.phonenumber"
         value={formData.password}
         onChange={handleChange}
         required
         fullWidth
         margin="normal"
+        InputProps={{
+          style: { height: '40px' }, 
+        }}
         style={{ width: '300px', height: '40px', fontSize: '16px', padding: '8px', }}
       />
       </div>
       
-      <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-  <Button variant="contained" color="primary" onClick={previousPage}>
+  <div style={{ display: 'flex', justifyContent:'flex-end',marginRight:'850px'}}>
+        <Button variant="contained" color="primary" onClick={previousPage}>
     Previous
   </Button>
-  <Button variant="contained" color="primary" type="submit">
-    Next
-  </Button>
+  </div>
+<div style={{display: 'flex', justifyContent: 'flex-end',marginRight:'500px'}}>
+    <Button variant="contained" color="primary" type="submit">
+         Next
+      </Button>
 </div>
+
     </form>
   );
 
@@ -170,10 +194,13 @@ const RegistrationForm = () => {
         onChange={handleChange}
         required
         margin="normal"
-        style={{ width: '300px', height: '40px', fontSize: '16px', padding: '8px', }}
+        InputProps={{
+          style: { height: '40px' }, 
+        }}
+        style={{ width: '200px', height: '40px', fontSize: '16px', padding: '8px', }}
       />
-      </div>
-      <div style={{ display: 'flex', justifyContent: 'center' }}>
+      
+      
       <TextField
         label="Woreda"
         name="woreda"
@@ -181,7 +208,10 @@ const RegistrationForm = () => {
         onChange={handleChange}
         required
         margin="normal"
-        style={{ width: '300px', height: '40px', fontSize: '16px', padding: '8px', }}
+        InputProps={{
+          style: { height: '40px' }, 
+        }}
+        style={{ width: '200px', height: '40px', fontSize: '16px', padding: '8px', }}
       />
       </div>
       <div style={{ display: 'flex', justifyContent: 'center' }}>
@@ -192,11 +222,14 @@ const RegistrationForm = () => {
         onChange={handleChange}
         required
         margin="normal"
-        style={{ width: '300px', height: '40px', fontSize: '16px', padding: '8px', }}
+        InputProps={{
+          style: { height: '40px' }, 
+        }}
+        style={{ width: '200px', height: '40px', fontSize: '16px', padding: '8px', }}
        
       />
-      </div>
-      <div style={{ display: 'flex', justifyContent: 'center' }}>
+     
+      
       <TextField
         label="Kebele"
         name="kebele"
@@ -204,24 +237,35 @@ const RegistrationForm = () => {
         onChange={handleChange}
         required
         margin="normal"
-        style={{ width: '300px', height: '40px', fontSize: '16px', padding: '8px', }}
+        InputProps={{
+          style: { height: '40px' }, 
+        }}
+        style={{ width: '200px', height: '40px', fontSize: '16px', padding: '8px', }}
       />
       </div>
-      <Button variant="contained" color="primary" onClick={previousPage}>
+      
+      <div style={{ display: 'flex', justifyContent: 'flex-end',marginRight:'900px' }}>
+      <Button variant="contained" color="primary" onClick={previousPage}className="previousButton">
         Previous
       </Button>
-      <Button variant="contained" color="primary" type="submit">
+      </div>
+      <div style={{ display: 'flex', justifyContent: 'flex-end',marginRight:'500px' }}>
+      <Button variant="contained" color="primary" type="submit"   className="previousButton"  >
         Register
       </Button>
+      </div>
     </form>
   );
 
   return (
+    
+    
     <>
       {page === 1 && renderPage1()}
       {page === 2 && renderPage2()}
       {page === 3 && renderPage3()}
     </>
+    
   );
 };
 
