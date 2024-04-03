@@ -5,6 +5,7 @@ const User = require("../models/User");
 const generateToken = require("../utils/generateToken");
 const sendEmail = require("../utils/sendEmail");
 const nodemailer = require("nodemailer");
+const authService = require("../services/authService");
 require("dotenv").config();
 
 //Login user
@@ -24,6 +25,7 @@ exports.login = asyncHandler(async (req, res, next) => {
         username: user.username,
         phoneNumber: user.phoneNumber,
         role: user.role,
+        department: user.department,
       },
       token,
     });
@@ -45,7 +47,7 @@ exports.logout = asyncHandler(async (req, res) => {
 // Initiate forgot password process
 exports.forgotPassword = asyncHandler(async (req, res) => {
   const { email } = req.body;
-  
+
   // Check if the provided email match with the user in the database
   const user = await User.findOne({ emailAddress: email });
 
@@ -84,19 +86,19 @@ exports.verifyOTP = asyncHandler(async (req, res) => {
   // Check if OTP is expired
   const currentTime = new Date();
   if (otpExpiryTime && currentTime > otpExpiryTime) {
-    res.json({ error: "OTP has expired" });
+    res.status(400).json({ error: "OTP has expired" });
     return;
   }
 
   // Verify OTP
-  const isValid = verifyOTP(otp, storedOTP);
+  const isValid = authService.verifyOTP(otp, storedOTP);
   if (isValid) {
     // Clear OTP and OTP expiry time from session
     delete req.session.otp;
     delete req.session.otpExpiryTime;
-    res.status(200).json({ data: { message: "OTP verified successfully" } });
+    res.status(200).json({ message: "OTP verified successfully" });
   } else {
-    res.json({ error: "Invalid OTP" });
+    res.status(400).json({ error: "Invalid OTP" });
   }
 });
 

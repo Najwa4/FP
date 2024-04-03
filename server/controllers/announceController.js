@@ -31,7 +31,10 @@ const createEmployeeRequest = async (req, res) => {
 const getAllAnnouncements = async (req, res) => {
   try {
     const announcements = await Announcement.find();
-    res.json(announcements);
+    res.json({
+      success: true,
+      data: announcements,
+    });
   } catch (error) {
     res.status(500).json({ error: "Internal Server Error" });
   }

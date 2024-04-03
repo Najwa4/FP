@@ -91,7 +91,6 @@ export const AuthProvider = ({ children }) => {
 
   const forgotPassword = async (email) => {
     try {
-      // const response = await axios.post(
       await axios.post("http://localhost:5000/api/auth/forgot-password", {
         email,
       });
@@ -112,23 +111,23 @@ export const AuthProvider = ({ children }) => {
 
   const verifyOTP = async (otp) => {
     try {
-      // const response = await axios.post(
-      await axios.post("http://localhost:5000/api/auth/verify-otp", {
-        otp,
-      });
+      const response = await axios.post(
+        "http://10.194.111.80:5000/api/auth/verify-otp",
+        {
+          otp,
+        }
+      );
       dispatch({ type: "VERIFY_OTP_SUCCESS" });
-      // console.log(response.otp);
+      console.log(response.data.message);
     } catch (error) {
       if (error.response && error.response.status === 401) {
-        const serverErrorMessage = error.response.data.message;
-        dispatch({ type: "ERROR", payload: serverErrorMessage });
+        dispatch({ type: "ERROR", payload: "Invalid OTP. Please try again." });
       } else if (error.response && error.response.status === 400) {
         dispatch({
           type: "ERROR",
           payload: "OTP expired. Please request a new one.",
         });
       } else {
-        // Handle other errors
         console.error("OTP verification error:", error);
         dispatch({
           type: "ERROR",
@@ -145,12 +144,11 @@ export const AuthProvider = ({ children }) => {
 
       // Check if the token exists
       if (!token) {
-        // If the token is missing, dispatch an error
         dispatch({
           type: "ERROR",
-          payload: "No token found. Please login again.",
         });
-        return; // Exit the function
+        console.log("No token found. Please login again.");
+        return;
       }
 
       // Configure the request headers with the token
@@ -166,8 +164,6 @@ export const AuthProvider = ({ children }) => {
         { password },
         config
       );
-
-      // Log the success message
       console.log(response.data.message);
     } catch (error) {
       if (error.response) {

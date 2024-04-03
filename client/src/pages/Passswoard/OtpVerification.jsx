@@ -1,21 +1,17 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { Container, TextField, Button } from "@mui/material";
-import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AutContext";
 import { toast } from "react-toastify";
 
 const VerificationPage = () => {
   const [otp, setOtp] = useState("");
-  const [resendTime, setResendTime] = useState(120);
-  const { verifyOTP, isVerified, error, dispatch } = useAuth();
   const navigate = useNavigate();
+  const { verifyOTP, isVerified, error, dispatch } = useAuth();
+  const [resendTime, setResendTime] = useState(120);
 
-  // const handleResend = () => {
-  //   setResendTime(120);
-  // };
-
-  const handleOTPVerification = () => {
-    verifyOTP(otp);
+  const handleResend = () => {
+    setResendTime(120);
   };
 
   const formatTime = (seconds) => {
@@ -27,13 +23,6 @@ const VerificationPage = () => {
   };
 
   useEffect(() => {
-    if (error) {
-      toast.error(error.details[0].message);
-      dispatch({ type: "CLEAR_ERROR" });
-    }
-  }, [error, dispatch]);
-
-  useEffect(() => {
     const interval = setInterval(() => {
       if (resendTime > 0) {
         setResendTime((prevTime) => prevTime - 1);
@@ -42,9 +31,25 @@ const VerificationPage = () => {
     return () => clearInterval(interval);
   }, [resendTime]);
 
+  const handleOTPVerification = async () => {
+    try {
+      await verifyOTP(otp);
+      navigate("/reset");
+    } catch (error) {
+      toast.error(error || "Something went wrong");
+      dispatch({ type: "CLEAR_ERROR" });
+    }
+  };
+
+  useEffect(() => {
+    if (error) {
+      toast.error(error || "Something went wrong");
+      dispatch({ type: "CLEAR_ERROR" });
+    }
+  }, [error, dispatch]);
+
   useEffect(() => {
     if (isVerified) {
-      console.log("Verification process completed.");
       navigate("/reset");
     }
   }, [isVerified, navigate]);
@@ -64,7 +69,6 @@ const VerificationPage = () => {
         <h2 style={{ textAlign: "center" }}>Verification</h2>
         <p>You will get a verification OTP code via Email</p>
       </>
-
       <TextField
         label="Enter Verification Code"
         variant="outlined"
@@ -78,26 +82,24 @@ const VerificationPage = () => {
           setOtp(numericValue);
         }}
       />
-      <Link to="/reset" style={{ textDecoration: "none", color: "#19524e" }}>
-        <Button
-          variant="contained"
-          color="primary"
-          sx={{
-            width: "100%",
-            padding: "10px 0",
-            textTransform: "none",
-            fontSize: "16px",
-            fontWeight: "bold",
-          }}
-          onClick={handleOTPVerification}
-          disabled={isVerified || otp.length !== 6}
-        >
-          Verify OTP
-        </Button>
-      </Link>
+      <Button
+        variant="contained"
+        color="primary"
+        sx={{
+          width: "100%",
+          padding: "10px 0",
+          textTransform: "none",
+          fontSize: "16px",
+          fontWeight: "bold",
+        }}
+        onClick={handleOTPVerification}
+        disabled={isVerified || otp.length !== 6}
+      >
+        Verify OTP
+      </Button>
       <p style={{ textAlign: "center", marginTop: "10px" }}>
         {resendTime > 0 ? (
-          `Time Remaining: ${formatTime(resendTime)}`
+          ` Time Remaining: ${formatTime(resendTime)}`
         ) : (
           <Button
             variant="text"
@@ -106,7 +108,7 @@ const VerificationPage = () => {
               textTransform: "none",
               fontSize: "16px",
             }}
-            // onClick={handleResendOTP}
+            onClick={handleResend}
             disabled={isVerified}
           >
             Resend OTP
