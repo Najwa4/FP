@@ -51,7 +51,7 @@ const LoginScreen = () => {
     <>
       <Container
         sx={{
-          margin: "50px auto 0",
+          margin: "10% auto 0",
           width: "380px",
           padding: "40px",
           borderRadius: "15px",
@@ -116,14 +116,13 @@ const LoginScreen = () => {
             to="/forgot-password"
             style={{ textDecoration: "none", color: "#19524e" }}
           >
-            {/* Add an onClick handler to trigger handleForgotPassword */}
             <Typography
               sx={{
                 textAlign: "right",
                 mb: 2,
                 mt: 0.5,
                 marginLeft: "auto",
-                cursor: "pointer", // Add cursor style to indicate it's clickable
+                cursor: "pointer",
               }}
               variant="body2"
             >
