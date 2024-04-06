@@ -1,24 +1,38 @@
 .header-container {
   display: grid;
   grid-template-columns: 60fr 30fr;
-  padding: 1rem 4.8rem;
+  padding: 2% 0%; /* 1rem = 2% */
   background-color: #eafaf1;
 }
+
 .navigation {
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
 }
+
 .navigation-link {
   font-size: 1.6rem;
-  margin-left: 3rem;
+  margin-left: 10%;
   color: black;
   text-decoration: none;
+  flex-shrink: 0;
+  white-space: nowrap;
 }
+
 .logo1 {
   font-size: 7.2rem;
   text-transform: capitalize;
+  margin-left: 8%;
 }
+
 .logo2 {
   font-size: 3.5rem;
   text-transform: capitalize;
+}
+
+@media screen and (max-width: 768px) {
+  .navigation-link {
+    margin-left: 5%;
+  }
 }

@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from "react";
-import AnnouncementCard from "../components/AnnouncementCard";
-import { useNavigate } from "react-router-dom";
-import "../styles/Announcementpage.css";
+import AnnouncementCard from "../../components/manager/AnnouncementCard";
+import "../../styles/Announcementpage.css";
 import { toast } from "react-toastify";
-import { getRequest } from "../services/api";
+import { getRequest } from "../../services/api";
+import Sidebar from "../../components/manager/ManagerSidebar";
 
-const AnnouncementPage = () => {
-  const navigate = useNavigate();
+const ManagerAnnouncePage = () => {
   const [announcements, setAnnouncements] = useState([]);
 
   useEffect(() => {
@@ -28,18 +27,14 @@ const AnnouncementPage = () => {
     fetchAnnouncements();
   }, []);
 
-  const handleApply = (announcementId) => {
-    navigate("/personal-information", { state: { announcementId } });
-  };
-
   return (
     <div>
+      <Sidebar />
       <div className="announcement-container">
         {announcements.map((singleAnnouncement, index) => (
           <AnnouncementCard
             key={singleAnnouncement._id}
             announcements={singleAnnouncement}
-            onApply={() => handleApply(singleAnnouncement._id)}
           />
         ))}
       </div>
@@ -47,4 +42,4 @@ const AnnouncementPage = () => {
   );
 };
 
-export default AnnouncementPage;
+export default ManagerAnnouncePage;

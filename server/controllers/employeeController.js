@@ -29,12 +29,10 @@ const findEmployees = async (req, res) => {
       }).select("-password");
     } else {
       // Unauthorized access
-      return res
-        .status(403)
-        .json({ message: "Access denied. You are not authorized" });
+      return res.json({ message: "Access denied. You are not authorized" });
     }
 
-    res.json(employees);
+    res.json({ success: true, data: employees });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Internal Server Error" });

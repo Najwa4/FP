@@ -163,11 +163,14 @@ const findUser = async (req, res) => {
     if (role === "hr_staff" || role === "hr_manager") {
       const user = await User.findById(userId).select("-password");
       if (!user) {
-        return res.status(404).json({ error: "User not found" });
+        return res.json({ error: "User not found" });
       }
-      res.json(user);
+      res.json({
+        success: true,
+        data: user,
+      });
     } else {
-      res.status(403).json({
+      res.json({
         error: "Access denied. You are not authorized to find this user.",
       });
     }

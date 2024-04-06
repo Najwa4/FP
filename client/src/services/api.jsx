@@ -14,7 +14,7 @@ const getToken = async () => {
 
 const apiRequest = async (method, endpoint, data = null) => {
   try {
-    const token = getToken();
+    const token = await getToken();
     if (!token) {
       console.error("No token found");
       return null;

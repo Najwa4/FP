@@ -4,6 +4,7 @@ const {
   getAllAnnouncements,
   createEmployeeRequest,
   acceptRejectAnnouncement,
+  getStatelessAnnouncements,
   getAcceptedAnnouncements,
   getRejectedAnnouncements,
   findAnnouncement,
@@ -24,15 +25,12 @@ router.post(
   //   validate,
   createEmployeeRequest
 );
+router.get("/stateless", protect, getStatelessAnnouncements);
 router.get("/accepted", protect, getAcceptedAnnouncements);
 router.get("/rejected", protect, getRejectedAnnouncements);
 router.get("/find", protect, findAnnouncement);
 router.put("/update-announcement/:announcementId", protect, updateAnnouncement);
 router.put("/Test-Day/:announcementId", protect, updateTestDay);
-router.post(
-  "/accept-reject/:announcementId",
-  protect,
-  acceptRejectAnnouncement
-);
+router.put("/accept-reject/:announcementId", protect, acceptRejectAnnouncement);
 
 module.exports = router;

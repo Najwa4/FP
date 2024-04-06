@@ -11,27 +11,23 @@ const QuitJobController = {
 
     try {
       const employee = await User.findById(employeeId);
-
       if (!employee) {
         return res.status(404).send("Employee not found");
       }
 
       const employeeQuitRequest = new EmployeeQuitRequest({
         employeeId: employee._id,
-        employee: [
-          {
-            fullName: employee.fullName,
-            department: employee.department,
-            college: employee.college,
-          },
-        ],
+
+        fullName: employee.fullName,
+        department: employee.department,
+        college: employee.college,
+
         resignationDate: new Date(),
         reason,
         status: "pending",
       });
 
       await employeeQuitRequest.save();
-
       res.send("Employee quit request created successfully");
     } catch (error) {
       console.error(error);
@@ -39,7 +35,24 @@ const QuitJobController = {
     }
   },
 
-  // Accept or reject an employee quit request by HR staff
+  // Find all quit job requests
+  findAllRequests: async (req, res) => {
+    try {
+      // Find all quit job requests
+      const quitJobRequests = await EmployeeQuitRequest.find();
+
+      // Send response with the quit job requests
+      res.status(200).json({
+        success: true,
+        data: quitJobRequests,
+      });
+    } catch (error) {
+      console.error(error);
+      res.status(500).send("Internal server error");
+    }
+  },
+
+  // Accept or reject an employee quit request by HR manager
   updateStatus: async (req, res) => {
     const { status } = req.body;
     const { requestId } = req.params;
@@ -52,9 +65,12 @@ const QuitJobController = {
       }
 
       if (req.user.role !== "hr_manager") {
-        return res
-          .status(403)
-          .send("You are not authorized to update the status");
+        return res.send("You are not authorized to update the status");
+      }
+
+      // Check if the status is already "accept" or "reject"
+      if (employeeQuitRequest.status !== "pending") {
+        return res.send("Quit job request status cannot be updated further");
       }
 
       employeeQuitRequest.status = status;
@@ -68,7 +84,7 @@ const QuitJobController = {
         // Find the user with the same college name and dean role
         const deanUser = await User.findOne({
           role: "dean",
-          college: employeeQuitRequest.employee[0].college,
+          college: employeeQuitRequest.college,
         });
 
         console.log(employeeUser);
@@ -77,7 +93,7 @@ const QuitJobController = {
           const deanEmailContent = {
             email: deanUser.emailAddress,
             subject: "Employee Quit Request Accepted",
-            text: `Dear ${deanUser.fullName},\n\nThe employee quit request for ${employeeQuitRequest.employee[0].fullName} in the ${employeeQuitRequest.employee[0].department} department has been accepted. Please take appropriate action.\n\nRegards,\nThe HR Team`,
+            text: `Dear ${deanUser.fullName},\n\nThe employee quit request for ${employeeQuitRequest.fullName} in the ${employeeQuitRequest.department} department has been accepted. Please take appropriate action.\n\nRegards,\nThe HR Team`,
           };
 
           sendEmail(deanEmailContent, (error) => {
@@ -91,7 +107,7 @@ const QuitJobController = {
             }
           });
         } else {
-          return res.status(404).send("Dean user not found");
+          return res.send("Dean user not found");
         }
 
         if (employeeUser) {
@@ -99,7 +115,7 @@ const QuitJobController = {
           const employeeEmailContent = {
             email: employeeUser.emailAddress,
             subject: "Quit Request Accepted",
-            text: `Dear ${employeeUser.fullName},\n\nYour quit request in the ${employeeQuitRequest.employee[0].department} department has been accepted. Please contact the HR department for further information.\n\nRegards,\nThe HR Team`,
+            text: `Dear ${employeeUser.fullName},\n\nYour quit request in the ${employeeQuitRequest.department} department has been accepted. Please contact the HR department for further information.\n\nRegards,\nThe HR Team`,
           };
 
           sendEmail(employeeEmailContent, (error) => {
@@ -113,7 +129,7 @@ const QuitJobController = {
             }
           });
         } else {
-          return res.status(404).send("Employee user not found");
+          return res.send("Employee user not found");
         }
 
         // Send a successful response with the updated quit job data and success message
@@ -129,7 +145,7 @@ const QuitJobController = {
           const employeeEmailContent = {
             email: employeeUser.emailAddress,
             subject: "Quit Request Rejected",
-            text: `Dear ${employeeUser.fullName},\n\nYour quit request in the ${employeeQuitRequest.employee[0].department} department has been rejected. Please contact the HR department for further information.\n\nRegards,\nThe HR Team`,
+            text: `Dear ${employeeUser.fullName},\n\nYour quit request in the ${employeeQuitRequest.department} department has been rejected. Please contact the HR department for further information.\n\nRegards,\nThe HR Team`,
           };
 
           sendEmail(employeeEmailContent, (error) => {
@@ -143,7 +159,7 @@ const QuitJobController = {
             }
           });
         } else {
-          return res.status(404).send("Employee user not found");
+          return res.send("Employee user not found");
         }
 
         // Send a successful response with the updated quit job data and success message
