@@ -1,4 +1,9 @@
-
+html,
+body {
+  background-color: #eafaf1;
+  margin: 0;
+  padding: 0;
+}
 .announcement-container {
   display: flex;
   flex-direction: column;
@@ -7,13 +12,6 @@
   margin: 0 auto; /* Center the container horizontally */
   padding: 20px;
 }
-
-.announcement-container1 {
-
-  background-color: #eafaf1;
-  
-}
-
 
 .announcement-title {
   font-size: 1.2rem;

@@ -47,10 +47,10 @@ const acceptRejectAnnouncement = async (req, res) => {
 
   try {
     // Check if user role is "dean"
-    if (req.user.role !== "dean") {
-      return res.status(403).json({
+    if (req.user.role !== "hr_manager") {
+      return res.json({
         error:
-          "Access denied. Only users with the 'dean' role can perform this action.",
+          "Access denied. Only users with the 'hr manager' role can perform this action.",
       });
     }
 
@@ -58,7 +58,7 @@ const acceptRejectAnnouncement = async (req, res) => {
     const announcement = await Announcement.findById(announcementId);
 
     if (!announcement) {
-      return res.status(404).send("Announcement not found");
+      return res.send("Announcement not found");
     }
 
     // Update the announcement status based on the provided status (accept or reject)
@@ -72,6 +72,25 @@ const acceptRejectAnnouncement = async (req, res) => {
   }
 };
 
+// Get stateless announcements
+const getStatelessAnnouncements = async (req, res) => {
+  try {
+    const { role } = req.user;
+
+    // Check if the user is HR staff or HR manager
+    if (role !== "hr_manager") {
+      return res.json({ error: "Unauthorized access" });
+    }
+
+    const statelessAnnouncements = await Announcement.find({
+      status: "stateless",
+    });
+    res.json({ success: true, data: statelessAnnouncements });
+  } catch (error) {
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+
 // Get accepted announcements
 const getAcceptedAnnouncements = async (req, res) => {
   try {
@@ -79,13 +98,13 @@ const getAcceptedAnnouncements = async (req, res) => {
 
     // Check if the user is HR staff or HR manager
     if (role !== "hr_staff" && role !== "hr_manager") {
-      return res.status(403).json({ error: "Unauthorized access" });
+      return res.json({ error: "Unauthorized access" });
     }
 
     const acceptedAnnouncements = await Announcement.find({
       status: "accepted",
     });
-    res.json(acceptedAnnouncements);
+    res.json({ success: true, data: acceptedAnnouncements });
   } catch (error) {
     res.status(500).json({ error: "Internal Server Error" });
   }
@@ -98,13 +117,13 @@ const getRejectedAnnouncements = async (req, res) => {
 
     // Check if the user is HR staff or HR manager
     if (role !== "hr_staff" && role !== "hr_manager") {
-      return res.status(403).json({ error: "Unauthorized access" });
+      return res.json({ error: "Unauthorized access" });
     }
 
     const rejectedAnnouncements = await Announcement.find({
       status: "rejected",
     });
-    res.json(rejectedAnnouncements);
+    res.json({ success: true, data: rejectedAnnouncements });
   } catch (error) {
     res.status(500).json({ error: "Internal Server Error" });
   }
@@ -240,6 +259,7 @@ module.exports = {
   createEmployeeRequest,
   getAllAnnouncements,
   acceptRejectAnnouncement,
+  getStatelessAnnouncements,
   getAcceptedAnnouncements,
   getRejectedAnnouncements,
   findAnnouncement,

@@ -7,7 +7,12 @@ import ResetPasswordScreen from "./pages/Passswoard/ResetPassword";
 import AnnouncementPage from "./pages/Announcementpage";
 import PersonalInformationPage from "./pages/PersonalInformationpage";
 import ForgotPasswordScreen from "./pages/Passswoard/ForgotPassword";
-import Sidebar from "./components/Sidebar";
+import ManagerSidebar from "./components/manager/ManagerSidebar";
+import ManagerAnnouncePage from "./pages/manager/ManagerAnnouncePage";
+import PostedAnnouncePage from "./pages/manager/PostedAnnouncePage";
+import RejectAnnouncePage from "./pages/manager/RejectAnnouncePage";
+import FindEmppage from "./pages/manager/FindEmppage";
+import QuitjobPage from "./pages/manager/QuitjobPage";
 
 function App() {
   return (
@@ -23,7 +28,12 @@ function App() {
           element={<PersonalInformationPage />}
         />
         <Route path="/forgot-password" element={<ForgotPasswordScreen />} />
-        <Route path="/Sidebar" element={<Sidebar />} />
+        <Route path="/ManagerSidebar" element={<ManagerSidebar />} />
+        <Route path="/manager-announce" element={<ManagerAnnouncePage />} />
+        <Route path="/manager-posted" element={<PostedAnnouncePage />} />
+        <Route path="/manager-reject" element={<RejectAnnouncePage />} />
+        <Route path="/find-emppage" element={<FindEmppage />} />
+        <Route path="/Quit" element={<QuitjobPage />} />
       </Routes>
     </BrowserRouter>
   );

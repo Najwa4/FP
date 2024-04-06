@@ -108,10 +108,10 @@ const userSchema = new mongoose.Schema(
       enum: ["employee", "hr_manager", "hr_staff", "head", "dean", "applicant"],
       default: "employee",
     },
-    applicantState: {
-      type: String,
-      enum: ["reject", "accept", "unfiltered"],
-    },
+    // applicantState: {
+    //   type: String,
+    //   enum: ["reject", "accept", "unfiltered"],
+    // },
     account_status: {
       type: String,
       enum: ["active", "inactive"],

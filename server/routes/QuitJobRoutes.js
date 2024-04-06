@@ -7,6 +7,7 @@ const {
   validate,
 } = require("../middlewares/validation");
 
+router.get("/quit-job", QuitJobController.findAllRequests);
 router.post(
   "/create/:employeeId",
   protect,

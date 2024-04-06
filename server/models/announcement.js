@@ -24,7 +24,6 @@ const announcementSchema = new mongoose.Schema({
   },
   appliedJob: {
     type: String,
-    ref: "Job", // Assuming the Job model is defined and has the name "Job"
     unique: true,
   },
   testDay: {
