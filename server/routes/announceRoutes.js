@@ -26,7 +26,7 @@ router.post(
   createEmployeeRequest
 );
 router.get("/stateless", protect, getStatelessAnnouncements);
-router.get("/accepted", protect, getAcceptedAnnouncements);
+router.get("/accepted", getAcceptedAnnouncements);
 router.get("/rejected", protect, getRejectedAnnouncements);
 router.get("/find", protect, findAnnouncement);
 router.put("/update-announcement/:announcementId", protect, updateAnnouncement);

@@ -94,13 +94,6 @@ const getStatelessAnnouncements = async (req, res) => {
 // Get accepted announcements
 const getAcceptedAnnouncements = async (req, res) => {
   try {
-    const { role } = req.user;
-
-    // Check if the user is HR staff or HR manager
-    if (role !== "hr_staff" && role !== "hr_manager") {
-      return res.json({ error: "Unauthorized access" });
-    }
-
     const acceptedAnnouncements = await Announcement.find({
       status: "accepted",
     });

@@ -31,5 +31,10 @@ router.get(
   protect,
   EmployeeRestRequestController.getAcceptedCollegeRequests
 );
+router.get(
+  "/approved-rest-requests",
+  protect,
+  EmployeeRestRequestController.getApprovedRestRequests
+);
 
 module.exports = router;

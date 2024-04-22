@@ -5,22 +5,18 @@ const restSchema = new mongoose.Schema({
     type: String,
     ref: "User",
   },
-  employee: [
-    {
-      fullName: {
-        type: String,
-      },
-      college: {
-        type: String,
-      },
-      department: {
-        type: String,
-      },
-      emailAddress: {
-        type: String,
-      },
-    },
-  ],
+  fullName: {
+    type: String,
+  },
+  college: {
+    type: String,
+  },
+  department: {
+    type: String,
+  },
+  emailAddress: {
+    type: String,
+  },
   startDate: {
     type: Date,
   },
