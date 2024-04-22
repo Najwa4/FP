@@ -13,6 +13,8 @@ import PostedAnnouncePage from "./pages/manager/PostedAnnouncePage";
 import RejectAnnouncePage from "./pages/manager/RejectAnnouncePage";
 import FindEmppage from "./pages/manager/FindEmppage";
 import QuitjobPage from "./pages/manager/QuitjobPage";
+import AcceptOrRejectRestPage from "./pages/staff/AcceptOrRejectRestPage";
+import ApprovedRestPage from "./pages/staff/ApprovedRestPage";
 
 function App() {
   return (
@@ -28,12 +30,16 @@ function App() {
           element={<PersonalInformationPage />}
         />
         <Route path="/forgot-password" element={<ForgotPasswordScreen />} />
+        {/* Routes for HR manager */}
         <Route path="/ManagerSidebar" element={<ManagerSidebar />} />
         <Route path="/manager-announce" element={<ManagerAnnouncePage />} />
         <Route path="/manager-posted" element={<PostedAnnouncePage />} />
         <Route path="/manager-reject" element={<RejectAnnouncePage />} />
         <Route path="/find-emppage" element={<FindEmppage />} />
         <Route path="/Quit" element={<QuitjobPage />} />
+        {/* Routes for HR staff */}
+        <Route path="/ManagerRest" element={<AcceptOrRejectRestPage />} />
+        <Route path="/Approved" element={<ApprovedRestPage />} />
       </Routes>
     </BrowserRouter>
   );

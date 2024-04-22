@@ -16,14 +16,12 @@ const EmployeeRestRequestController = {
 
       const employeeRestRequest = new EmployeeRestRequest({
         employeeId: employee._id,
-        employee: [
-          {
-            fullName: employee.fullName,
-            department: employee.department,
-            college: employee.college,
-            emailAddress: employee.emailAddress,
-          },
-        ],
+
+        fullName: employee.fullName,
+        department: employee.department,
+        college: employee.college,
+        emailAddress: employee.emailAddress,
+
         startDate,
         endDate,
         reason,
@@ -56,7 +54,7 @@ const EmployeeRestRequestController = {
       // Check if the authenticated user has the dean role and the same department as the rest request
       if (
         authenticatedUserRole !== "dean" ||
-        employeeRestRequest.employee[0].college !== authenticatedUserCollege
+        employeeRestRequest.college !== authenticatedUserCollege
       ) {
         return res
           .status(403)
@@ -65,7 +63,7 @@ const EmployeeRestRequestController = {
 
       // Send an email notification to the applicant
       const emailContent = {
-        email: employeeRestRequest.employee[0].emailAddress,
+        email: employeeRestRequest.emailAddress,
         subject: "",
         text: "",
       };
@@ -77,16 +75,16 @@ const EmployeeRestRequestController = {
         res.send("Employee rest request accepted by the college successfully");
         emailContent.subject =
           "Rest request accepted for " +
-          employeeRestRequest.employee[0].fullName +
+          employeeRestRequest.fullName +
           " by " +
-          employeeRestRequest.employee[0].college;
+          employeeRestRequest.college;
         emailContent.text =
           "Dear " +
-          employeeRestRequest.employee[0].fullName +
+          employeeRestRequest.fullName +
           ",\n\nWe are pleased to inform you that your rest request has been accepted by " +
-          employeeRestRequest.employee[0].college +
+          employeeRestRequest.college +
           " college. It will now be forwarded to the HR office for further processing. If you have any questions or need assistance, please contact the HR office.\n\nBest regards,\nThe " +
-          employeeRestRequest.employee[0].college +
+          employeeRestRequest.college +
           " college Team";
       } else if (status === "reject") {
         employeeRestRequest.status = "rejected_college";
@@ -94,15 +92,14 @@ const EmployeeRestRequestController = {
 
         res.send("Employee rest request rejected by the college successfully");
         emailContent.subject =
-          "Update on your rest request from " +
-          employeeRestRequest.employee[0].college;
+          "Update on your rest request from " + employeeRestRequest.college;
         emailContent.text =
           "Dear " +
-          employeeRestRequest.employee[0].fullName +
+          employeeRestRequest.fullName +
           ",\n\nWe regret to inform you that your rest request from " +
-          employeeRestRequest.employee[0].college +
+          employeeRestRequest.college +
           " college has been rejected. If you have any concerns or require additional information, please reach out to the HR office for further assistance.\n\nSincerely,\nThe " +
-          employeeRestRequest.employee[0].college +
+          employeeRestRequest.college +
           " college Team";
       } else {
         res.status(400).send("Invalid action");
@@ -172,7 +169,10 @@ const EmployeeRestRequestController = {
         status: "accepted_college",
       });
 
-      res.json(acceptedCollegeRequests);
+      res.json({
+        success: true,
+        data: acceptedCollegeRequests,
+      });
     } catch (error) {
       console.error(error);
       throw new Error("Unable to retrieve accepted_college requests");
@@ -201,7 +201,7 @@ const EmployeeRestRequestController = {
 
       // Send an email notification to the applicant
       const emailContent = {
-        email: employeeRestRequest.employee[0].emailAddress,
+        email: employeeRestRequest.emailAddress,
         subject: "",
         text: "",
       };
@@ -213,11 +213,11 @@ const EmployeeRestRequestController = {
         res.send("Employee rest request accepted by HR staff successfully");
         emailContent.subject =
           "Rest request accepted for " +
-          employeeRestRequest.employee[0].fullName +
+          employeeRestRequest.fullName +
           " by HR";
         emailContent.text =
           "Dear " +
-          employeeRestRequest.employee[0].fullName +
+          employeeRestRequest.fullName +
           ",\n\nWe are pleased to inform you that your rest request has been accepted by the HR department. It has been approved for further processing. If you have any questions or need assistance, please contact the HR office.\n\nBest regards,\nThe HR Department";
       } else if (status === "reject") {
         employeeRestRequest.status = "rejected_hr";
@@ -227,7 +227,7 @@ const EmployeeRestRequestController = {
         emailContent.subject = "Update on your rest request from HR";
         emailContent.text =
           "Dear " +
-          employeeRestRequest.employee[0].fullName +
+          employeeRestRequest.fullName +
           ",\n\nWe regret to inform you that your rest request has been rejected by the HR department. If you have any concerns or require additional information, please reach out to the HR office for further assistance.\n\nSincerely,\nThe HR Department";
       } else {
         res.status(400).send("Invalid action");
@@ -247,11 +247,35 @@ const EmployeeRestRequestController = {
           success: true,
           message:
             "Employee rest request status updated successfully. Email sent.",
+          data: employeeRestRequest,
         });
       });
     } catch (error) {
       console.error(error);
       res.status(500).send("Internal server error");
+    }
+  },
+
+  // Retrieve all approved rest requests for HR staff
+  getApprovedRestRequests: async (req, res) => {
+    try {
+      const authenticatedUserRole = req.user.role;
+      // Check if the authenticated user has the HR staff role
+      if (authenticatedUserRole !== "hr_staff") {
+        return res.status(403).send("You are not authorized");
+      }
+
+      const approvedRestRequests = await EmployeeRestRequest.find({
+        status: "approved",
+      });
+
+      res.json({
+        success: true,
+        data: approvedRestRequests,
+      });
+    } catch (error) {
+      console.error(error);
+      throw new Error("Unable to retrieve approved rest requests");
     }
   },
 };

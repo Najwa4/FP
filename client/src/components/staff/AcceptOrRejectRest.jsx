@@ -1,15 +1,15 @@
 import React from "react";
 import { Card, CardContent, Typography, Button } from "@mui/material";
 
-const QuitjobCard = ({ quitJobRequests, onAccept, onReject }) => {
+const RestCard = ({ RestRequests, onAccept, onReject }) => {
   return (
     <>
-      {quitJobRequests.length === 0 ? (
+      {RestRequests.length === 0 ? (
         <Typography
           variant="h6"
           style={{ fontWeight: "bold", marginBottom: "1rem" }}
         >
-          No quit job requests available.
+          No rest request available.
         </Typography>
       ) : (
         <Card
@@ -33,33 +33,40 @@ const QuitjobCard = ({ quitJobRequests, onAccept, onReject }) => {
                 fontSize: "1.8rem",
               }}
             >
-                {/* Leve job request with id :
-              {quitJobRequests._id} */}
+              {RestRequests.reason}
             </div>
             <Typography variant="body1" sx={{ marginBottom: "1.8%" }}>
               {" "}
-              <strong style={{ fontSize: "1.2rem" }}>Reason for Quitting:</strong>
-              <br /> {quitJobRequests.reason}
+              <strong style={{ fontSize: "1.2rem" }}>Employee ID:</strong>
+              <br /> {RestRequests.employeeId}
             </Typography>
             <Typography variant="body1" sx={{ marginBottom: "1.8%" }}>
               {" "}
-              <strong style={{ fontSize: "1.2rem" }}>Employee Name:</strong>
-              <br /> {quitJobRequests.fullName}
+              <strong style={{ fontSize: "1.2rem" }}>Full Name:</strong>
+              <br /> {RestRequests.fullName}
             </Typography>
             <Typography variant="body1" sx={{ marginBottom: "1.8%" }}>
               {" "}
-              <strong style={{ fontSize: "1.2rem" }}>Department:</strong>
-              <br /> {quitJobRequests.department}
+              <strong style={{ fontSize: "1.2rem" }}>College:</strong>{" "}
+              {RestRequests.college}
+              {
+                "\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0"
+              }
+              <strong style={{ fontSize: "1.2rem" }}>Department:</strong>{" "}
+              {RestRequests.department}
+            </Typography>
+            <Typography variant="body1" sx={{ marginBottom: "1.8%" }}>
+              {" "}
+              <strong style={{ fontSize: "1.2rem" }}>Start Date:</strong>
+              {RestRequests.startDate}
+              {"\u00A0\u00A0\u00A0\u00A0"}
+              <strong style={{ fontSize: "1.2rem" }}>End Date:</strong>
+              {RestRequests.endDate}
             </Typography>
             <Typography variant="body2" sx={{ marginBottom: "0%" }}>
               {" "}
-              <strong style={{ fontSize: "1.2rem" }}>Feedback:</strong>
-              <br /> {quitJobRequests.feedback}
-            </Typography>
-            <Typography variant="body2" sx={{ marginBottom: "0%" }}>
-              {" "}
-              <strong style={{ fontSize: "1.2rem" }}>Status:</strong>
-              <br /> {quitJobRequests.status}
+              <strong style={{ fontSize: "1.2rem" }}>Created At:</strong>
+              <br /> {RestRequests.createdAt}
             </Typography>
           </CardContent>
           <div
@@ -102,4 +109,4 @@ const QuitjobCard = ({ quitJobRequests, onAccept, onReject }) => {
   );
 };
 
-export default QuitjobCard;
+export default RestCard;

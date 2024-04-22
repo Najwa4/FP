@@ -48,7 +48,7 @@ const ManagerAnnouncePage = () => {
     <div>
       <Sidebar />
       <div className="announcement-container">
-        {quitJobRequests.map((singleQuitJobRequests, index) => (
+        {quitJobRequests.map((singleQuitJobRequests) => (
           <QuitjobCard
             key={singleQuitJobRequests._id}
             quitJobRequests={singleQuitJobRequests}
