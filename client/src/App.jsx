@@ -15,6 +15,7 @@ import FindEmppage from "./pages/manager/FindEmppage";
 import QuitjobPage from "./pages/manager/QuitjobPage";
 import AcceptOrRejectRestPage from "./pages/staff/AcceptOrRejectRestPage";
 import ApprovedRestPage from "./pages/staff/ApprovedRestPage";
+import RegistrationForm from "./components/RegistrationForm";
 
 function App() {
   return (
@@ -40,6 +41,8 @@ function App() {
         {/* Routes for HR staff */}
         <Route path="/ManagerRest" element={<AcceptOrRejectRestPage />} />
         <Route path="/Approved" element={<ApprovedRestPage />} />
+        <Route path="/RegistrationForm" element={<RegistrationForm />} />
+
       </Routes>
     </BrowserRouter>
   );
