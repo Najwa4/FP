@@ -7,7 +7,12 @@ const {
   validate,
 } = require("../middlewares/validation");
 
-router.get("/", protect, applicantController.findApplicants);
+router.get("/find", protect, applicantController.findAllApplicants);
+router.get(
+  "/findApp/:searchQuery",
+  protect,
+  applicantController.findApplicants
+);
 router.post(
   "/:announcementId",
   //   resetPasswordValidation,
