@@ -4,6 +4,8 @@ import { useNavigate } from "react-router-dom";
 import "../styles/Announcementpage.css";
 import { toast } from "react-toastify";
 import { getRequest } from "../services/api";
+import Header from "../components/Header";
+import Footer from "../components/Footer";
 
 const AnnouncementPage = () => {
   const navigate = useNavigate();
@@ -34,6 +36,7 @@ const AnnouncementPage = () => {
 
   return (
     <div>
+      <Header />
       <div className="announcement-container">
         {announcements.map((singleAnnouncement, index) => (
           <AnnouncementCard
@@ -43,6 +46,7 @@ const AnnouncementPage = () => {
           />
         ))}
       </div>
+      <Footer />
     </div>
   );
 };

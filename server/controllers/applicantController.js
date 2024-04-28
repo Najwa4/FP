@@ -21,7 +21,6 @@ const addApplicant = async (req, res) => {
       fullName,
       gender,
       dateOfBirth,
-      citizenship,
       address,
       emailAddress,
       phoneNumber,
@@ -36,7 +35,6 @@ const addApplicant = async (req, res) => {
       fullName,
       gender,
       dateOfBirth,
-      citizenship,
       address,
       emailAddress,
       phoneNumber,
@@ -69,10 +67,10 @@ const addApplicant = async (req, res) => {
 // Find applicants by full name, email, or phone number
 const findApplicants = async (req, res) => {
   try {
-    const { fullName, emailAddress, phoneNumber } = req.body;
+    const { searchQuery } = req.params;
 
     // Check if the user making the request is an HR staff or HR manager
-    if (req.user.role !== "hr_staff" && req.user.role !== "hr_manager") {
+    if (req.user.role !== "hr_staff") {
       return res.status(403).json({
         success: false,
         message:
@@ -87,9 +85,12 @@ const findApplicants = async (req, res) => {
     };
 
     // Push matching fields to the query object
-    if (fullName) query.$or.push({ fullName: fullName });
-    if (emailAddress) query.$or.push({ emailAddress: emailAddress });
-    if (phoneNumber) query.$or.push({ phoneNumber: phoneNumber });
+    query.$or.push(
+      { fullName: searchQuery },
+      { emailAddress: searchQuery },
+      { phoneNumber: searchQuery },
+      { _id: searchQuery }
+    );
 
     // Find applicants with the role of "applicant" and matching fullName, emailAddress, or phoneNumber
     const applicants = await Applicant.find(query);
@@ -99,7 +100,7 @@ const findApplicants = async (req, res) => {
     }
 
     // Return the matching applicants
-    return res.status(200).json({ applicants });
+    return res.status(200).json({ success: true, data: applicants });
   } catch (error) {
     return res
       .status(500)
@@ -134,9 +135,9 @@ const updateApplicantStatus = async (req, res) => {
     }
 
     // Find the applicant within the announcement using the provided applicant ID
-    const applicantId = req.params.id;
+    const _id = req.params.id;
 
-    const applicant = await Applicant.findById(applicantId);
+    const applicant = await Applicant.findById(_id);
 
     if (!applicant) {
       return res.status(404).json({
@@ -149,40 +150,57 @@ const updateApplicantStatus = async (req, res) => {
     applicant.Applicant_status = Applicant_status;
     const updatedApplicant = await applicant.save();
 
-    // Send an email notification to the applicant
-    const emailContent = {
-      email: applicant.emailAddress,
-      subject: "",
-      text: "",
-    };
-
     if (Applicant_status === "accepted") {
-      emailContent.subject =
-        "Congratulations! You have been accepted for the job!";
-      emailContent.text = `This is to inform you that your application has been accepted. Your test is scheduled for ${announcement.testDay}. Please come in person and contact us for further details.`;
-    } else if (Applicant_status === "rejected") {
-      emailContent.subject = "Update on your job application";
-      emailContent.text =
-        "We regret to inform you that your application has been rejected. Thank you for your interest.";
-    }
+      // Send an email notification to the applicant
+      const emailContent = {
+        email: applicant.emailAddress,
+        subject: "Congratulations! You have been accepted for the job!",
+        text: `This is to inform you that your application has been accepted. Your test is scheduled for ${announcement.testDay}. Please come in person and contact us for further details.`,
+      };
 
-    sendEmail(emailContent, (error) => {
-      if (error) {
-        // If an error occurs while sending the email, return a 500 Internal Server Error response
-        return res.status(500).json({
-          success: false,
-          message: "An error occurred while sending the email",
-          error: error.message,
-        });
-      }
-
+      sendEmail(emailContent, (error) => {
+        if (error) {
+          // If an error occurs while sending the email, return a 500 Internal Server Error response
+          return res.status(500).json({
+            success: false,
+            message: "An error occurred while sending the email",
+            error: error.message,
+          });
+        }
+      });
       // Send a successful response with the updated applicant data and success message
       res.status(200).json({
         success: true,
         message: "Applicant status updated successfully. Email sent.",
         data: updatedApplicant,
       });
-    });
+    } else if (Applicant_status === "rejected") {
+      // Send an email notification to the applicant
+      const emailContent = {
+        email: applicant.emailAddress,
+        subject: "Update on your job application",
+        text: `We regret to inform you that your application has been rejected. Thank you for your interest.`,
+      };
+      sendEmail(emailContent, (error) => {
+        if (error) {
+          // If an error occurs while sending the email, return a 500 Internal Server Error response
+          return res.status(500).json({
+            success: false,
+            message: "An error occurred while sending the email",
+            error: error.message,
+          });
+        }
+      });
+      // Send a successful response with the updated applicant data and success message
+      res.status(200).json({
+        success: true,
+        message: "Applicant status updated successfully. Email sent.",
+        data: updatedApplicant,
+      });
+    } else {
+      // Send a response with the updated quit job data
+      res.json(updatedApplicant);
+    }
   } catch (error) {
     console.log(error);
     res.status(500).json({
@@ -193,8 +211,42 @@ const updateApplicantStatus = async (req, res) => {
   }
 };
 
+// Controller function to find all users with the "applicant" role
+const findAllApplicants = async (req, res) => {
+  try {
+    // Check if the user making the request is authorized
+    if (req.user.role !== "hr_staff") {
+      return res.status(403).json({
+        success: false,
+        message:
+          "Access denied. Only HR staff and HR managers can access this resource.",
+      });
+    }
+
+    // Find all users with the role of "applicant"
+    const applicants = await Applicant.find({ role: "applicant" });
+
+    if (applicants.length === 0) {
+      return res
+        .status(404)
+        .json({ success: false, message: "No applicants found" });
+    }
+
+    // Return the list of applicants
+    return res.status(200).json({ success: true, data: applicants });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({
+      success: false,
+      message: "An error occurred while retrieving applicants",
+      error: error.message,
+    });
+  }
+};
+
 module.exports = {
   addApplicant,
   findApplicants,
   updateApplicantStatus,
+  findAllApplicants,
 };

@@ -32,20 +32,14 @@ const Sidebar = () => {
           to="/Approved"
           icon={<BiMoney />}
         />
-
         <SectionLink
-          name="Posted Announcement"
-          to="/manager-posted"
+          name="Employee"
+          to="/find-employee"
           icon={<GrStatusGood />}
         />
         <SectionLink
-          name="Reject"
-          to="/manager-reject"
-          icon={<AiFillMinusCircle />}
-        />
-        <SectionLink
-          name="Employee"
-          to="/find-emppage"
+          name="Applicant"
+          to="/find-applicant"
           icon={<AiFillMinusCircle />}
         />
         <SectionLink name="logout" to="/login" icon={<BiLogOutCircle />} />
