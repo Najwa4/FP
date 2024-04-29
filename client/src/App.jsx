@@ -17,6 +17,8 @@ import AcceptOrRejectRestPage from "./pages/staff/AcceptOrRejectRestPage";
 import ApprovedRestPage from "./pages/staff/ApprovedRestPage";
 import FindEmpPageStaff from "./pages/staff/FindEmpPageStaff";
 import FindAppPage from "./pages/staff/FindAppPage";
+import AddCollegePage from "./pages/staff/AddCollegePage";
+import AddDepartmentPage from "./pages/staff/AddDepartmentPage";
 
 function App() {
   return (
@@ -44,6 +46,8 @@ function App() {
         <Route path="/Approved" element={<ApprovedRestPage />} />
         <Route path="/find-employee" element={<FindEmpPageStaff />} />
         <Route path="/find-applicant" element={<FindAppPage />} />
+        <Route path="/AddColl" element={<AddCollegePage />} />
+        <Route path="/AddDep" element={<AddDepartmentPage />} />
       </Routes>
     </BrowserRouter>
   );
