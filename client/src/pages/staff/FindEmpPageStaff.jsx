@@ -3,6 +3,7 @@ import { getRequest } from "../../services/api";
 import EmpTable from "../../components/manager/EmpTable";
 import Search from "../../components/manager/Search";
 import Sidebar from "../../components/staff/Sidebar";
+import "../../styles/Table.css";
 
 const FindEmployeePage = () => {
   const [user, setUser] = useState([]);
@@ -45,10 +46,12 @@ const FindEmployeePage = () => {
 
   return (
     <div>
-      <h1>Find Employee</h1>
       <Sidebar />
-      <Search onSearch={handleSearch} />
-      <EmpTable data={user} />
+      <div className="page">
+        <h1>Find Employee</h1>
+        <Search onSearch={handleSearch} />
+        <EmpTable data={user} />
+      </div>
     </div>
   );
 };

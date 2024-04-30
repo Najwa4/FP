@@ -27,11 +27,7 @@ const Sidebar = () => {
           to="/ManagerRest"
           icon={<MdOutlineAssessment />}
         />
-        <SectionLink
-          name="Approved Rest Request"
-          to="/Approved"
-          icon={<BiMoney />}
-        />
+        <SectionLink name="Approved Rests" to="/Approved" icon={<BiMoney />} />
         <SectionLink
           name="Employee"
           to="/find-employee"
@@ -40,6 +36,21 @@ const Sidebar = () => {
         <SectionLink
           name="Applicant"
           to="/find-applicant"
+          icon={<AiFillMinusCircle />}
+        />
+        <SectionLink
+          name="New College"
+          to="/AddColl"
+          icon={<AiFillMinusCircle />}
+        />
+        <SectionLink
+          name="New Department"
+          to="/AddDep"
+          icon={<AiFillMinusCircle />}
+        />
+        <SectionLink
+          name="Update Test Day"
+          to="/Test"
           icon={<AiFillMinusCircle />}
         />
         <SectionLink name="logout" to="/login" icon={<BiLogOutCircle />} />

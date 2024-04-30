@@ -125,28 +125,24 @@ const getRejectedAnnouncements = async (req, res) => {
 // Find announcement
 const findAnnouncement = async (req, res) => {
   try {
-    const { department, position } = req.body;
+    const announcementId = req.params.announcementId;
 
-    if (!department && !position) {
-      return res.status(400).json({ error: "No search criteria provided" });
+    // Check if announcementId is provided
+    if (!announcementId) {
+      return res.status(400).json({ error: "No announcement ID provided" });
     }
 
-    let query = {};
-
-    if (department) {
-      query.department = department;
-    }
-    if (position) {
-      query.position = position;
-    }
-
-    const announcement = await Announcement.findOne(query);
+    // Find the announcement by ID
+    const announcement = await Announcement.findById(announcementId);
 
     if (!announcement) {
       return res.status(404).json({ error: "Announcement not found" });
     }
 
-    res.json(announcement);
+    res.json({
+      success: true,
+      data: announcement,
+    });
   } catch (error) {
     res.status(500).json({ error: "Internal Server Error" });
   }

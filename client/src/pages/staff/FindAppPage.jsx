@@ -4,6 +4,7 @@ import AppTable from "../../components/staff/AppTable";
 import Search from "../../components/staff/Search";
 import Sidebar from "../../components/staff/Sidebar";
 import { toast } from "react-toastify";
+import "../../styles/Table.css";
 
 const FindAppPage = () => {
   const [applicant, setApplicant] = useState([]);
@@ -73,22 +74,24 @@ const FindAppPage = () => {
 
   return (
     <div>
-      <h1>Find Applicant</h1>
       <Sidebar />
-      <Search onSearch={handleSearch} />
-      {applicant.length > 0 ? (
-        <AppTable
-          data={applicant}
-          onAccept={(announcementId, _id) =>
-            handleApply(announcementId, _id, "accepted")
-          }
-          onReject={(announcementId, _id) =>
-            handleApply(announcementId, _id, "rejected")
-          }
-        />
-      ) : (
-        <p>No applicants found</p>
-      )}
+      <div className="page">
+        <h1>Find Applicant</h1>
+        <Search onSearch={handleSearch} />
+        {applicant.length > 0 ? (
+          <AppTable
+            data={applicant}
+            onAccept={(announcementId, _id) =>
+              handleApply(announcementId, _id, "accepted")
+            }
+            onReject={(announcementId, _id) =>
+              handleApply(announcementId, _id, "rejected")
+            }
+          />
+        ) : (
+          <p>No applicants found</p>
+        )}
+      </div>
     </div>
   );
 };
