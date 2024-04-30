@@ -1,49 +1,62 @@
 import React, { useState, useRef } from 'react';
-import { TextField, Button, IconButton, MenuItem } from '@mui/material';
+import { TextField, Button, Grid, MenuItem } from '@mui/material';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
 import '../styles/RegistrationForm.css';
 
-const RegistrationForm = () => {
+const PersonalInformationPage = () => {
   const [formData, setFormData] = useState({
     firstName: '',
     middleName: '',
     lastName: '',
     email: '',
     phoneNumber: '',
-    region: '',
-    woreda: '',
-    zone: '',
-    kebele: '',
-    gender: '',
     dateOfBirth: null,
+    gender: '',
     maritalStatus: '',
+    address: '',
+    city: '',
+    state: '',
+    zipCode: '',
+    referencesPhone: '',
+    fieldOfStudy: '', 
+    password: '',
+    confirmPassword: '',
     file: null,
+    graduationDate: null,
+    skill: '',
+    universty: '',
   });
 
-  const [selectedDate, setSelectedDate] = useState(null);
   const [showDatePicker, setShowDatePicker] = useState(false);
+  const [showGraduationDatePicker, setShowGraduationDatePicker] = useState(false); // New state for graduation date picker
   const fileInputRef = useRef(null);
 
   const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    setFormData({...formData, [e.target.name]: e.target.value });
   };
 
   const handleFileChange = (e) => {
     const file = e.target.files[0];
-    setFormData({ ...formData, file });
+    setFormData({...formData, file });
   };
 
   const handleDateChange = (date) => {
-    setSelectedDate(date);
-    setFormData({ ...formData, dateOfBirth: date });
+    setFormData({...formData, dateOfBirth: date });
+  };
+
+  const handleGraduationDateChange = (date) => {
+    setFormData({...formData, graduationDate: date }); // Update graduationDate in formData
   };
 
   const handleCalendarClick = () => {
-    setShowDatePicker(!showDatePicker);
-   };
-   
+    setShowDatePicker(true);
+  };
+
+  const handleGraduationCalendarClick = () => {
+    setShowGraduationDatePicker(true); // Toggle graduation date picker visibility
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -53,174 +66,273 @@ const RegistrationForm = () => {
 
   return (
     <form onSubmit={handleSubmit} className="registration-form">
-      <div className="form-section">
-        <TextField
-          label="First Name/ሙሉ ስም"
-          name="firstName"
-          value={formData.firstName}
-          onChange={handleChange}
-          required
-          fullWidth
-          margin="dense"
-          className="form-field"
-        />
-        <TextField
-          label="Middle Name/የአባት ስም"
-          name="middleName"
-          value={formData.middleName}
-          onChange={handleChange}
-          fullWidth
-          margin="dense"
-          className="form-field"
-        />
-        <TextField
-          label="Last Name/የአያት ስም"
-          name="lastName"
-          value={formData.lastName}
-          onChange={handleChange}
-          required
-          fullWidth
-          margin="dense"
-          className="form-field"
+     <Grid container spacing={3}>
+  <Grid item xs={12} sm={4}>
+    <TextField
+      label="First Name"
+      name="firstName"
+      value={formData.firstName}
+      onChange={handleChange}
+      required
+      fullWidth
+      margin="normal"
+      className="form-field"
+    />
+  </Grid>
+  <Grid item xs={12} sm={4}>
+    <TextField
+      label="Middle Name"
+      name="middleName"
+      value={formData.middleName}
+      onChange={handleChange}
+      required
+      fullWidth
+      margin="normal"
+      className="form-field"
+    />
+  </Grid>
+  <Grid item xs={12} sm={4}>
+    <TextField
+      label="Last Name"
+      name="lastName"
+      value={formData.lastName}
+      onChange={handleChange}
+      required
+      fullWidth
+      margin="normal"
+      className="form-field"
+    />
+  </Grid>
+  <Grid item xs={12} sm={4}>
+    <TextField
+      label="phone Number"
+      name="phoneNumber"
+      value={formData.graduationDate}
+      onChange={handleChange}
+      required
+      fullWidth
+      margin="normal"
+      className="form-field"
+    />
+  </Grid>
+  <Grid item xs={12} sm={4}>
+    <TextField
+      label="Email"
+      name="email"
+      type="email"
+      value={formData.email}
+      onChange={handleChange}
+      required
+      fullWidth
+      margin="normal"
+      className="form-field"
+    />
+  </Grid>
+  <Grid item xs={12} sm={4}>
+    <TextField
+      label="references Phone"
+      name="referencesPhone"
+      value={formData.phoneNumber}
+      onChange={handleChange}
+      required
+      fullWidth
+      margin="normal"
+      className="form-field"
+    />
+  </Grid>
+  <Grid item xs={12} sm={6}>
+    <TextField
+      label="Date of Birth"
+      value={formData.dateOfBirth? formData.dateOfBirth.toDateString() : ''}
+      onClick={handleCalendarClick}
+      InputProps={{
+        readOnly: true,
+        endAdornment: (
+          <Button onClick={handleCalendarClick}>
+            <CalendarTodayIcon />
+          </Button>
+        ),
+      }}
+      className="form-field"
+    />
+    {showDatePicker && (
+      <div className="date-picker-container">
+        <DatePicker
+          selected={formData.dateOfBirth}
+          onChange={handleDateChange}
+          className="date-picker"
+          dateFormat="yyyy/MM/dd"
+          showYearDropdown
+          scrollableYearDropdown
         />
       </div>
-      <div className="form-section">
-        <TextField
-          label="Gender/ጾታ"
-          name="gender"
-          value={formData.gender}
-          onChange={handleChange}
-          required
-          fullWidth
-          margin="normal"
-          className="form-field"
-          select
-        >
-          <MenuItem value="" disabled>
-            Select Gender
-          </MenuItem>
-          <MenuItem value="F">F</MenuItem>
-          <MenuItem value="M">M</MenuItem>
-        </TextField>
+    )}
+  </Grid>
+  <Grid item xs={12} sm={6}>
+  <TextField
+    label="Graduation Date"
+    name="graduationDate"
+    value={formData.graduationDate? formData.graduationDate.toDateString() : ''}
+    onClick={handleGraduationCalendarClick}
+    InputProps={{
+      readOnly: true,
+      endAdornment: (
+        <Button onClick={handleGraduationCalendarClick}>
+          <CalendarTodayIcon />
+        </Button>
+      ),
+    }}
+    className="form-field"
+  />
+  {showGraduationDatePicker && (
+    <div className="date-picker-container">
+      <DatePicker
+        selected={formData.graduationDate}
+        onChange={handleGraduationDateChange}
+        className="date-picker"
+        dateFormat="yyyy/MM/dd"
+        showYearDropdown
+        scrollableYearDropdown
+      />
+    </div>
+  )}
+</Grid>
 
-        <TextField
- label="Date of Birth/የልደት ቀን"
- value={selectedDate ? selectedDate.toDateString() : ''}
- InputProps={{
-    readOnly: true,
-    endAdornment: (
-      <IconButton onClick={handleCalendarClick} className="date-picker-icon">
-        <CalendarTodayIcon />
-      </IconButton>
-    ),
- }}
- className="form-field date-picker"
-/>
+  <Grid item xs={12} sm={6}>
+    <TextField
+      label="Gender"
+      name="gender"
+      value={formData.gender}
+      onChange={handleChange}
+      required
+      fullWidth
+      margin="normal"
+      className="form-field"
+      select
+    >
+      <MenuItem value="">Select Gender</MenuItem>
+      <MenuItem value="male">Male</MenuItem>
+      <MenuItem value="female">Female</MenuItem>
+      <MenuItem value="other">Other</MenuItem>
+    </TextField>
+  </Grid>
+  <Grid item xs={12} sm={6}>
+    <TextField
+      label="Marital Status"
+      name="maritalStatus"
+      value={formData.maritalStatus}
+      onChange={handleChange}
+      required
+      fullWidth
+      margin="normal"
+      className="form-field"
+      select
+    >
+      <MenuItem value="">Select Marital Status</MenuItem>
+      <MenuItem value="single">Single</MenuItem>
+      <MenuItem value="married">Married</MenuItem>
+      <MenuItem value="divorced">Divorced</MenuItem>
+      <MenuItem value="widowed">Widowed</MenuItem>
+    </TextField>
+  </Grid>
+  <Grid item xs={12} sm={4}>
+    <TextField
+      label="Field of Study"
+      name="fieldOfStudy"
+      value={formData.fieldOfStudy}
+      onChange={handleChange}
+      required
+      fullWidth
+      margin="normal"
+      className="form-field"
+    />
+  </Grid>
+  <Grid item xs={12} sm={4}>
+    <TextField
+      label="University"
+      name="university"
+      value={formData.address}
+      onChange={handleChange}
+      required
+      fullWidth
+      margin="normal"
+      className="form-field"
+    />
+  </Grid>
+  <Grid item xs={12} sm={4}>
+    <TextField
+      label="Address"
+      name="address"
+      value={formData.city}
+      onChange={handleChange}
+      required
+      fullWidth
+      margin="normal"
+      className="form-field"
+    />
+  </Grid>
+  <Grid item xs={12} sm={4}>
+    <TextField
+      label="City"
+      name="city"
+      value={formData.state}
+      onChange={handleChange}
+      required
+      fullWidth
+      margin="normal"
+      className="form-field"
+    />
+  </Grid>
+  <Grid item xs={12} sm={4}>
+    <TextField
+      label="State"
+      name="state"
+      value={formData.zipCode}
+      onChange={handleChange}
+      required
+      fullWidth
+      margin="normal"
+      className="form-field"
+    />
+  </Grid>
+  <Grid item xs={12} sm={4}>
+    <TextField
+      label="skills"
+      name="skill"
+      value={formData.zipCode}
+      onChange={handleChange}
+      required
+      fullWidth
+      margin="normal"
+      className="form-field"
+    />
+  </Grid>
+</Grid>
 
-{showDatePicker && (
- <DatePicker
-    selected={selectedDate}
-    onChange={handleDateChange}
-    onBlur={() => setShowDatePicker(false)}
-    className="date-picker"
- />
-)}
 
-       
-        
-        <TextField
-          label="Marital Status"
-          name="maritalStatus"
-          value={formData.maritalStatus}
-          onChange={handleChange}
-          required
-          fullWidth
-          margin="normal"
-          className="form-field"
-          select
-        >
-          <MenuItem value="" disabled>
-            Select Marital Status
-          </MenuItem>
-          <MenuItem value="Single">Single</MenuItem>
-          <MenuItem value="Married">Married</MenuItem>
-          <MenuItem value="Divorced">Divorced</MenuItem>
-          <MenuItem value="Widowed">Widowed</MenuItem>
-        </TextField>
-      </div>
-      <div className="form-section">
-        <TextField
-          label="Email/ኢሜል"
-          name="email"
-          value={formData.email}
-          onChange={handleChange}
-          required
-          fullWidth
-          margin="normal"
-          className="form-field"
-        />
-        <TextField
-          label="Phone Number/የስልክ ቁጥር"
-          name="phoneNumber"
-          value={formData.phoneNumber}
-          onChange={handleChange}
-          required
-          fullWidth
-          margin="normal"
-          className="form-field"
-        />
-      </div>
-      <div className="form-section">
-        <TextField
-          label="Region/ክልል"
-          name="region"
-          value={formData.region}
-          onChange={handleChange}
-          required
-          margin="normal"
-          className="form-field"
-        />
-        <TextField
-          label="Woreda/ወረዳ"
-          name="woreda"
-          value={formData.woreda}
-          onChange={handleChange}
-          required
-          margin="normal"
-          className="form-field"
-        />
-        <TextField
-          label="Zone/ዞን"
-          name="zone"
-          value={formData.zone}
-          onChange={handleChange}
-          required
-          margin="normal"
-          className="form-field"
-        />
-        <TextField
-          label="Kebele/ቀበሌ"
-          name="kebele"
-          value={formData.kebele}
-          onChange={handleChange}
-          required
-          margin="normal"
-          className="form-field"
-        />
-      </div>
       <div className="file-upload-container">
-        <Button variant="contained" component="label" className="file-upload-button">
+        <Button
+          variant="contained"
+          component="label"
+          className="file-upload-button"
+          onClick={() => fileInputRef.current.click()}
+        >
           Upload File
-          <input type="file" hidden onChange={handleFileChange} ref={fileInputRef} />
+          <input
+            type="file"
+            hidden
+            onChange={handleFileChange}
+            ref={fileInputRef}
+          />
         </Button>
       </div>
       <div className="form-actions">
         <Button variant="contained" color="primary" type="submit" className="submit-button">
-          Register
+          Save Changes
         </Button>
       </div>
     </form>
   );
 };
 
-export default RegistrationForm;
+export default PersonalInformationPage;
