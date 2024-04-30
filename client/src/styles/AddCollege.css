@@ -1,0 +1,44 @@
+.form-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh; /* 100% of the viewport height */
+  background-color: #eafaf1; /* Light gray background color */
+}
+
+.form {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.my-form {
+  width: 40%; /* 50% of the container width */
+  height: 20%;
+  padding: 20px; /* Add padding for spacing */
+  border-radius: 8px; /* Add border radius for rounded corners */
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); /* Add shadow effect */
+  background-color: #f7f9f9;
+}
+
+.my-form input {
+  width: 100%;
+  margin-bottom: 10px; /* Add margin between inputs */
+  padding: 8px; /* Add padding for input elements */
+  border: 1px solid #ccc; /* Add border for input elements */
+  border-radius: 4px; /* Add border radius for input elements */
+}
+
+.my-form button {
+  width: 100%;
+  padding: 10px;
+  background-color: #1e8449; /* Blue button color */
+  color: #fff; /* Text color for button */
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.my-form button:hover {
+  background-color: #13522e; /* Darker blue color on hover */
+}

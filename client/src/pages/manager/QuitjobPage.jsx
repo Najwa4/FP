@@ -47,7 +47,10 @@ const ManagerAnnouncePage = () => {
   return (
     <div>
       <Sidebar />
-      <div className="announcement-container">
+      <div
+        className="announcement-container"
+        style={{ marginTop: "3.2%", marginLeft: "30%" }}
+      >
         {quitJobRequests.map((singleQuitJobRequests) => (
           <QuitjobCard
             key={singleQuitJobRequests._id}

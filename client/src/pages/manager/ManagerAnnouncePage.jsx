@@ -43,7 +43,10 @@ const ManagerAnnouncePage = () => {
   return (
     <div>
       <Sidebar />
-      <div className="announcement-container">
+      <div
+        className="announcement-container"
+        style={{ marginTop: "3.2%", marginLeft: "30%" }}
+      >
         {announcements.map((singleAnnouncement, index) => (
           <AnnouncementCard
             key={singleAnnouncement._id}

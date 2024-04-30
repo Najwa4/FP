@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { postRequest } from "../../services/api";
 import { toast } from "react-toastify";
+import "../../styles/AddCollege.css";
 
 const MyForm = () => {
   const [collegeName, setCollegeName] = useState("");
@@ -35,31 +36,49 @@ const MyForm = () => {
   };
 
   return (
-    <form onSubmit={handleCreateCollege}>
-      <div>
-        <label htmlFor="name">Name:</label>
-        <input
-          type="text"
-          id="name"
-          name="name"
-          value={collegeName}
-          onChange={(event) => setCollegeName(event.target.value.trim())}
-          required
-        />
-      </div>
-      <div>
-        <label htmlFor="collegeDeanID">College Dean ID:</label>
-        <input
-          type="text"
-          id="collegeDeanID"
-          name="collegeDeanID"
-          value={collegeDeanID}
-          onChange={(event) => setCollegeDeanID(event.target.value.trim())}
-          required
-        />
-      </div>
-      <button type="submit">Submit</button>
-    </form>
+    <div className="form-container">
+      <form onSubmit={handleCreateCollege} className="my-form">
+        {" "}
+        <div className="form">
+          <label htmlFor="name" style={{ paddingRight: "95px" }}>
+            Name:
+          </label>
+          <input
+            type="text"
+            id="name"
+            name="name"
+            value={collegeName}
+            onChange={(event) => setCollegeName(event.target.value.trim())}
+            required
+            style={{ width: "50%" }}
+          />
+        </div>
+        <div className="form">
+          <label htmlFor="collegeDeanID" style={{ paddingRight: "22px" }}>
+            College Dean ID:
+          </label>
+          <input
+            type="text"
+            id="collegeDeanID"
+            name="collegeDeanID"
+            value={collegeDeanID}
+            onChange={(event) => setCollegeDeanID(event.target.value.trim())}
+            required
+            style={{ width: "50%" }}
+          />
+        </div>
+        <button
+          type="submit"
+          // style={{
+          //   width: "50%",
+          //   justifyContent: "center",
+          //   alignItems: "center",
+          // }}
+        >
+          Submit
+        </button>
+      </form>
+    </div>
   );
 };
 

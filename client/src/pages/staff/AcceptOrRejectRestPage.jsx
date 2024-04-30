@@ -43,7 +43,10 @@ const AcceptOrRejectRestPage = () => {
   return (
     <div>
       <Sidebar />
-      <div className="announcement-container">
+      <div
+        className="announcement-container"
+        style={{ marginTop: "3.2%", marginLeft: "30%" }}
+      >
         {RestRequests.map((singleRestRequests) => (
           <RestCard
             key={singleRestRequests._id}

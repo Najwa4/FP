@@ -28,7 +28,7 @@ router.post(
 router.get("/stateless", protect, getStatelessAnnouncements);
 router.get("/accepted", getAcceptedAnnouncements);
 router.get("/rejected", protect, getRejectedAnnouncements);
-router.get("/find", protect, findAnnouncement);
+router.get("/find/:announcementId", protect, findAnnouncement);
 router.put("/update-announcement/:announcementId", protect, updateAnnouncement);
 router.put("/Test-Day/:announcementId", protect, updateTestDay);
 router.put("/accept-reject/:announcementId", protect, acceptRejectAnnouncement);

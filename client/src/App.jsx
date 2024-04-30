@@ -19,6 +19,7 @@ import FindEmpPageStaff from "./pages/staff/FindEmpPageStaff";
 import FindAppPage from "./pages/staff/FindAppPage";
 import AddCollegePage from "./pages/staff/AddCollegePage";
 import AddDepartmentPage from "./pages/staff/AddDepartmentPage";
+import UpdateTestDayPage from "./pages/staff/UpdateTestDayPage";
 
 function App() {
   return (
@@ -48,6 +49,7 @@ function App() {
         <Route path="/find-applicant" element={<FindAppPage />} />
         <Route path="/AddColl" element={<AddCollegePage />} />
         <Route path="/AddDep" element={<AddDepartmentPage />} />
+        <Route path="/Test" element={<UpdateTestDayPage />} />
       </Routes>
     </BrowserRouter>
   );

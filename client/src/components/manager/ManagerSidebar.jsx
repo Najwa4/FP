@@ -33,7 +33,7 @@ const Sidebar = () => {
           icon={<BiMoney />}
         />
         <SectionLink
-          name="Posted Announcement"
+          name="Posted Announce"
           to="/manager-posted"
           icon={<GrStatusGood />}
         />
