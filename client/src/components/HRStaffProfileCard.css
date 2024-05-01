@@ -1,0 +1,74 @@
+.card.personal-info{
+  display: flex;
+  align-items: center;
+  width: 1300px; /* Adjust the width as per your requirement */
+  height: 200px;
+  margin-top: 10px;
+  border: 1px solid black;
+  margin-left: 20px;
+}
+
+.left {
+  display: flex;
+  align-items: center;
+  margin-right: 1rem; /* Adjust the margin as needed */
+}
+
+.details {
+  display: flex;
+  flex-direction: column;
+}
+
+.title {
+  font-size: 1.2rem; /* Adjust the font size as needed */
+  font-weight: bold;
+  margin-bottom: 1rem; /* Adjust the margin as needed */
+}
+
+.detailItem {
+  display: flex;
+  margin-bottom: 0.5rem;
+  margin-left: 30px;
+}
+
+.itemKey {
+  font-weight: bold;
+  margin-right: 0.5rem;
+  
+}
+
+.basic-info-table {
+  margin-top: 40px;
+  border: 1px solid black;
+  width: 50%;
+  margin-left: 20px;
+}
+
+.basic-info-table table {
+  width: 100%;
+  border: 1px solid black;
+}
+
+.basic-info-table td {
+  padding: 8px;
+  border: 1px solid #ddd;
+}
+
+.basic-info-table tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+.basic-info-table td:first-child {
+  font-weight: bold;
+  width: 150px;
+}
+.contact-table {
+  width: 40%;
+  border: 1px solid black;
+  margin-left: 750px;
+  top: -250px;
+  position: relative;
+  
+  
+}
+
