@@ -4,7 +4,7 @@ import RegistrationForm from '../components/RegistrationForm'; // Adjust the imp
 const PersonalInformationpage = () => {
   return (
     <div className='personal-info'>
-      <h1 style={{ fontSize: '28px',textAlign:"center" }}>Personal Information Page</h1>
+      <h1 style={{ fontSize: '28px',textAlign:"center" }}>Applicant Information Page</h1>
       <RegistrationForm />
     </div>
   );

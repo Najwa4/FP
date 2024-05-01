@@ -17,6 +17,9 @@ const userSchema = new mongoose.Schema(
     gender: {
       type: String,
     },
+    maritalStatus: {
+      type: String,
+    },
     dateOfBirth: {
       type: Date,
     },
@@ -57,11 +60,11 @@ const userSchema = new mongoose.Schema(
     university: {
       type: String,
     },
-    fieldOfStudy: {
-      type: String,
-    },
     graduationDate: {
       type: Date,
+    },
+    fieldOfStudy: {
+      type: String,
     },
     previousOrganization: {
       type: String,
@@ -76,9 +79,6 @@ const userSchema = new mongoose.Schema(
       type: String,
     },
     referencesPosition: {
-      type: String,
-    },
-    referencesOrganization: {
       type: String,
     },
     referencesEmail: {
