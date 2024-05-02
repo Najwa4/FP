@@ -1,0 +1,32 @@
+.update-user-form {
+    padding: 2rem;
+    background-color: #f5f5f5;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .form-field {
+    margin-bottom: 1.5rem !important;
+  }
+  
+  .file-upload-container {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 1.5rem;
+  }
+  
+  .file-upload-button {
+    background-color: #4caf50 !important;
+    color: white !important;
+  }
+  
+  .form-actions {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 2rem;
+  }
+  
+  .submit-button {
+    background-color: #1976d2 !important;
+    color: white !important;
+  }
