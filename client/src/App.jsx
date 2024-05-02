@@ -21,6 +21,7 @@ import AddCollegePage from "./pages/staff/AddCollegePage";
 import AddDepartmentPage from "./pages/staff/AddDepartmentPage";
 import UpdateTestDayPage from "./pages/staff/UpdateTestDayPage";
 import HRStaffProfileCard from "./components/HRStaffProfileCard";
+import UpdateUserForm from "./pages/UpdateUserForm";
 
 function App() {
   return (
@@ -53,6 +54,7 @@ function App() {
         <Route path="/Test" element={<UpdateTestDayPage />} />
 
         <Route path="/Prof" element={<HRStaffProfileCard />} />
+        <Route path="/UpdateUserForm" element={<UpdateUserForm />} />
 
       </Routes>
     </BrowserRouter>
