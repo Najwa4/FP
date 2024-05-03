@@ -20,7 +20,9 @@ import FindAppPage from "./pages/staff/FindAppPage";
 import AddCollegePage from "./pages/staff/AddCollegePage";
 import AddDepartmentPage from "./pages/staff/AddDepartmentPage";
 import UpdateTestDayPage from "./pages/staff/UpdateTestDayPage";
-import HRStaffProfileCard from "./components/HRStaffProfileCard";
+import ProfilePage from "./pages/ProfilePage";
+import ReportPage from "./pages/ReportPage";
+import ChangePassPage from "./pages/ChangePassPage";
 
 function App() {
   return (
@@ -52,8 +54,9 @@ function App() {
         <Route path="/AddDep" element={<AddDepartmentPage />} />
         <Route path="/Test" element={<UpdateTestDayPage />} />
 
-        <Route path="/Prof" element={<HRStaffProfileCard />} />
-
+        <Route path="/Profile" element={<ProfilePage />} />
+        <Route path="/Report" element={<ReportPage />} />
+        <Route path="/ChangePass" element={<ChangePassPage />} />
       </Routes>
     </BrowserRouter>
   );
