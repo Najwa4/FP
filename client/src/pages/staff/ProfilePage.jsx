@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from "react";
-import Profile from "../components/HRStaffProfileCard";
+import Profile from "../../components/HRStaffProfileCard";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import { getRequest } from "../services/api";
+import { getRequest } from "../../services/api";
+import Sidebar from "../../components/staff/Sidebar";
+import "../../styles/Table.css";
 
 const ProfilePage = () => {
   const navigate = useNavigate();
@@ -37,7 +39,8 @@ const ProfilePage = () => {
 
   return (
     <div>
-      <div>
+      <Sidebar />
+      <div className="page" style={{ marginTop: "3.2%" }}>
         <Profile
           key={users._id}
           users={users}

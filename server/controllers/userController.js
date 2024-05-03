@@ -96,6 +96,19 @@ async function addUser(req, res) {
 
     const savedUser = await newUser.save();
 
+    // Use the sendEmail function to send the email
+    if (savedUser.emailAddress) {
+      await sendEmail({
+        email: savedUser.emailAddress,
+        subject: "New Account Details",
+        text: `Hello ${savedUser.username}!\n\nYour new account has been successfully created.\n\nUsername: ${savedUser.username}\nPassword: ${password}\n\nPlease change the password as soon as possible for security reasons.`,
+      });
+
+      console.log("Email sent successfully.");
+    } else {
+      console.log("Email address is empty. Email not sent.");
+    }
+
     res.status(201).json({
       success: true,
       message: "User created successfully",
