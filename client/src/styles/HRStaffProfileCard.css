@@ -1,4 +1,4 @@
-.card.personal-info{
+.card.personal-info {
   display: flex;
   align-items: center;
   width: 1300px; /* Adjust the width as per your requirement */
@@ -8,10 +8,11 @@
   margin-left: 20px;
 }
 
-.left {
+.top {
   display: flex;
   align-items: center;
-  margin-right: 1rem; /* Adjust the margin as needed */
+  margin-left: 10%;
+  margin-top: 3%;
 }
 
 .details {
@@ -34,14 +35,14 @@
 .itemKey {
   font-weight: bold;
   margin-right: 0.5rem;
-  
 }
 
-.basic-info-table {
+.info-table {
   margin-top: 40px;
-  border: 1px solid black;
-  width: 50%;
-  margin-left: 20px;
+  border: non;
+  width: 80%;
+  margin-left: 10%;
+  margin-right: 10%;
 }
 
 .basic-info-table table {
@@ -62,14 +63,3 @@
   font-weight: bold;
   width: 150px;
 }
-.contact-table {
-  width: 40%;
-  border: 1px solid black;
-  margin-left: 750px;
-  top: -250px;
-  position: relative;
-  
-  
-}
-
-

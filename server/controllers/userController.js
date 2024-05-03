@@ -192,7 +192,7 @@ const viewProfile = async (req, res) => {
     }
 
     // Return the user profile
-    res.status(200).json({ user });
+    res.json({ success: true, data: user });
   } catch (error) {
     // console.error(error);
     res.status(500).json({ error: "Server error" });
@@ -231,10 +231,14 @@ const reportProfileMistake = async (req, res) => {
         });
       }
       // Send a successful response with the success message
-      res.status(200).json({
+      res.json({
         success: true,
         message: "Profile mistake reported successfully",
       });
+    });
+    res.json({
+      success: true,
+      data: mistake,
     });
   } catch (error) {
     console.error(error);
