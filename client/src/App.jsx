@@ -53,6 +53,7 @@ function App() {
         <Route path="/Test" element={<UpdateTestDayPage />} />
 
         <Route path="/Prof" element={<HRStaffProfileCard />} />
+        
       </Routes>
     </BrowserRouter>
   );
