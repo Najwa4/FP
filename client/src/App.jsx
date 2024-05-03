@@ -20,9 +20,6 @@ import FindAppPage from "./pages/staff/FindAppPage";
 import AddCollegePage from "./pages/staff/AddCollegePage";
 import AddDepartmentPage from "./pages/staff/AddDepartmentPage";
 import UpdateTestDayPage from "./pages/staff/UpdateTestDayPage";
-import ProfilePage from "./pages/ProfilePage";
-import ReportPage from "./pages/ReportPage";
-import ChangePassPage from "./pages/ChangePassPage";
 
 function App() {
   return (
@@ -53,10 +50,6 @@ function App() {
         <Route path="/AddColl" element={<AddCollegePage />} />
         <Route path="/AddDep" element={<AddDepartmentPage />} />
         <Route path="/Test" element={<UpdateTestDayPage />} />
-
-        <Route path="/Profile" element={<ProfilePage />} />
-        <Route path="/Report" element={<ReportPage />} />
-        <Route path="/ChangePass" element={<ChangePassPage />} />
       </Routes>
     </BrowserRouter>
   );
