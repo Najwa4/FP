@@ -1,15 +1,15 @@
 import React, { useState, useRef } from "react";
 import { TextField, Button, Grid, MenuItem } from "@mui/material";
-import { useLocation } from "react-router-dom";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import CalendarTodayIcon from "@mui/icons-material/CalendarToday";
-import "../styles/RegistrationForm.css";
-import { postRequest } from "../services/api";
+import "../../styles/RegistrationForm.css";
+import { postRequest } from "../../services/api";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 
-const PersonalInformationPage = () => {
+const AddUserPage = () => {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     firstName: "",
     middleName: "",
@@ -34,6 +34,14 @@ const PersonalInformationPage = () => {
     referencesEmail: "",
     referencesPhone: "",
     skills: "",
+    hireDate: "",
+    salary: "",
+    role: "",
+    account_status: "",
+    department: "",
+    college: "",
+    username: "",
+    password: "",
     file: null,
   });
 
@@ -42,11 +50,8 @@ const PersonalInformationPage = () => {
     useState(false);
   const [showStartDatePicker, setShowStartDatePicker] = useState(false);
   const [showEndDatePicker, setShowEndDatePicker] = useState(false);
+  const [showHireDatePicker, setShowHireDatePicker] = useState(false);
   const fileInputRef = useRef(null);
-
-  const location = useLocation(); // Get location object
-  const announcementId = location.state.announcementId; // Extract announcementId from location state
-  const navigate = useNavigate();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -74,6 +79,10 @@ const PersonalInformationPage = () => {
     setFormData({ ...formData, prevEndDate: date });
   };
 
+  const handleHireDateChange = (date) => {
+    setFormData({ ...formData, hireDate: date });
+  };
+
   const handleCalendarClick = () => {
     setShowDatePicker(true);
   };
@@ -90,6 +99,10 @@ const PersonalInformationPage = () => {
     setShowEndDatePicker(true);
   };
 
+  const handleHireCalendarClick = () => {
+    setShowHireDatePicker(true);
+  };
+
   const handleApply = async (event) => {
     event.preventDefault();
     try {
@@ -100,6 +113,7 @@ const PersonalInformationPage = () => {
         currentDate.getMonth(),
         currentDate.getDate()
       );
+      const salaryRegex = /^\d+(\.\d{1,2})?$/;
 
       if (formData.dateOfBirth > minBirthDate) {
         toast.error("You should be above 18 years old to apply");
@@ -163,6 +177,12 @@ const PersonalInformationPage = () => {
         return;
       }
 
+      // Date validation
+      if (formData.hireDate > currentDate) {
+        toast.error("hire date are not correct.");
+        return;
+      }
+
       // Date validation for prevStartDate and prevEndDate
       if (formData.prevStartDate > formData.prevEndDate) {
         toast.error("Work start date should come before the end date.");
@@ -172,6 +192,12 @@ const PersonalInformationPage = () => {
       // Date validation for graduationDate
       if (formData.graduationDate > currentDate) {
         toast.error("Graduation date should be in the past");
+        return;
+      }
+
+      // Salary validation (optional)
+      if (formData.salary.trim() !== "" && !salaryRegex.test(formData.salary)) {
+        toast.error("Salary should contain only numbers.");
         return;
       }
 
@@ -188,18 +214,13 @@ const PersonalInformationPage = () => {
         return;
       }
 
-      console.log(formData, announcementId);
-
-      const response = await postRequest(
-        `/applicants/${announcementId}`,
-        formData
-      );
+      const response = await postRequest("/users", formData);
       if (response) {
-        navigate("/announce");
-        toast.success("job application created successfully!");
+        navigate("/AddUser");
+        toast.success("user created successfully!");
       } else {
         toast.error(
-          "Failed to create a job application. Please make sure you fill out all fields correctly."
+          "Failed to create new user. Please make sure you fill out all fields correctly."
         );
       }
     } catch (error) {
@@ -208,7 +229,6 @@ const PersonalInformationPage = () => {
   };
 
   return (
-    // <div className="form">
     <form onSubmit={handleApply} className="registration-form">
       <Grid container spacing={3}>
         <Grid item xs={12} sm={4}>
@@ -312,7 +332,6 @@ const PersonalInformationPage = () => {
             </div>
           )}
         </Grid>
-
         <Grid item xs={12} sm={4}>
           <TextField
             label="Location"
@@ -580,11 +599,131 @@ const PersonalInformationPage = () => {
             className="form-field"
           />
         </Grid>
+        <Grid item xs={12} sm={4}>
+          <TextField
+            label="Hire date"
+            name="hireDate"
+            value={formData.hireDate ? formData.hireDate.toDateString() : ""}
+            onClick={handleHireCalendarClick}
+            InputProps={{
+              readOnly: true,
+              endAdornment: (
+                <Button onClick={handleHireCalendarClick}>
+                  <CalendarTodayIcon />
+                </Button>
+              ),
+            }}
+            className="form-field"
+          />
+          {showHireDatePicker && (
+            <div className="date-picker-container">
+              <DatePicker
+                selected={formData.hireDate}
+                onChange={handleHireDateChange}
+                className="date-picker"
+                dateFormat="yyyy/MM/dd"
+                showYearDropdown
+                scrollableYearDropdown
+              />
+            </div>
+          )}
+        </Grid>
+        <Grid item xs={12} sm={4}>
+          <TextField
+            label="Salary"
+            name="salary"
+            value={formData.salary}
+            onChange={handleChange}
+            fullWidth
+            margin="normal"
+            className="form-field"
+          />
+        </Grid>
+        <Grid item xs={12} sm={4}>
+          <TextField
+            label="Role"
+            name="role"
+            value={formData.role}
+            onChange={handleChange}
+            required
+            fullWidth
+            margin="normal"
+            className="form-field"
+            select
+          >
+            <MenuItem value="employee">Employee</MenuItem>
+            <MenuItem value="hr_manager">Hr Manager</MenuItem>
+            <MenuItem value="hr_staff">Hr Staff</MenuItem>
+            <MenuItem value="head">Head</MenuItem>
+            <MenuItem value="dean">Dean</MenuItem>
+          </TextField>
+        </Grid>
+        <Grid item xs={12} sm={4}>
+          <TextField
+            label="Account Status"
+            name="account_status"
+            value={formData.account_status}
+            onChange={handleChange}
+            required
+            fullWidth
+            margin="normal"
+            className="form-field"
+            select
+          >
+            <MenuItem value="active">Active</MenuItem>
+            <MenuItem value="inactive">Inactive</MenuItem>
+          </TextField>
+        </Grid>
+        <Grid item xs={12} sm={4}>
+          <TextField
+            label="Department"
+            name="department"
+            value={formData.department}
+            onChange={handleChange}
+            fullWidth
+            required
+            margin="normal"
+            className="form-field"
+          />
+        </Grid>
+        <Grid item xs={12} sm={4}>
+          <TextField
+            label="College"
+            name="college"
+            value={formData.college}
+            onChange={handleChange}
+            fullWidth
+            required
+            margin="normal"
+            className="form-field"
+          />
+        </Grid>
+        <Grid item xs={12} sm={4}>
+          <TextField
+            label="Username"
+            name="username"
+            value={formData.username}
+            onChange={handleChange}
+            fullWidth
+            required
+            margin="normal"
+            className="form-field"
+          />
+        </Grid>
+        <Grid item xs={12} sm={4}>
+          <TextField
+            label="Password"
+            name="password"
+            value={formData.password}
+            onChange={handleChange}
+            fullWidth
+            required
+            margin="normal"
+            className="form-field"
+          />
+        </Grid>
         <Grid item xs={12} sm={1}></Grid>
-        <div
-          className="file-upload-container"
-          style={{ height: "65%", padding: "3.5%" }}
-        >
+        <div className="file-upload-container">
           <Button
             variant="contained"
             component="label"
@@ -613,8 +752,7 @@ const PersonalInformationPage = () => {
         </div>
       </Grid>
     </form>
-    // </div>
   );
 };
 
-export default PersonalInformationPage;
+export default AddUserPage;
