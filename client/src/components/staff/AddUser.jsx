@@ -723,7 +723,7 @@ const AddUserPage = () => {
           />
         </Grid>
         <Grid item xs={12} sm={1}></Grid>
-        <div className="file-upload-container">
+        <div className="file-upload-container" style={{ marginLeft: "1.5%" }}>
           <Button
             variant="contained"
             component="label"
@@ -741,7 +741,10 @@ const AddUserPage = () => {
         </div>
       </Grid>
       <Grid item xs={12} sm={1}>
-        <div className="form-actions">
+        <div
+          className="form-actions"
+          style={{ marginLeft: "21.5%", marginTop: "-2.4%" }}
+        >
           <Button
             variant="contained"
             type="submit"

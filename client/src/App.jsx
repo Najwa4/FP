@@ -23,8 +23,8 @@ import UpdateTestDayPage from "./pages/staff/UpdateTestDayPage";
 import ProfilePage from "./pages/staff/ProfilePage";
 import ReportPage from "./pages/ReportPage";
 import ChangePassPage from "./pages/ChangePassPage";
-import UpdateUserForm from "./pages/UpdateUserForm";
 import AddUserPage from "./pages/staff/AddUserPage";
+import UpdateUserPage from "./pages/staff/UpdateUserPage";
 
 function App() {
   return (
@@ -56,11 +56,12 @@ function App() {
         <Route path="/AddDep" element={<AddDepartmentPage />} />
         <Route path="/Test" element={<UpdateTestDayPage />} />
         <Route path="/AddUser" element={<AddUserPage />} />
-
+        <Route path="/UpdateUser" element={<UpdateUserPage />} />
         <Route path="/Profile" element={<ProfilePage />} />
+
+
         <Route path="/Report" element={<ReportPage />} />
         <Route path="/ChangePass" element={<ChangePassPage />} />
-        <Route path="/UpdateUserForm" element={<UpdateUserForm />} />
       </Routes>
     </BrowserRouter>
   );

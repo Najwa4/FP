@@ -139,6 +139,7 @@ const updateUser = async (req, res) => {
       (role === "employee" && req.user.college === college)
     ) {
       const user = await User.findById(req.user._id);
+      const emp = await User.findById(userId);
 
       if (!user) {
         return res.status(404).json({ error: "User not found." });
@@ -153,7 +154,11 @@ const updateUser = async (req, res) => {
       }
 
       await User.findByIdAndUpdate(userId, updateFields);
-      res.json({ message: "User updated successfully" });
+      res.json({
+        success: true,
+        message: "User updated successfully",
+        data: emp,
+      });
     } else {
       res.status(403).json({
         error: "Access denied. You are not authorized to update this user.",
