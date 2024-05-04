@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import Profile from "../../components/HRStaffProfileCard";
+import Profile from "../../components/ProfileCard";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { getRequest } from "../../services/api";

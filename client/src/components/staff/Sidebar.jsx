@@ -22,7 +22,7 @@ const Sidebar = () => {
   return (
     <div className="sidebar_bg">
       <div className="sidebar-container">
-      <SectionLink name="User" to="/profile" icon={<AiOutlineUser />} />
+        <SectionLink name="User" to="/profile" icon={<AiOutlineUser />} />
         <SectionLink
           name="Manage Rest"
           to="/ManagerRest"
@@ -57,6 +57,11 @@ const Sidebar = () => {
         <SectionLink
           name="Add New User"
           to="/AddUser"
+          icon={<AiFillMinusCircle />}
+        />
+        <SectionLink
+          name="Update User"
+          to="/UpdateUser"
           icon={<AiFillMinusCircle />}
         />
         <SectionLink name="logout" to="/login" icon={<BiLogOutCircle />} />
