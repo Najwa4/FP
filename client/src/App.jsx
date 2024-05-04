@@ -13,6 +13,9 @@ import PostedAnnouncePage from "./pages/manager/PostedAnnouncePage";
 import RejectAnnouncePage from "./pages/manager/RejectAnnouncePage";
 import FindEmppage from "./pages/manager/FindEmppage";
 import QuitjobPage from "./pages/manager/QuitjobPage";
+import MProfilePage from "./pages/manager/ProfilePage";
+import MReportPage from "./pages/manager/ReportPage";
+import MChangePassPage from "./pages/manager/ChangePassPage";
 import AcceptOrRejectRestPage from "./pages/staff/AcceptOrRejectRestPage";
 import ApprovedRestPage from "./pages/staff/ApprovedRestPage";
 import FindEmpPageStaff from "./pages/staff/FindEmpPageStaff";
@@ -21,8 +24,8 @@ import AddCollegePage from "./pages/staff/AddCollegePage";
 import AddDepartmentPage from "./pages/staff/AddDepartmentPage";
 import UpdateTestDayPage from "./pages/staff/UpdateTestDayPage";
 import ProfilePage from "./pages/staff/ProfilePage";
-import ReportPage from "./pages/ReportPage";
-import ChangePassPage from "./pages/ChangePassPage";
+import ReportPage from "./pages/staff/ReportPage";
+import ChangePassPage from "./pages/staff/ChangePassPage";
 import AddUserPage from "./pages/staff/AddUserPage";
 import UpdateUserPage from "./pages/staff/UpdateUserPage";
 
@@ -47,6 +50,9 @@ function App() {
         <Route path="/manager-reject" element={<RejectAnnouncePage />} />
         <Route path="/find-emppage" element={<FindEmppage />} />
         <Route path="/Quit" element={<QuitjobPage />} />
+        <Route path="/Prof" element={<MProfilePage />} />
+        <Route path="/Rep" element={<MReportPage />} />
+        <Route path="/Pass" element={<MChangePassPage />} />
         {/* Routes for HR staff */}
         <Route path="/ManagerRest" element={<AcceptOrRejectRestPage />} />
         <Route path="/Approved" element={<ApprovedRestPage />} />
@@ -58,8 +64,6 @@ function App() {
         <Route path="/AddUser" element={<AddUserPage />} />
         <Route path="/UpdateUser" element={<UpdateUserPage />} />
         <Route path="/Profile" element={<ProfilePage />} />
-
-
         <Route path="/Report" element={<ReportPage />} />
         <Route path="/ChangePass" element={<ChangePassPage />} />
       </Routes>

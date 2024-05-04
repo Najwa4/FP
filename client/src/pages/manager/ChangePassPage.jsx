@@ -1,5 +1,5 @@
 import React from "react";
-import ChangePass from "../components/ChangePass";
+import ChangePass from "../../components/manager/ChangePass";
 
 const ChangePassPage = () => {
   return (

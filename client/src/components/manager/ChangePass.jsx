@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Button, TextField, Typography } from "@mui/material";
-import { putRequest } from "../services/api";
+import { putRequest } from "../../services/api";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 
@@ -22,7 +22,7 @@ const ChangePasswordForm = () => {
         newPassword,
       });
       if (response && response.message === "Password updated successfully") {
-        navigate("/Profile");
+        navigate("/Prof");
         toast.success("Password updated successfully!");
       } else {
         toast.error("Failed to update password. Please try again.");

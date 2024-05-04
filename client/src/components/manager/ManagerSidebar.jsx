@@ -3,7 +3,7 @@ import "../../styles/Sidebar.css";
 import { NavLink } from "react-router-dom";
 import { BiMoney, BiLogOutCircle } from "react-icons/bi";
 import { MdOutlineAssessment } from "react-icons/md";
-import { AiFillMinusCircle } from "react-icons/ai";
+import { AiFillMinusCircle, AiOutlineUser } from "react-icons/ai";
 import { GrStatusGood } from "react-icons/gr";
 
 const SectionLink = ({ name, to, icon }) => {
@@ -22,6 +22,7 @@ const Sidebar = () => {
   return (
     <div className="sidebar_bg">
       <div className="sidebar-container">
+      <SectionLink name="User" to="/Prof" icon={<AiOutlineUser />} />
         <SectionLink
           name="Manage Leave"
           to="/Quit"

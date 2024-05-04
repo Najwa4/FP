@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
-import Profile from "../../components/staff/ProfileCard";
+import Profile from "../../components/manager/ProfileCard";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { getRequest } from "../../services/api";
-import Sidebar from "../../components/staff/Sidebar";
+import Sidebar from "../../components/manager/ManagerSidebar";
 import "../../styles/Table.css";
 
 const ProfilePage = () => {
@@ -30,11 +30,11 @@ const ProfilePage = () => {
   }, []);
 
   const handleReport = () => {
-    navigate("/Report");
+    navigate("/Rep");
   };
 
   const handleChangePass = () => {
-    navigate("/ChangePass");
+    navigate("/Pass");
   };
 
   return (
