@@ -1,7 +1,7 @@
 import React from "react";
 import { Avatar, Typography, Button } from "@mui/material";
-import "../styles/HRStaffProfileCard.css";
-import avatarImage from "../assets/user.png";
+import "../../styles/HRStaffProfileCard.css";
+import avatarImage from "../../assets/user.png";
 
 const Profile = ({ users, onReport, onChange }) => {
   return (

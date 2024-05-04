@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { Button, TextField, Typography } from "@mui/material";
-import { postRequest } from "../services/api";
+import { postRequest } from "../../services/api";
 import { toast } from "react-toastify";
-import "../styles/Report.css";
+import "../../styles/Report.css";
 import { useNavigate } from "react-router-dom";
 
 const ReportPage = () => {
@@ -14,7 +14,7 @@ const ReportPage = () => {
     try {
       const response = await postRequest("/users/report", { mistake });
       if (response) {
-        navigate("/Profile");
+        navigate("/Prof");
         toast.success("Report sent successfully!");
         console.log(response.data);
       } else {
