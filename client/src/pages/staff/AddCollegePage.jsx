@@ -4,7 +4,7 @@ import Sidebar from "../../components/staff/Sidebar";
 
 const AddCollegePage = () => {
   return (
-    <div>
+    <div style={{ marginTop: "3.2%"}}>
       <Sidebar />
       <MyForm />
     </div>
