@@ -2,25 +2,17 @@ const express = require("express");
 const router = express.Router();
 const EmployeeRestRequestController = require("../controllers/restController");
 const { protect } = require("../middlewares/authMiddleware");
-const {
-  resetPasswordValidation,
-  validate,
-} = require("../middlewares/validation");
 
 router.post(
   "/:employeeId",
-  //   resetPasswordValidation,
-  //   validate,
+  protect,
   EmployeeRestRequestController.createRequest
 );
 router.put(
   "/college/:requestId",
   protect,
-  //   resetPasswordValidation,
-  //   validate,
   EmployeeRestRequestController.acceptOrRejectByCollege
 );
-// router.put("/:requestId/pass-to-hr", EmployeeRestRequestController.passToHR);
 router.put(
   "/hr/:requestId",
   protect,
@@ -36,5 +28,6 @@ router.get(
   protect,
   EmployeeRestRequestController.getApprovedRestRequests
 );
+router.get("/all", protect, EmployeeRestRequestController.findAllRestRequests);
 
 module.exports = router;

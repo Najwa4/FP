@@ -23,6 +23,9 @@ const restSchema = new mongoose.Schema({
   endDate: {
     type: Date,
   },
+  durationInDay: {
+    type: Number,
+  },
   reason: {
     type: String,
   },
@@ -61,6 +64,12 @@ restSchema.pre("save", async function () {
     console.error(error);
   }
 });
+
+// Function to calculate duration in days between two dates
+restSchema.methods.setDuration = function () {
+  const durationMs = this.endDate - this.startDate;
+  this.durationInDay = Math.ceil(durationMs / (1000 * 60 * 60 * 24));
+};
 
 const Rest = mongoose.model("Rest", restSchema);
 

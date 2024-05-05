@@ -6,29 +6,37 @@ const sendEmail = require("../utils/sendEmail");
 const QuitJobController = {
   // Create a new employee quit request
   createRequest: async (req, res) => {
-    const { reason } = req.body;
+    const { reason, startDate } = req.body;
     const { employeeId } = req.params;
+    const requestingUserRole = req.user.role;
 
     try {
       const employee = await User.findById(employeeId);
-      if (!employee) {
-        return res.status(404).send("Employee not found");
+      if (
+        requestingUserRole !== "employee" &&
+        requestingUserRole !== "dean" &&
+        requestingUserRole !== "head"
+      ) {
+        return res.status(404).send("user not authorized");
       }
 
       const employeeQuitRequest = new EmployeeQuitRequest({
         employeeId: employee._id,
-
         fullName: employee.fullName,
         department: employee.department,
         college: employee.college,
-
         resignationDate: new Date(),
         reason,
+        startDate,
         status: "pending",
       });
 
       await employeeQuitRequest.save();
-      res.send("Employee quit request created successfully");
+      res.status(200).json({
+        success: true,
+        message: "Quit request created successfully.",
+        data: employeeQuitRequest,
+      });
     } catch (error) {
       console.error(error);
       res.status(500).send("Internal server error");

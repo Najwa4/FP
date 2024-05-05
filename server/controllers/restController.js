@@ -8,29 +8,40 @@ const EmployeeRestRequestController = {
   createRequest: async (req, res) => {
     const { startDate, endDate, reason } = req.body;
     const employeeId = req.params.employeeId;
+    const requestingUserRole = req.user.role;
+
     try {
       const employee = await User.findById(employeeId);
-      if (!employee) {
-        return res.status(404).send("Employee not found");
+      if (
+        requestingUserRole !== "employee" &&
+        requestingUserRole !== "dean" &&
+        requestingUserRole !== "head"
+      ) {
+        return res.status(404).send("user not authorized");
       }
 
       const employeeRestRequest = new EmployeeRestRequest({
         employeeId: employee._id,
-
         fullName: employee.fullName,
         department: employee.department,
         college: employee.college,
         emailAddress: employee.emailAddress,
-
+        reason,
         startDate,
         endDate,
-        reason,
         status: "pending",
       });
 
+      // Calculate and set the duration using the setDuration method
+      employeeRestRequest.setDuration(startDate, endDate);
+
       await employeeRestRequest.save();
 
-      res.send("Employee rest request created successfully");
+      res.status(200).json({
+        success: true,
+        message: "Rest request created successfully.",
+        data: employeeRestRequest,
+      });
     } catch (error) {
       console.error(error);
       res.status(500).send("Internal server error");
@@ -118,7 +129,7 @@ const EmployeeRestRequestController = {
         res.status(200).json({
           success: true,
           message: "Applicant status updated successfully. Email sent.",
-          data: updatedApplicant,
+          data: employeeRestRequest,
         });
       });
     } catch (error) {
@@ -127,41 +138,15 @@ const EmployeeRestRequestController = {
     }
   },
 
-  // // Pass an accepted employee rest request from the college to HR staff
-  // passToHR: async (req, res) => {
-  //   const { requestId } = req.params;
-
-  //   try {
-  //     const employeeRestRequest = await EmployeeRestRequest.findById(requestId);
-
-  //     if (!employeeRestRequest) {
-  //       return res.status(404).send("Employee rest request not found");
-  //     }
-
-  //     if (employeeRestRequest.status !== "accepted_college") {
-  //       return res
-  //         .status(400)
-  //         .send(
-  //           "Employee rest request must be accepted by the college before passing to HR"
-  //         );
-  //     }
-
-  //     employeeRestRequest.status = "hr_review";
-  //     await employeeRestRequest.save();
-
-  //     res.send("Employee rest request passed to HR staff successfully");
-  //   } catch (error) {
-  //     console.error(error);
-  //     res.status(500).send("Internal server error");
-  //   }
-  // },
-
   // Retrieve all accepted_college requests for HR staff
   getAcceptedCollegeRequests: async (req, res) => {
     try {
       const authenticatedUserRole = req.user.role;
       // Check if the authenticated user has the HR staff role
-      if (authenticatedUserRole !== "hr_staff") {
+      if (
+        authenticatedUserRole !== "hr_staff" &&
+        authenticatedUserRole !== "dean"
+      ) {
         return res.status(403).send("You are not authorized");
       }
 
@@ -276,6 +261,27 @@ const EmployeeRestRequestController = {
     } catch (error) {
       console.error(error);
       throw new Error("Unable to retrieve approved rest requests");
+    }
+  },
+
+  // Controller function to find all rest requests
+  findAllRestRequests: async (req, res) => {
+    try {
+      const authenticatedUserRole = req.user.role;
+      if (authenticatedUserRole !== "dean") {
+        return res.status(403).send("You are not authorized");
+      }
+      const restRequests = await EmployeeRestRequest.find({
+        status: "pending",
+      });
+
+      res.json({
+        success: true,
+        data: restRequests,
+      });
+    } catch (error) {
+      console.error(error);
+      res.status(500).send("Internal server error");
     }
   },
 };
