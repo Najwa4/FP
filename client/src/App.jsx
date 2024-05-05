@@ -40,6 +40,11 @@ import EReportPage from "./pages/employee/ReportPage";
 import EChangePassPage from "./pages/employee/ChangePassPage";
 import EQuitReqPage from "./pages/employee/QuitReqPage";
 import ERestReqPage from "./pages/employee/RestReqPage";
+import HProfilePage from "./pages/head/ProfilePage";
+import HReportPage from "./pages/head/ReportPage";
+import HChangePassPage from "./pages/head/ChangePassPage";
+import HQuitReqPage from "./pages/head/QuitReqPage";
+import HRestReqPage from "./pages/head/RestReqPage";
 
 function App() {
   return (
@@ -92,6 +97,12 @@ function App() {
         <Route path="/EmpChangePass" element={<EChangePassPage />} />
         <Route path="/EmpQuit" element={<EQuitReqPage />} />
         <Route path="/EmpRest" element={<ERestReqPage />} />
+        {/* Routes for Head */}
+        <Route path="/HProfile" element={<HProfilePage />} />
+        <Route path="/HReport" element={<HReportPage />} />
+        <Route path="/HChangePass" element={<HChangePassPage />} />
+        <Route path="/HQuit" element={<HQuitReqPage />} />
+        <Route path="/HRest" element={<HRestReqPage />} />
       </Routes>
     </BrowserRouter>
   );
