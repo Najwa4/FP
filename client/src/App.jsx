@@ -35,6 +35,11 @@ import DReportPage from "./pages/dean/ReportPage";
 import DChangePassPage from "./pages/dean/ChangePassPage";
 import DQuitReqPage from "./pages/dean/QuitReqPage";
 import DRestReqPage from "./pages/dean/RestReqPage";
+import EProfilePage from "./pages/employee/ProfilePage";
+import EReportPage from "./pages/employee/ReportPage";
+import EChangePassPage from "./pages/employee/ChangePassPage";
+import EQuitReqPage from "./pages/employee/QuitReqPage";
+import ERestReqPage from "./pages/employee/RestReqPage";
 
 function App() {
   return (
@@ -81,6 +86,12 @@ function App() {
         <Route path="/DeanChangePass" element={<DChangePassPage />} />
         <Route path="/DQuit" element={<DQuitReqPage />} />
         <Route path="/DRest" element={<DRestReqPage />} />
+        {/* Routes for Employee */}
+        <Route path="/EmpProfile" element={<EProfilePage />} />
+        <Route path="/EmpReport" element={<EReportPage />} />
+        <Route path="/EmpChangePass" element={<EChangePassPage />} />
+        <Route path="/EmpQuit" element={<EQuitReqPage />} />
+        <Route path="/EmpRest" element={<ERestReqPage />} />
       </Routes>
     </BrowserRouter>
   );
