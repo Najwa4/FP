@@ -1,0 +1,63 @@
+import React, { useState, useEffect } from "react";
+import RestCard from "../../components/dean/AcceptOrRejectRest";
+import "../../styles/Announcementpage.css";
+import { toast } from "react-toastify";
+import { getRequest, putRequest } from "../../services/api";
+import Sidebar from "../../components/dean/Sidebar";
+
+const AcceptOrRejectRestPage = () => {
+  const [RestRequests, setRestRequests] = useState([]);
+
+  useEffect(() => {
+    const fetchRestReq = async () => {
+      try {
+        const response = await getRequest("/rest/all");
+        if (response && response.data) {
+          setRestRequests(response.data);
+          console.log(response.data);
+        } else {
+          toast.error("No rest request available.");
+        }
+      } catch (error) {
+        console.error("Error fetching rest request:", error);
+        toast.error("Failed to fetch rest request. Please try again later.");
+      }
+    };
+
+    fetchRestReq();
+  }, []);
+
+  const handleApply = async (RestRequestsId, status) => {
+    try {
+      await putRequest(`/rest/college/${RestRequestsId}`, {
+        status,
+      });
+      toast.success("Updated successfully");
+      window.location.reload();
+    } catch (error) {
+      console.error("Error updating rest request:", error);
+      toast.error("Failed to update rest request. Please try again later.");
+    }
+  };
+
+  return (
+    <div>
+      <Sidebar />
+      <div
+        className="announcement-container"
+        style={{ marginTop: "3.2%", marginLeft: "30%" }}
+      >
+        {RestRequests.map((singleRestRequests) => (
+          <RestCard
+            key={singleRestRequests._id}
+            RestRequests={singleRestRequests}
+            onAccept={() => handleApply(singleRestRequests._id, "accept")}
+            onReject={() => handleApply(singleRestRequests._id, "reject")}
+          />
+        ))}
+      </div>
+    </div>
+  );
+};
+
+export default AcceptOrRejectRestPage;

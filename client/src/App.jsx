@@ -28,6 +28,13 @@ import ReportPage from "./pages/staff/ReportPage";
 import ChangePassPage from "./pages/staff/ChangePassPage";
 import AddUserPage from "./pages/staff/AddUserPage";
 import UpdateUserPage from "./pages/staff/UpdateUserPage";
+import DAcceptOrRejectRestPage from "./pages/dean/AcceptOrRejectRestPage";
+import AcceptedRestPage from "./pages/dean/AcceptedRestPage";
+import DProfilePage from "./pages/dean/ProfilePage";
+import DReportPage from "./pages/dean/ReportPage";
+import DChangePassPage from "./pages/dean/ChangePassPage";
+import DQuitReqPage from "./pages/dean/QuitReqPage";
+import DRestReqPage from "./pages/dean/RestReqPage";
 
 function App() {
   return (
@@ -66,6 +73,14 @@ function App() {
         <Route path="/Profile" element={<ProfilePage />} />
         <Route path="/Report" element={<ReportPage />} />
         <Route path="/ChangePass" element={<ChangePassPage />} />
+        {/* Routes for Dean */}
+        <Route path="/DeanRest" element={<DAcceptOrRejectRestPage />} />
+        <Route path="/Accepted" element={<AcceptedRestPage />} />
+        <Route path="/DeanProfile" element={<DProfilePage />} />
+        <Route path="/DeanReport" element={<DReportPage />} />
+        <Route path="/DeanChangePass" element={<DChangePassPage />} />
+        <Route path="/DQuit" element={<DQuitReqPage />} />
+        <Route path="/DRest" element={<DRestReqPage />} />
       </Routes>
     </BrowserRouter>
   );

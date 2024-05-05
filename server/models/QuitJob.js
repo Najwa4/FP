@@ -15,12 +15,14 @@ const quitJobSchema = new mongoose.Schema({
   department: {
     type: String,
   },
-
   resignationDate: {
     type: Date,
   },
   reason: {
     type: String,
+  },
+  startDate: {
+    type: Date,
   },
   feedback: {
     type: String,
