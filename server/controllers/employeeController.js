@@ -63,10 +63,13 @@ const updateDaysOfAbsence = async (req, res) => {
     }
 
     // Update the daysOfAbsence field
-    employee.daysOfAbsence = daysOfAbsence;
+    employee.daysOfAbsence.push(daysOfAbsence);
     await employee.save();
 
-    res.status(200).json({ message: "Days of absence updated successfully" });
+    res.json({
+      message: "Days of absence updated successfully",
+      data: employee,
+    });
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Internal server error" });

@@ -19,7 +19,11 @@ const createEmployeeRequest = async (req, res) => {
       testDay: null,
     });
     await announcement.save();
-    res.json({ message: "Employee request created successfully" });
+    res.json({
+      success: true,
+      message: "Employee request created successfully",
+      data: announcement,
+    });
   } catch (error) {
     return res
       .status(500)
@@ -193,7 +197,7 @@ const updateAnnouncement = async (req, res) => {
 
       res.json({
         message: "Announcement updated successfully",
-        announcement: updatedAnnouncement,
+        data: updatedAnnouncement,
       });
     } else {
       res.status(403).json({ error: "Access denied" });

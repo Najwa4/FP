@@ -28,6 +28,21 @@ const Sidebar = () => {
           icon={<GrStatusGood />}
         />
         <SectionLink name="Rest Request" to="/HRest" icon={<GrStatusGood />} />
+        <SectionLink
+          name="New Announcement"
+          to="/NewEmp"
+          icon={<GrStatusGood />}
+        />
+        <SectionLink
+          name="Update Announcement"
+          to="/UpdateAnnoun"
+          icon={<GrStatusGood />}
+        />
+        <SectionLink
+          name="Day Of Absence"
+          to="/Absence"
+          icon={<GrStatusGood />}
+        />
         <SectionLink name="logout" to="/login" icon={<BiLogOutCircle />} />
       </div>
     </div>

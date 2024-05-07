@@ -45,6 +45,9 @@ import HReportPage from "./pages/head/ReportPage";
 import HChangePassPage from "./pages/head/ChangePassPage";
 import HQuitReqPage from "./pages/head/QuitReqPage";
 import HRestReqPage from "./pages/head/RestReqPage";
+import NewEmpReqPage from "./pages/head/NewEmpReqPage";
+import UpdateAnnouncePage from "./pages/head/UpdateAnnouncePage";
+import UpdateAbsencePage from "./pages/head/UpdateAbsencePage";
 
 function App() {
   return (
@@ -103,6 +106,9 @@ function App() {
         <Route path="/HChangePass" element={<HChangePassPage />} />
         <Route path="/HQuit" element={<HQuitReqPage />} />
         <Route path="/HRest" element={<HRestReqPage />} />
+        <Route path="/NewEmp" element={<NewEmpReqPage />} />
+        <Route path="/UpdateAnnoun" element={<UpdateAnnouncePage />} />
+        <Route path="/Absence" element={<UpdateAbsencePage />} />
       </Routes>
     </BrowserRouter>
   );

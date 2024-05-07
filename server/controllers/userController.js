@@ -175,11 +175,15 @@ const updateUser = async (req, res) => {
 const findUser = async (req, res) => {
   try {
     const { userId } = req.params;
-    const { role } = req.user;
+    const { role, department } = req.user;
+    const user = await User.findById(userId).select("-password");
 
-    // Check if the user has the hr_staff or hr_manager role
-    if (role === "hr_staff" || role === "hr_manager") {
-      const user = await User.findById(userId).select("-password");
+    // Check if the user has the hr_staff, hr_manager, or department_head role with the same department name
+    if (
+      role === "hr_staff" ||
+      role === "hr_manager" ||
+      (role === "head" && department === user.department)
+    ) {
       if (!user) {
         return res.json({ error: "User not found" });
       }
