@@ -268,10 +268,41 @@ const reportProfileMistake = async (req, res) => {
   }
 };
 
+const forlogin = async (req, res) => {
+  try {
+    const { userId } = req.params;
+    const { role } = req.user;
+    const user = await User.findById(userId).select("-password");
+
+    if (
+      role === "hr_staff" ||
+      role === "hr_manager" ||
+      role === "head" ||
+      role === "dean" ||
+      role === "employee"
+    ) {
+      if (!user) {
+        return res.json({ error: "User not found" });
+      }
+      res.json({
+        success: true,
+        data: user,
+      });
+    } else {
+      res.json({
+        error: "Access denied.",
+      });
+    }
+  } catch (error) {
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+
 module.exports = {
   addUser,
   updateUser,
   findUser,
   viewProfile,
   reportProfileMistake,
+  forlogin,
 };

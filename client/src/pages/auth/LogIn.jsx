@@ -20,6 +20,7 @@ import avatarImage from "../../assets/user.png";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AutContext";
 import { toast } from "react-toastify";
+import { getRequest } from "../../services/api";
 
 const LoginScreen = () => {
   const [showPassword, setShowPassword] = useState(true);
@@ -43,7 +44,71 @@ const LoginScreen = () => {
   useEffect(() => {
     if (isAuthenticated) {
       console.log("User is authenticated:", isAuthenticated);
-      navigate("/");
+
+      // Fetch user role from backend using the token
+      const token = localStorage.getItem("token");
+      if (!token) {
+        console.error("No token found");
+        return;
+      }
+
+      // Extract role from token
+      const decodedToken = JSON.parse(atob(token.split(".")[1]));
+      const userId = decodedToken.userId;
+      console.log("Token:", token);
+      console.log("Decoded Token:", decodedToken);
+      console.log("User ID:", userId);
+
+      const fetchUserRole = async (userId) => {
+        try {
+          if (!userId.trim()) {
+            return null;
+          } else {
+            let encodedID = encodeURIComponent(userId);
+            const response = await getRequest(`/users/forlogin/${encodedID}`);
+            console.log("User:", response);
+            if (response && response.data && response.data.role) {
+              return response.data.role;
+            } else {
+              console.error("No data found");
+              return null;
+            }
+          }
+        } catch (error) {
+          console.error("Error fetching user role:", error);
+          throw error;
+        }
+      };
+
+      fetchUserRole(userId)
+        .then((role) => {
+          console.log("User Role:", role);
+          switch (role) {
+            case "hr_manager":
+              navigate("/manager-announce");
+              break;
+            case "hr_staff":
+              navigate("/ManagerRest");
+              break;
+            case "dean":
+              navigate("/DeanRest");
+              break;
+            case "employee":
+              navigate("/EmpQuit");
+              break;
+            case "head":
+              navigate("/HQuit");
+              break;
+            default:
+              // Navigate to a default route if user role is not recognized
+              navigate("/login");
+              break;
+          }
+        })
+        .catch((error) => {
+          console.error("Error fetching user role:", error);
+          navigate("/login"); // Navigate to login in case of error
+        });
     }
   }, [isAuthenticated, navigate]);
 
