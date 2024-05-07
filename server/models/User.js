@@ -94,8 +94,8 @@ const userSchema = new mongoose.Schema(
       type: Number,
     },
     daysOfAbsence: {
-      type: Number,
-      default: 0,
+      type: [Date],
+      default: [],
     },
     skills: {
       type: [String],
