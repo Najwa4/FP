@@ -1,7 +1,7 @@
 import React from "react";
 import AboutPage from "./pages/AboutPage";
 import LoginScreen from "./pages/auth/LogIn";
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import VerificationPage from "./pages/Passswoard/OtpVerification";
 import ResetPasswordScreen from "./pages/Passswoard/ResetPassword";
 import AnnouncementPage from "./pages/Announcementpage";
@@ -48,62 +48,8 @@ import HRestReqPage from "./pages/head/RestReqPage";
 import NewEmpReqPage from "./pages/head/NewEmpReqPage";
 import UpdateAnnouncePage from "./pages/head/UpdateAnnouncePage";
 import UpdateAbsencePage from "./pages/head/UpdateAbsencePage";
-import { useAuth } from "./context/AutContext";
 
 function App() {
-  const { isAuthenticated } = useAuth();
-
-  const protectedRoutes = (
-    <>
-      {/* Routes for HR manager */}
-      <Route path="/ManagerSidebar" element={<ManagerSidebar />} />
-      <Route path="/manager-announce" element={<ManagerAnnouncePage />} />
-      <Route path="/manager-posted" element={<PostedAnnouncePage />} />
-      <Route path="/manager-reject" element={<RejectAnnouncePage />} />
-      <Route path="/find-emppage" element={<FindEmppage />} />
-      <Route path="/Quit" element={<QuitjobPage />} />
-      <Route path="/Prof" element={<MProfilePage />} />
-      <Route path="/Rep" element={<MReportPage />} />
-      <Route path="/Pass" element={<MChangePassPage />} />
-      {/* Routes for HR staff */}
-      <Route path="/ManagerRest" element={<AcceptOrRejectRestPage />} />
-      <Route path="/Approved" element={<ApprovedRestPage />} />
-      <Route path="/find-employee" element={<FindEmpPageStaff />} />
-      <Route path="/find-applicant" element={<FindAppPage />} />
-      <Route path="/AddColl" element={<AddCollegePage />} />
-      <Route path="/AddDep" element={<AddDepartmentPage />} />
-      <Route path="/Test" element={<UpdateTestDayPage />} />
-      <Route path="/AddUser" element={<AddUserPage />} />
-      <Route path="/UpdateUser" element={<UpdateUserPage />} />
-      <Route path="/Profile" element={<ProfilePage />} />
-      <Route path="/Report" element={<ReportPage />} />
-      <Route path="/ChangePass" element={<ChangePassPage />} />
-      {/* Routes for Dean */}
-      <Route path="/DeanRest" element={<DAcceptOrRejectRestPage />} />
-      <Route path="/Accepted" element={<AcceptedRestPage />} />
-      <Route path="/DeanProfile" element={<DProfilePage />} />
-      <Route path="/DeanReport" element={<DReportPage />} />
-      <Route path="/DeanChangePass" element={<DChangePassPage />} />
-      <Route path="/DQuit" element={<DQuitReqPage />} />
-      <Route path="/DRest" element={<DRestReqPage />} />
-      {/* Routes for Employee */}
-      <Route path="/EmpProfile" element={<EProfilePage />} />
-      <Route path="/EmpReport" element={<EReportPage />} />
-      <Route path="/EmpChangePass" element={<EChangePassPage />} />
-      <Route path="/EmpQuit" element={<EQuitReqPage />} />
-      <Route path="/EmpRest" element={<ERestReqPage />} />
-      {/* Routes for Head */}
-      <Route path="/HProfile" element={<HProfilePage />} />
-      <Route path="/HReport" element={<HReportPage />} />
-      <Route path="/HChangePass" element={<HChangePassPage />} />
-      <Route path="/HQuit" element={<HQuitReqPage />} />
-      <Route path="/HRest" element={<HRestReqPage />} />
-      <Route path="/NewEmp" element={<NewEmpReqPage />} />
-      <Route path="/UpdateAnnoun" element={<UpdateAnnouncePage />} />
-      <Route path="/Absence" element={<UpdateAbsencePage />} />
-    </>
-  );
-
   return (
     <BrowserRouter>
       <Routes>
@@ -117,11 +63,52 @@ function App() {
           element={<PersonalInformationPage />}
         />
         <Route path="/forgot-password" element={<ForgotPasswordScreen />} />
-        {isAuthenticated ? (
-          protectedRoutes
-        ) : (
-          <Route path="*" element={<Navigate to="/login" />} />
-        )}
+        {/* Routes for HR manager */}
+        <Route path="/ManagerSidebar" element={<ManagerSidebar />} />
+        <Route path="/manager-announce" element={<ManagerAnnouncePage />} />
+        <Route path="/manager-posted" element={<PostedAnnouncePage />} />
+        <Route path="/manager-reject" element={<RejectAnnouncePage />} />
+        <Route path="/find-emppage" element={<FindEmppage />} />
+        <Route path="/Quit" element={<QuitjobPage />} />
+        <Route path="/Prof" element={<MProfilePage />} />
+        <Route path="/Rep" element={<MReportPage />} />
+        <Route path="/Pass" element={<MChangePassPage />} />
+        {/* Routes for HR staff */}
+        <Route path="/ManagerRest" element={<AcceptOrRejectRestPage />} />
+        <Route path="/Approved" element={<ApprovedRestPage />} />
+        <Route path="/find-employee" element={<FindEmpPageStaff />} />
+        <Route path="/find-applicant" element={<FindAppPage />} />
+        <Route path="/AddColl" element={<AddCollegePage />} />
+        <Route path="/AddDep" element={<AddDepartmentPage />} />
+        <Route path="/Test" element={<UpdateTestDayPage />} />
+        <Route path="/AddUser" element={<AddUserPage />} />
+        <Route path="/UpdateUser" element={<UpdateUserPage />} />
+        <Route path="/Profile" element={<ProfilePage />} />
+        <Route path="/Report" element={<ReportPage />} />
+        <Route path="/ChangePass" element={<ChangePassPage />} />
+        {/* Routes for Dean */}
+        <Route path="/DeanRest" element={<DAcceptOrRejectRestPage />} />
+        <Route path="/Accepted" element={<AcceptedRestPage />} />
+        <Route path="/DeanProfile" element={<DProfilePage />} />
+        <Route path="/DeanReport" element={<DReportPage />} />
+        <Route path="/DeanChangePass" element={<DChangePassPage />} />
+        <Route path="/DQuit" element={<DQuitReqPage />} />
+        <Route path="/DRest" element={<DRestReqPage />} />
+        {/* Routes for Employee */}
+        <Route path="/EmpProfile" element={<EProfilePage />} />
+        <Route path="/EmpReport" element={<EReportPage />} />
+        <Route path="/EmpChangePass" element={<EChangePassPage />} />
+        <Route path="/EmpQuit" element={<EQuitReqPage />} />
+        <Route path="/EmpRest" element={<ERestReqPage />} />
+        {/* Routes for Head */}
+        <Route path="/HProfile" element={<HProfilePage />} />
+        <Route path="/HReport" element={<HReportPage />} />
+        <Route path="/HChangePass" element={<HChangePassPage />} />
+        <Route path="/HQuit" element={<HQuitReqPage />} />
+        <Route path="/HRest" element={<HRestReqPage />} />
+        <Route path="/NewEmp" element={<NewEmpReqPage />} />
+        <Route path="/UpdateAnnoun" element={<UpdateAnnouncePage />} />
+        <Route path="/Absence" element={<UpdateAbsencePage />} />
       </Routes>
     </BrowserRouter>
   );

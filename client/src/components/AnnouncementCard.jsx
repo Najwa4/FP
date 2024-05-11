@@ -20,7 +20,7 @@ const AnnouncementCard = ({ announcements, onApply }) => {
         <div
           style={{ marginBottom: "2%", fontWeight: "bold", fontSize: "1.8rem" }}
         >
-          {announcements.department} Department
+          {announcements.department}
         </div>
         <Typography variant="body1" sx={{ marginBottom: "1.8%" }}>
           {" "}

@@ -19,14 +19,10 @@ const SectionLink = ({ name, to, icon }) => {
 };
 
 const Sidebar = () => {
-  const handleLogout = () => {
-    window.location.reload();
-  };
-
   return (
     <div className="sidebar_bg">
       <div className="sidebar-container">
-        <SectionLink name="User" to="/Prof" icon={<AiOutlineUser />} />
+      <SectionLink name="User" to="/Prof" icon={<AiOutlineUser />} />
         <SectionLink
           name="Manage Leave"
           to="/Quit"
@@ -52,10 +48,7 @@ const Sidebar = () => {
           to="/find-emppage"
           icon={<AiFillMinusCircle />}
         />
-        <NavLink className="notselected" onClick={handleLogout}>
-          <BiLogOutCircle />
-          Logout
-        </NavLink>
+        <SectionLink name="logout" to="/login" icon={<BiLogOutCircle />} />
       </div>
     </div>
   );

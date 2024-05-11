@@ -16,14 +16,7 @@ const QuitReq = () => {
       };
       console.log(requestData);
 
-      // Validate start date and end date
-      const currentDate = new Date();
-      const startDateObj = new Date(startDate);
-
-      if (startDateObj <= currentDate) {
-        toast.error("Start date must be in the future");
-        return;
-      }
+      // Add validation logic here if needed
 
       // Retrieve token from local storage
       const token = localStorage.getItem("token");

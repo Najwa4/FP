@@ -6,11 +6,11 @@ import CalendarTodayIcon from "@mui/icons-material/CalendarToday";
 import "../../styles/RegistrationForm.css";
 import { postRequest } from "../../services/api";
 import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 const AddUserPage = () => {
-  const fileInputRef = useRef(null);
-
-  const initialFormData = {
+  const navigate = useNavigate();
+  const [formData, setFormData] = useState({
     firstName: "",
     middleName: "",
     lastName: "",
@@ -43,9 +43,7 @@ const AddUserPage = () => {
     username: "",
     password: "",
     file: null,
-  };
-
-  const [formData, setFormData] = useState(initialFormData);
+  });
 
   const [showDatePicker, setShowDatePicker] = useState(false);
   const [showGraduationDatePicker, setShowGraduationDatePicker] =
@@ -53,10 +51,11 @@ const AddUserPage = () => {
   const [showStartDatePicker, setShowStartDatePicker] = useState(false);
   const [showEndDatePicker, setShowEndDatePicker] = useState(false);
   const [showHireDatePicker, setShowHireDatePicker] = useState(false);
+  const fileInputRef = useRef(null);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value || "" });
+    setFormData({ ...formData, [name]: value.trim() || "" });
   };
 
   const handleFileChange = (e) => {
@@ -215,26 +214,9 @@ const AddUserPage = () => {
         return;
       }
 
-      // References name validation (if provided)
-      const rifNameRegex = /^[A-Za-z]+$/;
-      if (
-        formData.referencesName &&
-        !rifNameRegex.test(formData.referencesName)
-      ) {
-        toast.error("References name should contain only alphabets.");
-        return;
-      }
-
-      // Contact name validation
-      const conNameRegex = /^[A-Za-z]+$/;
-      if (!conNameRegex.test(formData.contactPersonname)) {
-        toast.error("Contact name should contain only alphabets.");
-        return;
-      }
-
       const response = await postRequest("/users", formData);
       if (response) {
-        setFormData(initialFormData);
+        navigate("/AddUser");
         toast.success("user created successfully!");
       } else {
         toast.error(
@@ -377,7 +359,7 @@ const AddUserPage = () => {
         </Grid>
         <Grid item xs={12} sm={4}>
           <TextField
-            label="Phone Number"
+            label="phone Number"
             name="phoneNumber"
             value={formData.phoneNumber}
             onChange={handleChange}
@@ -390,7 +372,7 @@ const AddUserPage = () => {
         <Grid item xs={12} sm={4}></Grid>
         <Grid item xs={12} sm={4}>
           <TextField
-            label="Emergency Contact Name"
+            label="Emergency contact name"
             name="contactPersonname"
             value={formData.contactPersonname}
             onChange={handleChange}
@@ -402,7 +384,7 @@ const AddUserPage = () => {
         </Grid>
         <Grid item xs={12} sm={4}>
           <TextField
-            label="Emergency Contact Number"
+            label="Emergency contact number"
             name="contactPersonphoneNumber"
             value={formData.contactPersonphoneNumber}
             onChange={handleChange}
@@ -415,7 +397,7 @@ const AddUserPage = () => {
         <Grid item xs={12} sm={4}></Grid>
         <Grid item xs={12} sm={4}>
           <TextField
-            label="Education Highest Level"
+            label="education highest level"
             name="highestLevel"
             value={formData.highestLevel}
             onChange={handleChange}
@@ -432,7 +414,7 @@ const AddUserPage = () => {
         </Grid>
         <Grid item xs={12} sm={4}>
           <TextField
-            label="Graduated From"
+            label="Graduated from"
             name="university"
             value={formData.university}
             onChange={handleChange}
@@ -477,7 +459,7 @@ const AddUserPage = () => {
         </Grid>
         <Grid item xs={12} sm={4}>
           <TextField
-            label="Field Of Study"
+            label="Field of Study"
             name="fieldOfStudy"
             value={formData.fieldOfStudy}
             onChange={handleChange}
@@ -489,7 +471,7 @@ const AddUserPage = () => {
         </Grid>
         <Grid item xs={12} sm={8}>
           <TextField
-            label="Previous Institution"
+            label="The previous institution where you worked, if any"
             name="previousOrganization"
             value={formData.previousOrganization}
             onChange={handleChange}
@@ -500,7 +482,7 @@ const AddUserPage = () => {
         </Grid>
         <Grid item xs={12} sm={4}>
           <TextField
-            label="Previous Institution Started Work Date"
+            label="Previous institution started work date"
             name="prevStartDate"
             value={
               formData.prevStartDate
@@ -533,7 +515,7 @@ const AddUserPage = () => {
         </Grid>
         <Grid item xs={12} sm={4}>
           <TextField
-            label="Previous Institution Ended Work Date"
+            label="Previous institution ended work date"
             name="prevEndDate"
             value={
               formData.prevEndDate ? formData.prevEndDate.toDateString() : ""
@@ -564,7 +546,7 @@ const AddUserPage = () => {
         </Grid>
         <Grid item xs={12} sm={4}>
           <TextField
-            label="References Name"
+            label="References name"
             name="referencesName"
             value={formData.referencesName}
             onChange={handleChange}
@@ -575,7 +557,7 @@ const AddUserPage = () => {
         </Grid>
         <Grid item xs={12} sm={4}>
           <TextField
-            label="References Position"
+            label="References position"
             name="referencesPosition"
             value={formData.referencesPosition}
             onChange={handleChange}
@@ -586,7 +568,7 @@ const AddUserPage = () => {
         </Grid>
         <Grid item xs={12} sm={4}>
           <TextField
-            label="References Email"
+            label="references email"
             name="referencesEmail"
             value={formData.referencesEmail}
             onChange={handleChange}
@@ -597,7 +579,7 @@ const AddUserPage = () => {
         </Grid>
         <Grid item xs={12} sm={4}>
           <TextField
-            label="References Phone"
+            label="references Phone"
             name="referencesPhone"
             value={formData.referencesPhone}
             onChange={handleChange}
@@ -608,7 +590,7 @@ const AddUserPage = () => {
         </Grid>
         <Grid item xs={12} sm={4}>
           <TextField
-            label="Skills"
+            label="skills"
             name="skills"
             value={formData.skills}
             onChange={handleChange}
@@ -619,7 +601,7 @@ const AddUserPage = () => {
         </Grid>
         <Grid item xs={12} sm={4}>
           <TextField
-            label="Hire Date"
+            label="Hire date"
             name="hireDate"
             value={formData.hireDate ? formData.hireDate.toDateString() : ""}
             onClick={handleHireCalendarClick}

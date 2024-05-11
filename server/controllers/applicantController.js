@@ -109,7 +109,12 @@ const findApplicants = async (req, res) => {
     };
 
     // Push matching fields to the query object
-    query.$or.push({ announcementId: searchQuery }, { _id: searchQuery });
+    query.$or.push(
+      { fullName: searchQuery },
+      { emailAddress: searchQuery },
+      { phoneNumber: searchQuery },
+      { _id: searchQuery }
+    );
 
     // Find applicants with the role of "applicant" and matching fullName, emailAddress, or phoneNumber
     const applicants = await Applicant.find(query);

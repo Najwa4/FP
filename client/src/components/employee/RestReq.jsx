@@ -18,20 +18,7 @@ const RestReq = () => {
       };
       console.log(requestData);
 
-      // Validate start date and end date
-      const currentDate = new Date();
-      const startDateObj = new Date(startDate);
-      const endDateObj = new Date(endDate);
-
-      if (startDateObj <= currentDate || endDateObj <= currentDate) {
-        toast.error("Start and end dates must be in the future");
-        return;
-      }
-
-      if (startDateObj >= endDateObj) {
-        toast.error("Start date must be before end date");
-        return;
-      }
+      // Add validation logic here if needed
 
       // Retrieve token from local storage
       const token = localStorage.getItem("token");

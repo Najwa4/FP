@@ -35,7 +35,7 @@ const ReportPage = () => {
         multiline
         rows={4}
         value={mistake}
-        onChange={(event) => setMistake(event.target.value)}
+        onChange={(event) => setMistake(event.target.value.trim())}
         fullWidth
         required
         variant="outlined"

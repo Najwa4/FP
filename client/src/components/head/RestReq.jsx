@@ -18,24 +18,11 @@ const RestReq = () => {
       };
       console.log(requestData);
 
-      // Validate start date and end date
-      const currentDate = new Date();
-      const startDateObj = new Date(startDate);
-      const endDateObj = new Date(endDate);
-
-      if (startDateObj <= currentDate || endDateObj <= currentDate) {
-        toast.error("Start and end dates must be in the future");
-        return;
-      }
-
-      if (startDateObj >= endDateObj) {
-        toast.error("Start date must be before end date");
-        return;
-      }
+      // Add validation logic here if needed
 
       // Retrieve token from local storage
       const token = localStorage.getItem("token");
-      console.log("Token:", token); // check the token value
+      console.log("Token:", token); // Add this line to check the token value
       if (!token) {
         toast.error("No token found");
         return;
@@ -43,7 +30,7 @@ const RestReq = () => {
 
       // Extract _id from token
       const decodedToken = JSON.parse(atob(token.split(".")[1]));
-      console.log("Decoded Token:", decodedToken.userId); // check the decoded token
+      console.log("Decoded Token:", decodedToken.userId); // Add this line to check the decoded token
       const _id = decodedToken.userId;
 
       let encodedID = encodeURIComponent(_id);

@@ -8,24 +8,28 @@ import Sidebar from "../../components/manager/ManagerSidebar";
 const ManagerAnnouncePage = () => {
   const [quitJobRequests, setQuitJobRequests] = useState([]);
 
-  const fetchQuitJobRequests = async () => {
-    try {
-      const response = await getRequest("/quit/quit-job");
-      if (response && response.data) {
-        setQuitJobRequests(response.data);
-        console.log(response.data);
-      } else {
-        toast.error("No requests available.");
-      }
-    } catch (error) {
-      console.error("Error fetching requests:", error);
-      toast.error("Failed to fetch requests. Please try again later.");
-    }
-  };
-
   useEffect(() => {
+    const fetchQuitJobRequests = async () => {
+      try {
+        const response = await getRequest("/quit/quit-job");
+        if (response && response.data) {
+          setQuitJobRequests(response.data);
+          console.log(response.data);
+        } else {
+          toast.error("No requests available.");
+        }
+      } catch (error) {
+        console.error("Error fetching requests:", error);
+        toast.error("Failed to fetch requests. Please try again later.");
+      }
+    };
+
     fetchQuitJobRequests();
   }, []);
+
+  //   useEffect(() => {
+  //     console.log(quitJobRequests);
+  //   }, [quitJobRequests]);
 
   const handleApply = async (QuitRequestsId, status) => {
     try {
@@ -33,7 +37,7 @@ const ManagerAnnouncePage = () => {
         status,
       });
       toast.success("Updated successfully");
-      fetchQuitJobRequests();
+      window.location.reload(); // Refresh the page
     } catch (error) {
       console.error("Error updating requests:", error);
       toast.error("Failed to update requests. Please try again later.");

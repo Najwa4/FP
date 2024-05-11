@@ -1,7 +1,7 @@
 .header-container {
   display: grid;
   grid-template-columns: 60fr 30fr;
-  padding: 2% 0%;
+  padding: 2% 0%; /* 1rem = 2% */
   background-color: #eafaf1;
 }
 
@@ -13,7 +13,7 @@
 
 .navigation-link {
   font-size: 1.6rem;
-  margin-left: 8%;
+  margin-left: 10%;
   color: black;
   text-decoration: none;
   flex-shrink: 0;

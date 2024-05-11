@@ -65,7 +65,7 @@ const FindAppPage = () => {
         Applicant_status
       );
       toast.success("Updated successfully");
-      fetchApplicants();
+      window.location.reload(); // Refresh the page
     } catch (error) {
       console.error("Error updating rest request:", error);
       toast.error("Failed to update rest request. Please try again later.");

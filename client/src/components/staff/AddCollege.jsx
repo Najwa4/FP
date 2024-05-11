@@ -20,7 +20,7 @@ const MyForm = () => {
 
       const response = await postRequest("/colleges", collegeData);
       if (response) {
-        toast.success(response.message);
+        toast.success("College created successfully!");
         setCollegeName("");
         setCollegeDeanID("");
       } else {
