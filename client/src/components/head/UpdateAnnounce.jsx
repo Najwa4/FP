@@ -9,7 +9,7 @@ import {
   TextField,
   Button,
 } from "@mui/material";
-import { putRequest } from "../../services/api";
+import { putRequest, getRequest } from "../../services/api";
 import { toast } from "react-toastify";
 
 const UpdateUser = ({ data }) => {
@@ -34,7 +34,19 @@ const UpdateUser = ({ data }) => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value.trim() || "" });
+    setFormData({ ...formData, [name]: value || "" });
+  };
+
+  const fetchAnnouncement = async () => {
+    try {
+      const response = await getRequest("/announcements");
+      if (response && response.data) {
+      } else {
+        console.error("No data found");
+      }
+    } catch (error) {
+      console.error("Error fetching announcement:", error);
+    }
   };
 
   const handleApply = async (event, _id) => {
@@ -49,6 +61,7 @@ const UpdateUser = ({ data }) => {
         console.log("ID:", _id, "data:", formData);
         toast.success("Announcement updated successfully");
         handleCloseModal();
+        fetchAnnouncement();
       } else {
         console.error("No data returned after updating Announcement");
         toast.error("Failed to update Announcement. Please try again later.");

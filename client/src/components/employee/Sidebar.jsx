@@ -19,6 +19,10 @@ const SectionLink = ({ name, to, icon }) => {
 };
 
 const Sidebar = () => {
+  const handleLogout = () => {
+    window.location.reload();
+  };
+
   return (
     <div className="sidebar_bg">
       <div className="sidebar-container">
@@ -33,7 +37,10 @@ const Sidebar = () => {
           to="/EmpRest"
           icon={<GrStatusGood />}
         />
-        <SectionLink name="logout" to="/login" icon={<BiLogOutCircle />} />
+        <NavLink className="notselected" onClick={handleLogout}>
+          <BiLogOutCircle />
+          Logout
+        </NavLink>
       </div>
     </div>
   );

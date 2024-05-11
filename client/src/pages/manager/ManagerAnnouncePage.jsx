@@ -8,22 +8,22 @@ import Sidebar from "../../components/manager/ManagerSidebar";
 const ManagerAnnouncePage = () => {
   const [announcements, setAnnouncements] = useState([]);
 
-  useEffect(() => {
-    const fetchAnnouncements = async () => {
-      try {
-        const response = await getRequest("/announcements/stateless");
-        if (response && response.data) {
-          setAnnouncements(response.data);
-          console.log(response.data);
-        } else {
-          toast.error("No announcements available.");
-        }
-      } catch (error) {
-        console.error("Error fetching announcements:", error);
-        toast.error("Failed to fetch announcements. Please try again later.");
+  const fetchAnnouncements = async () => {
+    try {
+      const response = await getRequest("/announcements/stateless");
+      if (response && response.data) {
+        setAnnouncements(response.data);
+        console.log(response.data);
+      } else {
+        toast.error("No announcements available.");
       }
-    };
+    } catch (error) {
+      console.error("Error fetching announcements:", error);
+      toast.error("Failed to fetch announcements. Please try again later.");
+    }
+  };
 
+  useEffect(() => {
     fetchAnnouncements();
   }, []);
 
@@ -33,7 +33,7 @@ const ManagerAnnouncePage = () => {
         status,
       });
       toast.success("Updated successfully");
-      window.location.reload(); // Refresh the page
+      fetchAnnouncements();
     } catch (error) {
       console.error("Error updating announcement:", error);
       toast.error("Failed to update announcement. Please try again later.");

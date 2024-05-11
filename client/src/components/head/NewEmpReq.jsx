@@ -15,7 +15,7 @@ const AddAnnouncePage = () => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setAnnouncData({ ...announcData, [name]: value.trim() || "" });
+    setAnnouncData({ ...announcData, [name]: value || "" });
   };
 
   const handleApply = async (event) => {

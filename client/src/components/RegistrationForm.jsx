@@ -50,7 +50,7 @@ const PersonalInformationPage = () => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value.trim() || "" });
+    setFormData({ ...formData, [name]: value || "" });
   };
 
   const handleFileChange = (e) => {
@@ -353,7 +353,7 @@ const PersonalInformationPage = () => {
         <Grid item xs={12} sm={4}></Grid>
         <Grid item xs={12} sm={4}>
           <TextField
-            label="Emergency contact name"
+            label="Emergency Contact Name"
             name="contactPersonname"
             value={formData.contactPersonname}
             onChange={handleChange}
@@ -365,7 +365,7 @@ const PersonalInformationPage = () => {
         </Grid>
         <Grid item xs={12} sm={4}>
           <TextField
-            label="Emergency contact number"
+            label="Emergency Contact Number"
             name="contactPersonphoneNumber"
             value={formData.contactPersonphoneNumber}
             onChange={handleChange}
@@ -378,7 +378,7 @@ const PersonalInformationPage = () => {
         <Grid item xs={12} sm={4}></Grid>
         <Grid item xs={12} sm={4}>
           <TextField
-            label="education highest level"
+            label="Education Highest Level"
             name="highestLevel"
             value={formData.highestLevel}
             onChange={handleChange}
@@ -395,7 +395,7 @@ const PersonalInformationPage = () => {
         </Grid>
         <Grid item xs={12} sm={4}>
           <TextField
-            label="Graduated from"
+            label="Graduated From"
             name="university"
             value={formData.university}
             onChange={handleChange}
@@ -440,7 +440,7 @@ const PersonalInformationPage = () => {
         </Grid>
         <Grid item xs={12} sm={4}>
           <TextField
-            label="Field of Study"
+            label="Field Of Study"
             name="fieldOfStudy"
             value={formData.fieldOfStudy}
             onChange={handleChange}
@@ -452,7 +452,7 @@ const PersonalInformationPage = () => {
         </Grid>
         <Grid item xs={12} sm={8}>
           <TextField
-            label="The previous institution where you worked, if any"
+            label="Previous Institution, If Any"
             name="previousOrganization"
             value={formData.previousOrganization}
             onChange={handleChange}
@@ -463,7 +463,7 @@ const PersonalInformationPage = () => {
         </Grid>
         <Grid item xs={12} sm={4}>
           <TextField
-            label="Previous institution started work date"
+            label="Previous Institution Started Work Date"
             name="prevStartDate"
             value={
               formData.prevStartDate
@@ -496,7 +496,7 @@ const PersonalInformationPage = () => {
         </Grid>
         <Grid item xs={12} sm={4}>
           <TextField
-            label="Previous institution ended work date"
+            label="Previous Institution Ended Work Date"
             name="prevEndDate"
             value={
               formData.prevEndDate ? formData.prevEndDate.toDateString() : ""
@@ -527,7 +527,7 @@ const PersonalInformationPage = () => {
         </Grid>
         <Grid item xs={12} sm={4}>
           <TextField
-            label="References name"
+            label="References Name"
             name="referencesName"
             value={formData.referencesName}
             onChange={handleChange}
@@ -538,7 +538,7 @@ const PersonalInformationPage = () => {
         </Grid>
         <Grid item xs={12} sm={4}>
           <TextField
-            label="References position"
+            label="References Position"
             name="referencesPosition"
             value={formData.referencesPosition}
             onChange={handleChange}
@@ -549,7 +549,7 @@ const PersonalInformationPage = () => {
         </Grid>
         <Grid item xs={12} sm={4}>
           <TextField
-            label="references email"
+            label="References Email"
             name="referencesEmail"
             value={formData.referencesEmail}
             onChange={handleChange}
@@ -560,7 +560,7 @@ const PersonalInformationPage = () => {
         </Grid>
         <Grid item xs={12} sm={4}>
           <TextField
-            label="references Phone"
+            label="References Phone"
             name="referencesPhone"
             value={formData.referencesPhone}
             onChange={handleChange}
@@ -571,7 +571,7 @@ const PersonalInformationPage = () => {
         </Grid>
         <Grid item xs={12} sm={4}>
           <TextField
-            label="skills"
+            label="Skills"
             name="skills"
             value={formData.skills}
             onChange={handleChange}
