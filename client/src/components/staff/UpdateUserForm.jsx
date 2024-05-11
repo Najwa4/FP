@@ -10,7 +10,7 @@ import {
   Button,
   MenuItem,
 } from "@mui/material";
-import { putRequest } from "../../services/api";
+import { putRequest, getRequest } from "../../services/api";
 import { toast } from "react-toastify";
 
 const UpdateUser = ({ data }) => {
@@ -59,7 +59,19 @@ const UpdateUser = ({ data }) => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value.trim() || "" });
+    setFormData({ ...formData, [name]: value || "" });
+  };
+
+  const fetchEmployees = async () => {
+    try {
+      const response = await getRequest("/employees");
+      if (response && response.data) {
+      } else {
+        console.error("No data found");
+      }
+    } catch (error) {
+      console.error("Error fetching employees:", error);
+    }
   };
 
   const handleApply = async (event, _id) => {
@@ -155,10 +167,7 @@ const UpdateUser = ({ data }) => {
       }
 
       // Salary validation (optional)
-      if (
-        formData.salary?.trim() !== "" &&
-        !salaryRegex.test(formData.salary)
-      ) {
+      if (!!formData.salary && !salaryRegex.test(formData.salary)) {
         toast.error("Salary should contain only numbers.");
         return;
       }
@@ -179,10 +188,10 @@ const UpdateUser = ({ data }) => {
       const encodedUser = encodeURIComponent(_id);
       const response = await putRequest(`/users/upda/${encodedUser}`, formData);
       if (response && response.data) {
-        window.location.reload();
-        // navigate("/UpdateUser");
         console.log("User updated:", _id, "data:", formData);
+        handleCloseModal();
         toast.success("User updated successfully");
+        fetchEmployees();
       } else {
         console.error("No data returned after updating User");
         toast.error("Failed to update User. Please try again later.");
@@ -259,7 +268,7 @@ const UpdateUser = ({ data }) => {
                 <TextField
                   label="Gender"
                   name="gender"
-                  Value={formData.gender || ""}
+                  value={formData.gender || ""}
                   onChange={handleChange}
                   fullWidth
                   margin="normal"
@@ -333,7 +342,7 @@ const UpdateUser = ({ data }) => {
                   margin="normal"
                 />
                 <TextField
-                  label="Field of Study"
+                  label="Field Of Study"
                   name="fieldOfStudy"
                   value={formData.fieldOfStudy || ""}
                   onChange={handleChange}
@@ -341,7 +350,7 @@ const UpdateUser = ({ data }) => {
                   margin="normal"
                 />
                 <TextField
-                  label="Education highest level"
+                  label="Education Highest Level"
                   name="highestLevel"
                   value={formData.highestLevel || ""}
                   onChange={handleChange}
@@ -437,14 +446,6 @@ const UpdateUser = ({ data }) => {
                   label="College"
                   name="college"
                   value={formData.college || ""}
-                  onChange={handleChange}
-                  fullWidth
-                  margin="normal"
-                />
-                <TextField
-                  label="Password"
-                  name="password"
-                  value={formData.password || ""}
                   onChange={handleChange}
                   fullWidth
                   margin="normal"

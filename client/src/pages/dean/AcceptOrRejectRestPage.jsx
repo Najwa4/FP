@@ -8,22 +8,22 @@ import Sidebar from "../../components/dean/Sidebar";
 const AcceptOrRejectRestPage = () => {
   const [RestRequests, setRestRequests] = useState([]);
 
-  useEffect(() => {
-    const fetchRestReq = async () => {
-      try {
-        const response = await getRequest("/rest/all");
-        if (response && response.data) {
-          setRestRequests(response.data);
-          console.log(response.data);
-        } else {
-          toast.error("No rest request available.");
-        }
-      } catch (error) {
-        console.error("Error fetching rest request:", error);
-        toast.error("Failed to fetch rest request. Please try again later.");
+  const fetchRestReq = async () => {
+    try {
+      const response = await getRequest("/rest/all");
+      if (response && response.data) {
+        setRestRequests(response.data);
+        console.log(response.data);
+      } else {
+        toast.error("No rest request available.");
       }
-    };
+    } catch (error) {
+      console.error("Error fetching rest request:", error);
+      toast.error("Failed to fetch rest request. Please try again later.");
+    }
+  };
 
+  useEffect(() => {
     fetchRestReq();
   }, []);
 
@@ -33,7 +33,7 @@ const AcceptOrRejectRestPage = () => {
         status,
       });
       toast.success("Updated successfully");
-      window.location.reload();
+      fetchRestReq();
     } catch (error) {
       console.error("Error updating rest request:", error);
       toast.error("Failed to update rest request. Please try again later.");

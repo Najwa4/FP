@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import "../../styles/TableComponent.css";
 import Modal from "@mui/material/Modal";
 import Box from "@mui/material/Box";
-import { Card, CardContent, Typography } from "@mui/material";
+import { Card, CardContent, Typography, Button } from "@mui/material";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { putRequest } from "../../services/api";
@@ -19,20 +19,30 @@ const UpdateTestDayComponent = ({ data }) => {
     setOpenModal(true);
   };
 
-  const handleCloseModal = () => {
-    setOpenModal(false);
-  };
-
-  const handleDateChange = async (date, announcementId) => {
-    setTestDate(date);
+  const handleCloseModal = async () => {
     try {
+      // Validation: Test day cannot be in the past
+      const currentDate = new Date();
+      if (testDay < currentDate) {
+        toast.error("Test day cannot be in the past.");
+        return;
+      }
+
+      // Validation: Test day should be before 6 months from the current day
+      const sixMonthsFromNow = new Date();
+      sixMonthsFromNow.setMonth(currentDate.getMonth() + 6);
+      if (testDay > sixMonthsFromNow) {
+        toast.error("Test day should be before 6 months from the current day.");
+        return;
+      }
+
       const response = await putRequest(
-        `/announcements/Test-Day/${announcementId}`,
-        { testDay: date }
+        `/announcements/Test-Day/${selectedAnnouncement._id}`,
+        { testDay }
       );
       if (response) {
         toast.success("Test day updated successfully!");
-        console.log(date, announcementId);
+        console.log(testDay, selectedAnnouncement._id);
       } else {
         toast.error("Failed to update test day. Please try again.");
       }
@@ -40,6 +50,7 @@ const UpdateTestDayComponent = ({ data }) => {
       console.error("Error updating test day:", error);
       toast.error("Failed to update test day. Please try again later.");
     }
+    setOpenModal(false);
   };
 
   return (
@@ -95,10 +106,19 @@ const UpdateTestDayComponent = ({ data }) => {
               </Typography>
               <DatePicker
                 selected={testDay}
-                onChange={(date) =>
-                  handleDateChange(date, selectedAnnouncement._id)
-                }
+                onChange={(date) => setTestDate(date)}
               />
+              <Button
+                variant="contained"
+                onClick={handleCloseModal}
+                style={{
+                  background: "#4CAF50",
+                  marginLeft: "3%",
+                  borderRadius: "5px",
+                }}
+              >
+                Update
+              </Button>
             </CardContent>
           </Card>
         </Box>

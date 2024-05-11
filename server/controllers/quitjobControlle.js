@@ -47,7 +47,9 @@ const QuitJobController = {
   findAllRequests: async (req, res) => {
     try {
       // Find all quit job requests
-      const quitJobRequests = await EmployeeQuitRequest.find();
+      const quitJobRequests = await EmployeeQuitRequest.find({
+        status: "pending",
+      });
 
       // Send response with the quit job requests
       res.status(200).json({

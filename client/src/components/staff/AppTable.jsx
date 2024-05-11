@@ -135,7 +135,13 @@ const AppTable = ({ data, onAccept, onReject }) => {
                   <div>
                     <Button
                       variant="contained"
-                      onClick={() => onAccept(selectedApplicant.announcementId, selectedApplicant._id)}
+                      onClick={() => {
+                        onAccept(
+                          selectedApplicant.announcementId,
+                          selectedApplicant._id
+                        );
+                        handleCloseModal();
+                      }}
                       style={{
                         backgroundColor: "#FFD700",
                         borderRadius: "10px",
@@ -148,7 +154,13 @@ const AppTable = ({ data, onAccept, onReject }) => {
                     </Button>
                     <Button
                       variant="contained"
-                      onClick={() => onReject(selectedApplicant.announcementId, selectedApplicant._id)}
+                      onClick={() => {
+                        onReject(
+                          selectedApplicant.announcementId,
+                          selectedApplicant._id
+                        );
+                        handleCloseModal();
+                      }}
                       style={{
                         backgroundColor: "#FF6347",
                         borderRadius: "10px",

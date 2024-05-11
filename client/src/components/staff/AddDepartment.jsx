@@ -20,7 +20,7 @@ const AddDepartmentForm = () => {
 
       const response = await postRequest("/departments", departmentData);
       if (response) {
-        toast.success("Department added successfully!");
+        toast.success(response.message);
         setName("");
         setCollege("");
       } else {
